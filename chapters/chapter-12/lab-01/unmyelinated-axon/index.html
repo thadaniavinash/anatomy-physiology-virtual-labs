@@ -15,7 +15,7 @@
     <div class="brand"><div class="mark" aria-label="Anatomy and Physiology">A&amp;P</div><div class="brand-copy"><b>Anatomy &amp; Physiology Interactive Labs</b><small>Chapter 12 · Nerve impulses: from synapse to axon</small></div></div>
     <div class="progress-wrap" id="lab-progress" aria-label="Position in the signal pathway"></div>
   </header>
-  <section class="hero"><div class="hero-main"><span class="eyebrow">Chapter 12 · Lab 1 · Part 2</span><h1>Continuous conduction in an unmyelinated axon</h1><p>Watch one spot on the axon (the probe). The graph, the ion channels and the axon strip all show the same moment, so you can see each phase of the action potential happen as the channels open and close.</p></div></section>
+  <section class="hero"><div class="hero-main"><span class="eyebrow">Chapter 12 · Lab 1 · Part 2</span><h1>Continuous conduction in an unmyelinated axon</h1><p>Two action potentials travel down the axon. Watch one spot (the probe): the graph, the ion channels and the axon strip all show the same moment, so you can see each phase happen as the channels open and close.</p></div></section>
   <nav class="tabs" id="lab-nav" aria-label="Lab parts"></nav>
 
   <section class="card sim" aria-label="Action potential simulation">
@@ -26,11 +26,13 @@
       <button class="btn" id="step">Step</button>
       <label>Speed <select id="speed" aria-label="Playback speed"><option value="0.1">0.1×</option><option value="0.25" selected>0.25×</option><option value="0.5">0.5×</option><option value="1">1×</option></select></label>
       <label><input type="checkbox" id="loop"> Loop</label>
-      <div class="sim-time"><input type="range" id="time" min="0" max="15" step="0.01" value="0" aria-label="Lesson time"><output id="clock" class="readout" for="time">0.00 ms</output></div>
+      <div class="sim-time"><input type="range" id="time" min="0" max="20" step="0.01" value="0" aria-label="Lesson time"><output id="clock" class="readout" for="time">0.00 ms</output></div>
     </div>
-    <div class="scroll"><svg id="strip" class="strip" viewBox="0 0 1000 120" role="img" aria-label="Whole axon showing the action potential travelling to the right, with sodium channel states on the top edge, potassium channel states on the bottom edge, and the probe position"></svg></div>
+    <div class="scroll"><svg id="strip" class="strip" viewBox="0 0 1000 166" role="img" aria-label="Whole axon showing two action potentials travelling to the right, with sodium channel states on the top edge, potassium channel states on the bottom edge, and the probe position"></svg></div>
+    <div class="scroll"><svg id="prop" class="prop" viewBox="0 0 1000 236" role="img" aria-label="Current propagation: about 1.5 millimetres of axon around the probe showing sodium entering, spreading downstream to open the next sodium channels, and inactivated channels upstream"></svg></div>
     <div class="sim-row">
       <div class="sim-panel">
+        <div class="sim-panel-title" id="ap-label" aria-live="polite"></div>
         <div class="scroll"><svg id="temporal" class="sim-svg" viewBox="0 0 700 410" role="img" aria-label="Voltage over time at the probe, divided into phases 1 to 4, with sodium and potassium channel opening below and a moving marker for now"></svg></div>
       </div>
       <div class="sim-panel">
@@ -52,10 +54,13 @@
         <span><svg width="22" height="26" viewBox="-11 -13 22 26" aria-hidden="true"><rect x="-10" y="-12" width="6" height="24" rx="1" fill="#2c6cc2" stroke="#163f7a"/><rect x="4" y="-12" width="6" height="24" rx="1" fill="#2c6cc2" stroke="#163f7a"/></svg>K⁺ open</span>
         <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="5.5" fill="#c8352a" stroke="#fff"/></svg>Na⁺ in</span>
         <span><svg width="14" height="14" aria-hidden="true"><path d="M7 0.5l6.5 6.5-6.5 6.5-6.5-6.5Z" fill="#2058a8" stroke="#fff"/></svg>K⁺ out</span>
+        <span><i class="key" style="background:repeating-linear-gradient(135deg,#fff 0 3px,#8fae9f 3px 5px)"></i>Absolute refractory</span>
+        <span><i class="key" style="background:repeating-linear-gradient(135deg,#fff 0 4px,#c8dad1 4px 5px)"></i>Relative refractory</span>
       </div>
       <div class="sim-options">
         <label><input type="checkbox" id="show-flux" checked> Ion movement</label>
         <label><input type="checkbox" id="show-charge" checked> Membrane charge (+/−)</label>
+        <label><input type="checkbox" id="show-points"> Points A, B, C</label>
         <label for="probe">Probe</label><input id="probe" type="range" min="0.1" max="7.9" step="0.05" value="2"><output id="probe-value" class="readout" for="probe">2.00 mm</output>
       </div>
     </div>

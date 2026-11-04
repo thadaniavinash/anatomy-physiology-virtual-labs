@@ -130,11 +130,20 @@
       const r = R(a), nI = I(a) * r, nA = A(a) * r;
       return { nO: Math.max(0, nA - nI), nI, nC: 1 - nA, nK: nK(a) };
     }
-    function refractory(a, g = gating(a)) {
-      if (a < 0) return 'none';
-      // Absolute: from threshold until enough Na⁺ channels have recovered from inactivation.
-      if (a < P.naInact[0] + P.naInact[1] || 1 - g.nI < P.absoluteAvailable) return 'absolute';
-      if (g.nI > P.relativeNaI || g.nK > P.relativeK) return 'relative';
+    // Refractory periods, defined by voltage landmarks for teaching clarity
+    // (instructor's choice): phase 1 is shown as "firing" rather than
+    // refractory, so the period students see starts once Na⁺ channels
+    // inactivate at the peak.
+    //   absolute: peak (start of phase 2) → repolarization falls back through threshold
+    //   relative: → membrane back within 1 mV of resting potential
+    const vScan = (test, from) => { for (let a = from; a < 7; a += 0.002) if (test(a)) return a; return 7; };
+    const absStart = P.tPeak;
+    const absEnd = vScan(a => voltage(a) < P.threshold, P.tPeak);
+    const relEnd = vScan(a => voltage(a) >= P.rest - 1, P.tTrough);
+    function refractory(a) {
+      if (a >= 0 && a < absStart) return 'firing';
+      if (a >= absStart && a < absEnd) return 'absolute';
+      if (a >= absEnd && a < relEnd) return 'relative';
       return 'none';
     }
     // The four numbered phases taught in class, plus the lead-in and rest.
@@ -186,8 +195,6 @@
     }
 
     const scan = (test, from) => { for (let a = from; a < 7; a += 0.005) if (test(a)) return a; return null; };
-    const absEnd = scan(a => refractory(a) !== 'absolute', 0);
-    const relEnd = scan(a => refractory(a) === 'none', absEnd);
     // Teaching milestones for "next stage" navigation.
     const stages = [
       { age: P.tFoot, label: 'Local current starts to depolarize this patch' },
@@ -205,7 +212,7 @@
       { n: 3, key: 'Hyperpolarization', from: P.tCross, to: P.tTrough, color: NL.colors.hyper },
       { n: 4, key: 'Return to resting potential', from: P.tTrough, to: P.tRecover, color: NL.colors.ret }
     ];
-    return { P, voltage, gating, state, naChannel, kChannel, spawnAges, stages, phaseSpans, absEnd, relEnd, kPeakAge };
+    return { P, voltage, gating, state, naChannel, kChannel, spawnAges, stages, phaseSpans, absStart, absEnd, relEnd, kPeakAge };
   };
 
   /* ----------------------------------------------------- playback control */
@@ -296,8 +303,8 @@
     for (let a = 0; a <= a1; a++) s += S.text(X(a), gBot + 15, a, 11, C.muted, 'middle');
     // Refractory bar
     const ry = 360;
-    s += S.rect(X(0), ry, X(model.absEnd) - X(0), 16, '#9fb8ae') + S.rect(X(model.absEnd), ry, X(model.relEnd) - X(model.absEnd), 16, '#d6e3dd');
-    s += S.text((X(0) + X(model.absEnd)) / 2, ry + 12, 'Absolute refractory', 10.5, '#fff', 'middle', 'font-weight="700"');
+    s += S.rect(X(model.absStart), ry, X(model.absEnd) - X(model.absStart), 16, '#9fb8ae') + S.rect(X(model.absEnd), ry, X(model.relEnd) - X(model.absEnd), 16, '#d6e3dd');
+    s += S.text((X(model.absStart) + X(model.absEnd)) / 2, ry + 12, 'Absolute', 10.5, '#fff', 'middle', 'font-weight="700"');
     s += S.text((X(model.absEnd) + X(model.relEnd)) / 2, ry + 12, 'Relative', 10.5, C.ink, 'middle', 'font-weight="700"');
     s += S.text((x0 + x1) / 2, 400, 'Time since this patch reached threshold (ms)', 12.5, C.muted, 'middle');
     if (nowAge >= a0 && nowAge <= a1) {
