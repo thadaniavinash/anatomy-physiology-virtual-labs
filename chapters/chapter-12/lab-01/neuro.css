@@ -122,3 +122,7 @@ details summary{cursor:pointer;font-weight:750}
 @media(max-width:850px){.topbar{align-items:flex-start}.progress-wrap{width:46%}.progress-steps{display:none}.tabs{display:flex;overflow:auto}.tab{min-width:170px;flex:1}.hero-main{min-height:auto;padding:13px 18px}}
 @media(max-width:620px){.shell{padding:12px}.topbar{display:block}.brand{margin-bottom:12px}.progress-wrap{width:100%}.card{padding:13px}.timeline{grid-template-columns:1fr}.part-card{grid-template-columns:48px 1fr}.part-num{width:48px;height:48px;font-size:20px}.part-card .launch{grid-column:1/-1;justify-content:center}.app-footer{display:block;text-align:center}.app-footer .acknowledgement{text-align:center;margin-top:6px}.pager{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.stack i,.bar i{transition:none}}
+.status .phase{border-radius:8px;padding:4px 8px;margin-left:-8px;transition:background .15s}
+.flux-line{display:flex;gap:14px;font-weight:700;min-height:1.4em}
+.key-points{padding-left:20px;margin:8px 0}
+.key-points li{margin:4px 0;font-size:14.5px;color:#304b4f}

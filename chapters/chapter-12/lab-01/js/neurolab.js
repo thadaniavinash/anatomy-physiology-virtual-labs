@@ -48,12 +48,13 @@
 
   /* ------------------------------------------------------------- colours */
   NL.colors = {
-    ink: '#102f35', muted: '#5a6f73', line: '#d8e2df',
-    na: '#c0392b', naSoft: '#f4c9c2', k: '#0f7c8c', kSoft: '#bfe2e7',
-    open: '#7b4fc0', inact: '#2f7d5b', closed: '#a77b16',
-    purple: '#7b4fc0', green: '#2f7d5b', gold: '#a77b16',
-    threshold: '#b06a1f', resting: '#fff8e4', localDep: '#f1ebfa', depol: '#e6dcf7',
-    absolute: '#e1efe7', relative: '#eef6f1', myelin: '#f3e3c3'
+    ink: '#102f35', muted: '#5a6f73', line: '#d8e2df', purple: '#7b4fc0', threshold: '#b06a1f',
+    // Na⁺ family (warm reds) and K⁺ family (blues); inactivated = amber "paused"
+    na: '#c8352a', naOpen: '#dd3b2c', naClosedFill: '#fbe9e6', naClosedLine: '#c98b84', inact: '#e39b17',
+    k: '#2058a8', kOpen: '#2c6cc2', kClosedFill: '#e8eff9', kClosedLine: '#8aa8cf',
+    // Membrane phase colours (shared by the axon diagram and the time graph)
+    rest: '#fbf7ec', stim: '#f9ece2', depol: '#fbd8d2', repol: '#dbe7f7', hyper: '#e4def5', ret: '#e2efe6',
+    myelin: '#f3e3c3', green: '#2f7d5b', gold: '#a77b16'
   };
 
   /* ----------------------------------------------------------------- svg */
@@ -77,7 +78,7 @@
     esc,
     arrowMarkers() {
       const m = (id, c) => `<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="${c}"/></marker>`;
-      return m('arr-muted', NL.colors.muted) + m('arr-purple', NL.colors.purple) + m('arr-green', NL.colors.green) + m('arr-na', NL.colors.na) + m('arr-k', NL.colors.k);
+      return m('arr-muted', NL.colors.muted) + m('arr-na', NL.colors.na) + m('arr-k', NL.colors.k);
     }
   };
 
@@ -101,27 +102,29 @@
   NL.createMembrane = function (opts = {}) {
     const P = Object.assign({
       rest: -75, threshold: -55, peak: 30, ahp: -85, ENa: 60, EK: -90,
-      tFoot: -0.25, tPeak: 0.45, tTrough: 1.3, tRecover: 3.6, upSlope: 150,
-      // channel kinetics (ms, relative to threshold crossing)
-      naAct: [-0.08, 0.40], naInact: [0.12, 0.60], naRecover: [0.9, 1.8],
-      kAct: [0.15, 0.65], kClose: [1.2, 2.4],
-      absoluteAvailable: 0.4, // fraction of Na⁺ channels available to end absolute refractoriness
-      relativeNaI: 0.05, relativeK: 0.1
+      // Voltage landmarks (ms after threshold): peak, back through rest, lowest point, rest again
+      tFoot: -0.25, tPeak: 0.45, tCross: 1.05, tTrough: 1.6, tRecover: 3.6, upSlope: 150,
+      // Channel kinetics (start, duration) in ms after threshold:
+      naAct: [0, 0.22],        // Na⁺ channels open AT threshold → phase 1
+      naInact: [0.25, 0.25],   // …and are inactivated by the peak
+      naRecover: [1.0, 1.0],   // recover (inactivated → closed) once repolarized
+      kAct: [0.4, 0.3],        // K⁺ channels open at the peak → phase 2
+      kClose: [1.4, 1.4],      // close slowly → phases 3 and 4
+      absoluteAvailable: 0.4, relativeNaI: 0.05, relativeK: 0.1
     }, opts);
 
     const voltage = hermite([
       { t: P.tFoot, v: P.rest, m: 0 },
       { t: 0, v: P.threshold, m: P.upSlope },  // non-zero slope: no stall at threshold
       { t: P.tPeak, v: P.peak, m: 0 },
+      { t: P.tCross, v: P.rest, m: -40 },
       { t: P.tTrough, v: P.ahp, m: 0 },
       { t: P.tRecover, v: P.rest, m: 0 }
     ]);
     const A = a => smooth((a - P.naAct[0]) / P.naAct[1]);
     const I = a => smooth((a - P.naInact[0]) / P.naInact[1]);
     const R = a => 1 - smooth((a - P.naRecover[0]) / P.naRecover[1]);
-    const kRise = a => smooth((a - P.kAct[0]) / P.kAct[1]);
-    const kFall = a => 1 - smooth((a - P.kClose[0]) / P.kClose[1]);
-    const nK = a => kRise(a) * kFall(a);
+    const nK = a => smooth((a - P.kAct[0]) / P.kAct[1]) * (1 - smooth((a - P.kClose[0]) / P.kClose[1]));
 
     function gating(a) {
       const r = R(a), nI = I(a) * r, nA = A(a) * r;
@@ -129,31 +132,33 @@
     }
     function refractory(a, g = gating(a)) {
       if (a < 0) return 'none';
-      // Absolute: from threshold until enough Na⁺ channels have recovered from
-      // inactivation (they cannot recover until the membrane repolarizes).
+      // Absolute: from threshold until enough Na⁺ channels have recovered from inactivation.
       if (a < P.naInact[0] + P.naInact[1] || 1 - g.nI < P.absoluteAvailable) return 'absolute';
       if (g.nI > P.relativeNaI || g.nK > P.relativeK) return 'relative';
       return 'none';
     }
-    function phase(a, v) {
+    // The four numbered phases taught in class, plus the lead-in and rest.
+    function phase(a) {
       if (a < P.tFoot) return 'Resting';
-      if (a < 0) return 'Local depolarization';
+      if (a < 0) return 'Reaching threshold';
       if (a < P.tPeak) return 'Depolarization';
-      if (a < P.tRecover) return a < P.tTrough && v >= P.rest ? 'Repolarization' : 'Afterhyperpolarization';
+      if (a < P.tCross) return 'Repolarization';
+      if (a < P.tTrough) return 'Hyperpolarization';
+      if (a < P.tRecover) return 'Return to resting potential';
       return 'Resting';
     }
-    // Full state of a membrane patch at a given age.
     function state(a) {
       const v = voltage(a), g = gating(a);
       const naDrive = P.ENa - v, kDrive = v - P.EK;          // mV, + means inward Na⁺ / outward K⁺
-      const scale = P.ENa - P.rest;                            // normalise to resting Na⁺ drive
+      const scale = P.ENa - P.rest;
       return {
         age: a, voltage: v, ...g, naDrive, kDrive,
         naFlux: g.nO * naDrive / scale, kFlux: g.nK * kDrive / scale,
-        refractory: refractory(a, g), phase: phase(a, v)
+        refractory: refractory(a, g), phase: phase(a)
       };
     }
     // Discrete state of one drawn channel with fixed random u ∈ [0,1).
+    // Ordering guarantees each channel goes closed → open → inactivated → closed.
     function naChannel(u, a) { const r = R(a); return u < I(a) * r ? 'inactivated' : u < A(a) * r ? 'open' : 'closed'; }
     function kChannel(u, a) { return u < nK(a) ? 'open' : 'closed'; }
 
@@ -167,17 +172,11 @@
     }
     const lookup = (tab, a) => { const f = clamp((a - T0) / DT, 0, N), i = Math.floor(f), j = Math.min(N, i + 1); return lerp(tab[i], tab[j], f - i); };
     const reverse = (tab, val) => { let lo = 0, hi = N; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (tab[m] < val) lo = m; else hi = m; } const span = tab[hi] - tab[lo] || 1; return T0 + (lo + (val - tab[lo]) / span) * DT; };
-
-    // Open window [start, end) of a single channel, in age units.
     function naWindow(u) { return [invert(A, u, -1, 2), invert(I, u, -1, 2)]; }
     const kPeakAge = (() => { let best = 0, ba = 0; for (let a = 0; a < 4; a += 0.01) { const k = nK(a); if (k > best) { best = k; ba = a; } } return ba; })();
-    function kWindow(u) {
-      const start = invert(nK, u + 1e-9, -1, kPeakAge);
-      const end = invert(a => -nK(a), -u, kPeakAge, 7);
-      return [start, end];
-    }
-    // Spawn ages of particles through one channel: one particle per `quantum`
-    // mV·ms of driving force while open. `phase` staggers channels.
+    function kWindow(u) { return [invert(nK, u + 1e-9, -1, kPeakAge), invert(a => -nK(a), -u, kPeakAge, 7)]; }
+    // Ages at which ions cross one channel: one ion per `quantum` mV·ms of
+    // driving force while that channel is open (flux ∝ open × driving force).
     function spawnAges(kind, u, quantum, phase0) {
       const [s, e] = kind === 'Na' ? naWindow(u) : kWindow(u);
       if (!isFinite(s) || !isFinite(e) || e <= s) return [];
@@ -186,23 +185,27 @@
       return out;
     }
 
-    // Teaching milestones (ages) for "next stage" navigation.
-    const stages = (() => {
-      const list = [
-        { age: P.tFoot, label: 'Local depolarization begins' },
-        { age: 0, label: 'Threshold reached' }
-      ];
-      let best = 0, ba = 0; for (let a = 0; a < 1; a += 0.005) { const o = gating(a).nO; if (o > best) { best = o; ba = a; } }
-      list.push({ age: ba, label: 'Peak Na⁺ conductance' }, { age: P.tPeak, label: 'Peak voltage' });
-      const scan = (test, from) => { for (let a = from; a < 7; a += 0.005) if (test(a)) return a; return null; };
-      const ahp = scan(a => voltage(a) < P.rest, P.tPeak);
-      const absEnd = scan(a => refractory(a) !== 'absolute', 0);
-      const relEnd = scan(a => refractory(a) === 'none', absEnd || 0);
-      list.push({ age: ahp, label: 'Afterhyperpolarization' }, { age: absEnd, label: 'Absolute refractory ends' }, { age: relEnd, label: 'Excitability restored' }, { age: P.tRecover, label: 'Back to resting potential' });
-      return list.filter(s => s.age != null).sort((x, y) => x.age - y.age);
-    })();
-
-    return { P, voltage, gating, state, naChannel, kChannel, spawnAges, stages, kPeakAge };
+    const scan = (test, from) => { for (let a = from; a < 7; a += 0.005) if (test(a)) return a; return null; };
+    const absEnd = scan(a => refractory(a) !== 'absolute', 0);
+    const relEnd = scan(a => refractory(a) === 'none', absEnd);
+    // Teaching milestones for "next stage" navigation.
+    const stages = [
+      { age: P.tFoot, label: 'Local current starts to depolarize this patch' },
+      { age: 0, label: '1 · Depolarization: threshold reached, Na⁺ channels open' },
+      { age: P.tPeak, label: '2 · Repolarization: Na⁺ channels inactivated, K⁺ channels open' },
+      { age: P.tCross, label: '3 · Hyperpolarization: below resting potential' },
+      { age: absEnd, label: 'Absolute refractory period ends' },
+      { age: P.tTrough, label: '4 · Return to resting potential: K⁺ channels closing' },
+      { age: relEnd, label: 'Relative refractory period ends' },
+      { age: P.tRecover, label: 'Resting membrane potential restored' }
+    ].sort((x, y) => x.age - y.age);
+    const phaseSpans = [
+      { n: 1, key: 'Depolarization', from: 0, to: P.tPeak, color: NL.colors.depol },
+      { n: 2, key: 'Repolarization', from: P.tPeak, to: P.tCross, color: NL.colors.repol },
+      { n: 3, key: 'Hyperpolarization', from: P.tCross, to: P.tTrough, color: NL.colors.hyper },
+      { n: 4, key: 'Return to resting potential', from: P.tTrough, to: P.tRecover, color: NL.colors.ret }
+    ];
+    return { P, voltage, gating, state, naChannel, kChannel, spawnAges, stages, phaseSpans, absEnd, relEnd, kPeakAge };
   };
 
   /* ----------------------------------------------------- playback control */
@@ -257,46 +260,53 @@
   };
 
   /* ------------------------------------------- probe trace (V and g vs t) */
-  // Draws voltage (top) and channel populations (bottom) against age for one
-  // patch, with refractory shading and a "now" marker. Reusable by any module.
+  // Voltage over time at one patch, divided into the four numbered phases,
+  // with Na⁺/K⁺ channel opening below and the refractory periods as a bar.
   NL.drawProbeTrace = function (svgEl, model, nowAge, opt = {}) {
     const S = NL.svg, C = NL.colors, P = model.P;
-    const a0 = opt.from ?? -0.6, a1 = opt.to ?? 5, W = 700, x0 = 62, x1 = 672;
+    const a0 = opt.from ?? -0.5, a1 = opt.to ?? 4.2, x0 = 62, x1 = 672;
     const X = a => x0 + (a - a0) / (a1 - a0) * (x1 - x0);
-    const vTop = 26, vBot = 226, gTop = 262, gBot = 352;
-    const Y = v => vBot - (v + 100) / 170 * (vBot - vTop);     // −100 … +70 mV
+    const vTop = 44, vBot = 236, gTop = 262, gBot = 336;
+    const Y = v => vBot - (v + 95) / 165 * (vBot - vTop);     // −95 … +70 mV
     const G = f => gBot - f * (gBot - gTop);
-    const st = model.stages, absEnd = st.find(s => s.label === 'Absolute refractory ends').age, relEnd = st.find(s => s.label === 'Excitability restored').age;
-    let s = S.rect(X(0), vTop, X(absEnd) - X(0), gBot - vTop, C.absolute) + S.rect(X(absEnd), vTop, X(relEnd) - X(absEnd), gBot - vTop, C.relative);
-    s += S.text((X(0) + X(absEnd)) / 2, 18, 'Absolute refractory', 11, C.green, 'middle') + S.text((X(absEnd) + X(relEnd)) / 2, 18, 'Relative refractory', 11, C.green, 'middle');
-    // Reference lines: equilibrium potentials show where each ion "wants" to take the membrane.
-    for (const [v, lab, col, dash] of [[P.ENa, `E<tspan baseline-shift="sub" font-size="9">Na</tspan> +${P.ENa}`, C.na, '2 4'], [30, '+30', null], [0, '0', null], [P.threshold, '−55', C.threshold, '5 4'], [P.rest, String(P.rest), null], [P.EK, `E<tspan baseline-shift="sub" font-size="9">K</tspan> ${P.EK}`, C.k, '2 4']]) {
-      s += S.line(x0, Y(v), x1, Y(v), col || '#e3e9e7', dash ? `stroke-dasharray="${dash}"` : '');
-      s += S.text(x0 - 6, Y(v) + 4, col ? lab : v, 10.5, col || C.muted, 'end');
+    let s = '';
+    // Phase bands with number badges
+    for (const p of model.phaseSpans) {
+      s += S.rect(X(p.from), vTop, X(p.to) - X(p.from), vBot - vTop, p.color);
+      const cx = (X(p.from) + X(p.to)) / 2;
+      s += `<circle cx="${cx.toFixed(1)}" cy="26" r="11" fill="${C.ink}"/>` + S.text(cx, 30.5, p.n, 13, '#fff', 'middle', 'font-weight="800"');
     }
-    s += `<path d="${S.curve(model.voltage, a0, a1, 320, X, Y)}" fill="none" stroke="${C.na}" stroke-width="2.6"/>`;
-    s += `<path d="${S.curve(model.voltage, 0, P.tPeak, 40, X, Y)}" fill="none" stroke="${C.purple}" stroke-width="3.5"/>`;
-    s += S.text(12, (vTop + vBot) / 2, 'mV', 11, C.muted);
-    // Conductance panel
-    s += S.line(x0, gBot, x1, gBot, C.muted) + S.line(x0, gTop, x1, gTop, '#e3e9e7', 'stroke-dasharray="2 3"');
+    for (const [v, lab, col, dash] of [[P.ENa, 'E<tspan baseline-shift="sub" font-size="9">Na</tspan> +60', C.na, '2 4'], [30, '+30'], [0, '0'], [P.threshold, '−55', C.threshold, '5 4'], [P.rest, '−75'], [P.EK, 'E<tspan baseline-shift="sub" font-size="9">K</tspan> −90', C.k, '2 4']]) {
+      s += S.line(x0, Y(v), x1, Y(v), col || '#dfe6e4', dash ? `stroke-dasharray="${dash}"` : '');
+      s += S.text(x0 - 6, Y(v) + 4, lab, 10.5, col || C.muted, 'end');
+    }
+    s += S.text(X(-0.48), Y(P.threshold) - 5, 'threshold', 10.5, C.threshold);
+    s += S.text(X(3.0), Y(P.rest) - 6, 'resting potential', 10.5, C.muted, 'middle');
+    s += `<path d="${S.curve(model.voltage, a0, a1, 320, X, Y)}" fill="none" stroke="${C.ink}" stroke-width="3"/>`;
+    s += S.text(14, (vTop + vBot) / 2, 'mV', 11, C.muted);
+    // Channel panel
+    const nO = a => model.gating(a).nO, nK = a => model.gating(a).nK;
     s += S.text(x0 - 6, gTop + 4, '100%', 10, C.muted, 'end') + S.text(x0 - 6, gBot + 4, '0', 10, C.muted, 'end');
-    const nO = a => model.gating(a).nO, nK = a => model.gating(a).nK, avail = a => 1 - model.gating(a).nI;
-    s += `<path d="${S.curve(nO, a0, a1, 300, X, G)} L${X(a1)} ${gBot} L${X(a0)} ${gBot}Z" fill="${C.open}" fill-opacity=".22" stroke="${C.open}" stroke-width="2"/>`;
-    s += `<path d="${S.curve(nK, a0, a1, 300, X, G)}" fill="none" stroke="${C.k}" stroke-width="2.4"/>`;
-    s += `<path d="${S.curve(avail, a0, a1, 300, X, G)}" fill="none" stroke="${C.green}" stroke-width="1.6" stroke-dasharray="5 3"/>`;
+    s += S.line(x0, gTop, x1, gTop, '#e3e9e7', 'stroke-dasharray="2 3"');
+    s += `<path d="${S.curve(nO, a0, a1, 300, X, G)} L${X(a1)} ${gBot} L${X(a0)} ${gBot}Z" fill="${C.naOpen}" fill-opacity=".28" stroke="${C.naOpen}" stroke-width="2"/>`;
+    s += `<path d="${S.curve(nK, a0, a1, 300, X, G)} L${X(a1)} ${gBot} L${X(a0)} ${gBot}Z" fill="${C.kOpen}" fill-opacity=".22" stroke="${C.kOpen}" stroke-width="2"/>`;
     const halo = 'font-weight="700" paint-order="stroke" stroke="#fff" stroke-width="3"';
-    s += S.text(X(0.3) + 14, G(0.86), 'Na⁺ open', 11, C.open, 'start', halo) + S.text(X(1.25), gTop - 6, 'K⁺ open', 11, C.k, 'middle', halo);
-    s += S.text(X(2.25) + 10, G(0.45), 'Na⁺ available (recovered)', 11, C.green, 'start', halo);
-    s += S.text(X(0.3) + 14, Y(P.threshold) + 14, 'threshold', 10.5, C.threshold, 'start');
-    for (let a = 0; a <= a1; a++) s += S.text(X(a), gBot + 16, a, 11, C.muted, 'middle');
-    s += S.text((x0 + x1) / 2, gBot + 34, 'Time since this patch reached threshold (ms)', 12.5, C.muted, 'middle');
+    s += S.text(X(0.1), gTop - 4, 'Na⁺ channels open', 11, C.naOpen, 'start', halo) + S.text(X(1.1), gTop + 14, 'K⁺ channels open', 11, C.kOpen, 'start', halo);
+    s += S.line(x0, gBot, x1, gBot, C.muted);
+    for (let a = 0; a <= a1; a++) s += S.text(X(a), gBot + 15, a, 11, C.muted, 'middle');
+    // Refractory bar
+    const ry = 360;
+    s += S.rect(X(0), ry, X(model.absEnd) - X(0), 16, '#9fb8ae') + S.rect(X(model.absEnd), ry, X(model.relEnd) - X(model.absEnd), 16, '#d6e3dd');
+    s += S.text((X(0) + X(model.absEnd)) / 2, ry + 12, 'Absolute refractory', 10.5, '#fff', 'middle', 'font-weight="700"');
+    s += S.text((X(model.absEnd) + X(model.relEnd)) / 2, ry + 12, 'Relative', 10.5, C.ink, 'middle', 'font-weight="700"');
+    s += S.text((x0 + x1) / 2, 400, 'Time since this patch reached threshold (ms)', 12.5, C.muted, 'middle');
     if (nowAge >= a0 && nowAge <= a1) {
       const x = X(nowAge), g = model.gating(nowAge);
-      s += S.line(x, vTop, x, gBot, C.ink, 'stroke-width="1.6"');
-      s += `<circle cx="${x.toFixed(1)}" cy="${Y(model.voltage(nowAge)).toFixed(1)}" r="5.5" fill="${C.ink}" stroke="#fff" stroke-width="2"/>`;
-      s += `<circle cx="${x.toFixed(1)}" cy="${G(g.nO).toFixed(1)}" r="4" fill="${C.open}"/><circle cx="${x.toFixed(1)}" cy="${G(g.nK).toFixed(1)}" r="4" fill="${C.k}"/>`;
+      s += S.line(x, vTop - 4, x, ry + 16, C.purple, 'stroke-width="2"');
+      s += `<circle cx="${x.toFixed(1)}" cy="${Y(model.voltage(nowAge)).toFixed(1)}" r="6" fill="${C.purple}" stroke="#fff" stroke-width="2"/>`;
+      s += `<circle cx="${x.toFixed(1)}" cy="${G(g.nO).toFixed(1)}" r="4" fill="${C.naOpen}"/><circle cx="${x.toFixed(1)}" cy="${G(g.nK).toFixed(1)}" r="4" fill="${C.kOpen}"/>`;
     } else {
-      s += S.text((x0 + x1) / 2, 245, nowAge < a0 ? 'The action potential has not reached this patch yet' : 'This patch has fully recovered', 12, C.purple, 'middle');
+      s += S.text((x0 + x1) / 2, Y(-20), nowAge < a0 ? 'The action potential has not reached this patch yet' : 'This patch is back at its resting potential', 13, C.purple, 'middle', halo);
     }
     svgEl.innerHTML = s;
   };

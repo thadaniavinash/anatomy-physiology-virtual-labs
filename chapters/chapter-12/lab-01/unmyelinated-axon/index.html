@@ -30,61 +30,58 @@
     </div>
     <div class="timeline"><label for="time">Lesson time</label><input type="range" id="time" min="0" max="15" step="0.01" value="0"><output id="clock" class="readout" for="time">0.00 ms</output></div>
     <fieldset class="options"><legend>Show</legend>
-      <label><input type="checkbox" id="show-flux" checked> Ion flow through channels</label>
-      <label><input type="checkbox" id="show-gradient" checked> Concentration gradients</label>
-      <label><input type="checkbox" id="show-current" checked> Local current loop</label>
+      <label><input type="checkbox" id="show-flux" checked> Ion movement</label>
       <label><input type="checkbox" id="show-charge" checked> Membrane charge (+/−)</label>
     </fieldset>
-    <p class="hint">Opens paused mid-way through the first action potential; press <b>Restart</b> to watch it arrive from the start. Playback is slowed for teaching — 1× shows 1 ms of physiology per second — and does not change the conduction velocity. Press <kbd>Space</kbd> to play or pause.</p>
+    <p class="hint">Opens paused partway through the first action potential. Press <b>Restart</b> to watch it arrive, or <b>Next stage at probe</b> to step through phases 1–4. Playback is slowed for teaching (1× = 1 ms per second). Press <kbd>Space</kbd> to play or pause.</p>
   </section>
 
   <section class="card" aria-labelledby="space-title">
-    <h2 id="space-title">Along the axon: one moment in space</h2>
-    <p class="lede">The strip at the top shows the whole axon. The bracketed 3 mm segment is magnified below so that individual channels and ions are visible. <b>Click the magnified view to move the probe; click the strip to move the magnified segment.</b></p>
+    <h2 id="space-title">Along the axon: Na⁺ in, K⁺ out</h2>
+    <p class="lede">Voltage-gated <b style="color:#c8352a">Na⁺ channels</b> are drawn in the upper membrane and voltage-gated <b style="color:#2058a8">K⁺ channels</b> in the lower membrane. The strip at the top shows the whole axon; the bracketed 3 mm segment is magnified below. Click the magnified view to move the probe.</p>
     <div class="range-row">
       <label for="segment">Magnified segment</label><input type="range" id="segment" min="0" max="5" step="0.05" value="0.6"><output id="segment-value" class="readout">0.60–3.60 mm</output>
       <label><input type="checkbox" id="follow"> Follow the wave</label>
     </div>
-    <div class="scroll" tabindex="0" role="region" aria-label="Scrollable axon diagram"><svg id="space" class="diagram" viewBox="0 0 1000 700" role="img" aria-label="Axon membrane with sodium and potassium channels, ion movement, local currents and voltage versus position"></svg></div>
+    <div class="scroll" tabindex="0" role="region" aria-label="Scrollable axon diagram"><svg id="space" class="diagram" viewBox="0 0 1000 460" role="img" aria-label="Axon with sodium channels in the upper membrane and potassium channels in the lower membrane, showing sodium entering and potassium leaving as the action potential passes"></svg></div>
     <div class="legend" aria-label="Legend">
-      <div class="legend-group"><b>Voltage-gated Na⁺ channel</b>
-        <span><svg width="22" height="26" viewBox="-11 -13 22 26" aria-hidden="true"><rect x="-6" y="-12" width="4" height="24" rx="2" fill="#efe3c2" stroke="#a77b16"/><rect x="2" y="-12" width="4" height="24" rx="2" fill="#efe3c2" stroke="#a77b16"/><line x1="-2" y1="-5" x2="2" y2="-5" stroke="#a77b16" stroke-width="3"/></svg>Closed (ready)</span>
-        <span><svg width="22" height="26" viewBox="-11 -13 22 26" aria-hidden="true"><rect x="-8" y="-12" width="4" height="24" rx="2" fill="#e6dcf7" stroke="#7b4fc0" stroke-width="1.6"/><rect x="4" y="-12" width="4" height="24" rx="2" fill="#e6dcf7" stroke="#7b4fc0" stroke-width="1.6"/><circle cy="-4" r="3" fill="#c0392b"/></svg>Open</span>
-        <span><svg width="22" height="26" viewBox="-11 -13 22 26" aria-hidden="true"><rect x="-8" y="-12" width="4" height="24" rx="2" fill="#d6ece0" stroke="#2f7d5b"/><rect x="4" y="-12" width="4" height="24" rx="2" fill="#d6ece0" stroke="#2f7d5b"/><circle cy="9" r="3.4" fill="#2f7d5b"/></svg>Inactivated (plugged)</span>
+      <div class="legend-group"><b>Voltage-gated Na⁺ channels (upper membrane)</b>
+        <span><svg width="24" height="30" viewBox="-12 -15 24 30" aria-hidden="true"><rect x="-7.5" y="-14" width="6" height="28" rx="3" fill="#fbe9e6" stroke="#c98b84"/><rect x="1.5" y="-14" width="6" height="28" rx="3" fill="#fbe9e6" stroke="#c98b84"/><line x1="-2" y1="-7" x2="2" y2="-7" stroke="#c98b84" stroke-width="3"/></svg>Closed (ready)</span>
+        <span><svg width="24" height="30" viewBox="-12 -15 24 30" aria-hidden="true"><rect x="-10" y="-14" width="6" height="28" rx="3" fill="#dd3b2c" stroke="#9e2318"/><rect x="4" y="-14" width="6" height="28" rx="3" fill="#dd3b2c" stroke="#9e2318"/></svg>Open</span>
+        <span><svg width="24" height="30" viewBox="-12 -15 24 30" aria-hidden="true"><rect x="-10" y="-14" width="6" height="28" rx="3" fill="#e39b17" stroke="#9a6406"/><rect x="4" y="-14" width="6" height="28" rx="3" fill="#e39b17" stroke="#9a6406"/><circle cy="10" r="4.4" fill="#9a6406"/></svg>Inactivated (temporarily blocked)</span>
+        <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="5.5" fill="#c8352a" stroke="#fff"/></svg>Na⁺ entering</span>
       </div>
-      <div class="legend-group"><b>Voltage-gated K⁺ channel</b>
-        <span><svg width="22" height="26" viewBox="-11 -13 22 26" aria-hidden="true"><rect x="-6" y="-12" width="4" height="24" rx="1" fill="#e8eff0" stroke="#7fa9b0"/><rect x="2" y="-12" width="4" height="24" rx="1" fill="#e8eff0" stroke="#7fa9b0"/><line x1="-2" y1="6" x2="2" y2="6" stroke="#7fa9b0" stroke-width="3"/></svg>Closed</span>
-        <span><svg width="22" height="26" viewBox="-11 -13 22 26" aria-hidden="true"><rect x="-8" y="-12" width="4" height="24" rx="1" fill="#cfe9ed" stroke="#0f7c8c" stroke-width="1.6"/><rect x="4" y="-12" width="4" height="24" rx="1" fill="#cfe9ed" stroke="#0f7c8c" stroke-width="1.6"/><path d="M0 -1l4 4-4 4-4-4Z" fill="#0f7c8c"/></svg>Open</span>
+      <div class="legend-group"><b>Voltage-gated K⁺ channels (lower membrane)</b>
+        <span><svg width="24" height="30" viewBox="-12 -15 24 30" aria-hidden="true"><rect x="-7.5" y="-14" width="6" height="28" rx="1" fill="#e8eff9" stroke="#8aa8cf"/><rect x="1.5" y="-14" width="6" height="28" rx="1" fill="#e8eff9" stroke="#8aa8cf"/><line x1="-2" y1="-7" x2="2" y2="-7" stroke="#8aa8cf" stroke-width="3"/></svg>Closed</span>
+        <span><svg width="24" height="30" viewBox="-12 -15 24 30" aria-hidden="true"><rect x="-10" y="-14" width="6" height="28" rx="1" fill="#2c6cc2" stroke="#163f7a"/><rect x="4" y="-14" width="6" height="28" rx="1" fill="#2c6cc2" stroke="#163f7a"/></svg>Open</span>
+        <span><svg width="14" height="14" aria-hidden="true"><path d="M7 0.5l6.5 6.5-6.5 6.5-6.5-6.5Z" fill="#2058a8" stroke="#fff"/></svg>K⁺ leaving</span>
       </div>
-      <div class="legend-group"><b>Ions &amp; membrane state</b>
-        <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="#c0392b" stroke="#fff"/></svg>Na⁺ moving in</span>
-        <span><svg width="14" height="14" aria-hidden="true"><path d="M7 1l6 6-6 6-6-6Z" fill="#0f7c8c"/></svg>K⁺ moving out</span>
-        <span><svg width="14" height="14" aria-hidden="true"><circle cx="4" cy="7" r="2.4" fill="#c0392b" opacity=".45"/><path d="M10 4l3 3-3 3-3-3Z" fill="#0f7c8c" opacity=".45"/></svg>Background ions</span>
-        <span><i class="key" style="background:#fff8e4"></i>Resting</span>
-        <span><i class="key" style="background:#f1ebfa"></i>Local depolarization</span>
-        <span><i class="key" style="background:#e6dcf7"></i>Na⁺ channels opening</span>
-        <span><i class="key" style="background:repeating-linear-gradient(135deg,#e1efe7 0 3px,#a9cdb9 3px 5px)"></i>Absolute refractory</span>
-        <span><i class="key" style="background:radial-gradient(#9cc5ae 1.2px,#eef6f1 1.4px) 0 0/6px 6px"></i>Relative refractory</span>
+      <div class="legend-group phase-key"><b>Phases of the action potential (same colours in the graph below)</b>
+        <span><i class="key" style="background:#fbd8d2"></i>1 · Depolarization</span>
+        <span><i class="key" style="background:#dbe7f7"></i>2 · Repolarization</span>
+        <span><i class="key" style="background:#e4def5"></i>3 · Hyperpolarization</span>
+        <span><i class="key" style="background:#e2efe6"></i>4 · Return to resting potential</span>
+        <span><i class="key" style="background:#f9ece2"></i>Reaching threshold</span>
+        <span><i class="key" style="background:#fbf7ec"></i>Resting</span>
       </div>
     </div>
   </section>
 
   <section class="card" aria-labelledby="probe-title">
-    <h2 id="probe-title">At one location: voltage and channels over time</h2>
+    <h2 id="probe-title">The action potential at the probe: voltage over time</h2>
     <div class="range-row"><label for="probe">Probe position</label><input id="probe" type="range" min="0.1" max="7.9" step="0.05" value="2"><output id="probe-value" class="readout" for="probe">2.00 mm</output></div>
     <div class="probe-layout">
       <div>
-        <div class="scroll" tabindex="0" role="region" aria-label="Scrollable voltage and conductance versus time plot"><svg id="temporal" class="probe-diagram" viewBox="0 0 700 400" role="img" aria-label="Voltage, sodium and potassium channel activity over time at the probe, with a present-time marker"></svg></div>
-        <div class="legend"><span><i class="key" style="background:#c0392b;height:3px;border:0"></i>Membrane voltage</span><span><i class="key" style="background:#7b4fc0;height:4px;border:0"></i>Upstroke</span><span><i class="key" style="background:#e6dcf7;border-color:#7b4fc0"></i>Na⁺ channels open</span><span><i class="key" style="background:#0f7c8c;height:3px;border:0"></i>K⁺ channels open</span><span><i class="key" style="background:repeating-linear-gradient(90deg,#2f7d5b 0 5px,transparent 5px 8px);height:2px;border:0"></i>Na⁺ channels available (not inactivated)</span></div>
+        <div class="scroll" tabindex="0" role="region" aria-label="Scrollable voltage over time graph"><svg id="temporal" class="probe-diagram" viewBox="0 0 700 410" role="img" aria-label="Voltage over time at the probe, divided into depolarization, repolarization, hyperpolarization and return to resting potential, with sodium and potassium channel opening below"></svg></div>
+        <div class="legend"><span><i class="key" style="background:#102f35;height:3px;border:0"></i>Membrane voltage</span><span><i class="key" style="background:#f6c4bd;border-color:#dd3b2c"></i>Na⁺ channels open</span><span><i class="key" style="background:#c5d7ef;border-color:#2c6cc2"></i>K⁺ channels open</span><span><i class="key" style="background:#7b4fc0;width:3px;border:0"></i>Now</span></div>
       </div>
-      <aside class="status" aria-label="Selected membrane patch">
+      <aside class="status" aria-label="Membrane patch at the probe">
         <span class="eyebrow">Membrane patch at the probe</span>
         <div class="phase" id="phase" aria-live="polite">Resting</div>
         <div class="readout" id="measurement"></div>
-        <div class="meter"><div class="meter-label"><span>Na⁺ channels</span><span id="na-pct"></span></div><div class="stack" aria-hidden="true"><i id="na-c" style="background:#e3c98a"></i><i id="na-o" style="background:#7b4fc0"></i><i id="na-i" style="background:#2f7d5b"></i></div><div class="mini-key"><span style="--c:#e3c98a">closed</span><span style="--c:#7b4fc0">open</span><span style="--c:#2f7d5b">inactivated</span></div></div>
-        <div class="meter"><div class="meter-label"><span>K⁺ channels open</span><span id="k-pct"></span></div><div class="bar" aria-hidden="true"><i id="k-bar" style="background:#0f7c8c"></i></div></div>
-        <div class="meter"><div class="meter-label"><span>Na⁺ influx</span><span id="na-flux"></span></div><div class="bar" aria-hidden="true"><i id="na-flux-bar" style="background:#c0392b"></i></div></div>
-        <div class="meter"><div class="meter-label"><span>K⁺ efflux</span><span id="k-flux"></span></div><div class="bar" aria-hidden="true"><i id="k-flux-bar" style="background:#0f7c8c"></i></div></div>
+        <div class="meter"><div class="meter-label"><span>Na⁺ channels</span><span id="na-pct"></span></div><div class="stack" aria-hidden="true"><i id="na-c" style="background:#f1cdc8"></i><i id="na-o" style="background:#dd3b2c"></i><i id="na-i" style="background:#e39b17"></i></div><div class="mini-key"><span style="--c:#f1cdc8">closed</span><span style="--c:#dd3b2c">open</span><span style="--c:#e39b17">inactivated</span></div></div>
+        <div class="meter"><div class="meter-label"><span>K⁺ channels</span><span id="k-pct"></span></div><div class="bar" aria-hidden="true"><i id="k-bar" style="background:#2c6cc2"></i></div></div>
+        <p class="flux-line"><span id="na-flux" style="color:#c8352a"></span><span id="k-flux" style="color:#2058a8"></span></p>
         <p id="explanation"></p>
         <p id="refractory-text"></p>
         <p class="hint" id="milestone"></p>
@@ -93,14 +90,16 @@
   </section>
 
   <section class="card notes">
-    <details open><summary>How to read this simulation</summary>
-      <p><b>Regeneration, not a travelling packet of sodium.</b> Na⁺ ions enter only where channels are open and then mix into the nearby axoplasm (the particles fade as they join it). The <em>signal</em> travels because positive charge spreading inside the axon (local current) brings the next patch of membrane to threshold, where it opens its own Na⁺ channels.</p>
-      <p><b>Every channel follows the same cycle.</b> Voltage-gated Na⁺ channels go <b>closed → open → inactivated → closed</b>. They open within a fraction of a millisecond of depolarization and inactivate soon after, so Na⁺ entry peaks <em>before</em> the voltage peak. They recover from inactivation only once the membrane has repolarized. Voltage-gated K⁺ channels open more slowly (delayed), stay open through repolarization and close gradually during the afterhyperpolarization.</p>
-      <p><b>Why ion flow slows even with channels open.</b> Ion movement depends on the open channels <em>and</em> the driving force: the difference between the membrane voltage and that ion's equilibrium potential (E<sub>Na</sub> ≈ +60 mV, E<sub>K</sub> ≈ −90 mV). Near the peak, the voltage approaches E<sub>Na</sub>, so Na⁺ influx weakens. During the afterhyperpolarization, the voltage is close to E<sub>K</sub>, so K⁺ efflux almost stops even though many K⁺ channels are still open.</p>
-      <p><b>Why the wave only moves forward.</b> Local current spreads in both directions, but the membrane behind the wave is refractory: its Na⁺ channels are still inactivated. The absolute refractory period lasts until enough Na⁺ channels have recovered. During the relative refractory period, partly recovered Na⁺ channels and still-open K⁺ channels mean a stronger-than-normal stimulus is needed.</p>
-      <p><b>Tiny amounts of ions.</b> Only a very small fraction of the ions near the membrane cross during one action potential; bulk concentrations barely change. The Na⁺/K⁺-ATPase pump (not drawn) restores the gradients over the long term — it is <em>not</em> what repolarizes the membrane. Resting leak channels, which set the resting potential, are also omitted for clarity.</p>
-      <p><b>Teaching simplifications.</b> This is a prescribed waveform, not a Hodgkin–Huxley calculation. Illustrative values: rest −75 mV, threshold −55 mV, peak +30 mV, afterhyperpolarization −85 mV; conduction velocity 0.75 m/s (typical of thin unmyelinated C fibres, about 0.5–2 m/s). Channel spacing, particle numbers and arrows are schematic.</p>
-      <div class="clinical"><b>Clinical connection.</b> Local anaesthetics such as lidocaine block voltage-gated Na⁺ channels. If a stretch of axon cannot open its Na⁺ channels, the action potential cannot be regenerated there and conduction stops — which is how a nerve block prevents pain signals from reaching the brain. Slow, unmyelinated C fibres carry dull, aching "second pain".</div>
+    <details open><summary>Key points</summary>
+      <ol class="key-points">
+        <li><b>Depolarization:</b> at threshold (−55 mV) voltage-gated Na⁺ channels open and Na⁺ rushes in, so the inside becomes positive.</li>
+        <li><b>Repolarization:</b> at the peak (+30 mV) Na⁺ channels are inactivated (temporarily blocked) and K⁺ channels open, so K⁺ flows out.</li>
+        <li><b>Hyperpolarization:</b> K⁺ channels close slowly, so the membrane briefly becomes more negative than at rest (about −85 mV).</li>
+        <li><b>Return to resting potential:</b> K⁺ channels close and the membrane returns to −75 mV. Na⁺ channels have recovered and can open again.</li>
+      </ol>
+      <p><b>How the signal travels.</b> Na⁺ that enters spreads inside the axon, mostly forward to the resting membrane ahead, which it brings to threshold. That patch then opens its own Na⁺ channels. The membrane behind is in its refractory period, so the signal moves in one direction only.</p>
+      <p><b>Simplifications.</b> Only voltage-gated channels are shown (leak channels and the Na⁺/K⁺ pump are omitted). Very few ions actually cross in each action potential; the pump slowly restores them and does not cause repolarization. Values are illustrative: conduction at 0.75 m/s is typical of thin unmyelinated C fibres.</p>
+      <div class="clinical"><b>Clinical connection.</b> Local anaesthetics such as lidocaine block voltage-gated Na⁺ channels. Without phase 1 the action potential cannot be regenerated, so pain signals do not reach the brain.</div>
     </details>
   </section>
 
