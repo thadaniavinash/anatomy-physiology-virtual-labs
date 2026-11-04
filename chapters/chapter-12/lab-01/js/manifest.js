@@ -31,9 +31,9 @@ window.NeuroLab.manifest = {
       label: 'Synaptic transmission',
       title: 'Synaptic transmission & initiating the impulse',
       href: 'synaptic-transmission/index.html',
-      status: 'planned',
-      summary: 'Neurotransmitter opens ligand-gated channels, producing graded postsynaptic potentials that summate at the axon hillock and trigger an action potential.',
-      topics: ['Ca²⁺-triggered release', 'Ligand-gated channels', 'EPSP & IPSP', 'Summation at the trigger zone']
+      status: 'ready',
+      summary: 'Watch Ca²⁺ trigger neurotransmitter release, receptors open, and EPSPs or IPSPs sum at the axon hillock until threshold starts an action potential. Includes a neurotransmitter guide.',
+      topics: ['Ca²⁺-triggered release', 'Ligand-gated channels', 'EPSP & IPSP', 'Summation', 'Neurotransmitter guide']
     },
     {
       id: 'unmyelinated',

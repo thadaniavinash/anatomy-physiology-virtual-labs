@@ -10,7 +10,7 @@ A growing collection of free, browser-based anatomy and physiology learning acti
   - Anatomical planes
   - Abdominal quadrants
 - Chapter 12, Lab 1: **Nerve Impulses: From Synapse to Axon** (multi-part)
-  - Part 1 · Synaptic transmission (in development)
+  - Part 1 · Synaptic transmission and neurotransmitter guide
   - Part 2 · Continuous conduction in an unmyelinated axon
   - Part 3 · Saltatory conduction in a myelinated axon (in development)
 

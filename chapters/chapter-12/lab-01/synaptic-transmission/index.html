@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Chapter 12, Lab 1 · Part 1 · Synaptic Transmission</title>
-  <meta name="description" content="Planned simulation: chemical synaptic transmission, postsynaptic potentials and initiation of the action potential at the axon hillock.">
+  <meta name="description" content="Interactive simulation of chemical synaptic transmission: calcium entry, exocytosis, neurotransmitter binding, EPSPs and IPSPs, and summation at the axon hillock. Includes a guide to excitatory and inhibitory neurotransmitters.">
   <link rel="stylesheet" href="../../../../assets/css/shared.css">
   <link rel="stylesheet" href="../neuro.css">
 </head>
@@ -15,54 +15,121 @@
     <div class="brand"><div class="mark" aria-label="Anatomy and Physiology">A&amp;P</div><div class="brand-copy"><b>Anatomy &amp; Physiology Interactive Labs</b><small>Chapter 12 · Nerve impulses: from synapse to axon</small></div></div>
     <div class="progress-wrap" id="lab-progress" aria-label="Position in the signal pathway"></div>
   </header>
-  <section class="hero"><div class="hero-main"><span class="eyebrow">Chapter 12 · Lab 1 · Part 1</span><h1>Synaptic transmission &amp; initiating the impulse</h1><p>How a chemical message released at a synapse becomes an electrical signal and, if it reaches threshold at the axon hillock, an action potential.</p></div></section>
+  <section class="hero"><div class="hero-main"><span class="eyebrow">Chapter 12 · Lab 1 · Part 1</span><h1>Synaptic transmission &amp; initiating the impulse</h1><p>A chemical message crosses the synapse and creates a graded potential (EPSP or IPSP) in the next neuron. If enough EPSPs add up at the axon hillock to reach threshold, an action potential starts.</p></div></section>
   <nav class="tabs" id="lab-nav" aria-label="Lab parts"></nav>
 
-  <div class="status-banner" role="note"><b>In development.</b> This page outlines the planned simulation. The interactive version will reuse the lab's shared playback controls and membrane model. Part 2 is fully interactive now.</div>
+  <div class="page-tabs" role="tablist" aria-label="Part 1 sections">
+    <button role="tab" data-tab="simulation" aria-selected="true">Simulation</button>
+    <button role="tab" data-tab="neurotransmitters" aria-selected="false">Neurotransmitters</button>
+  </div>
 
-  <div class="two-col">
-    <section class="card" aria-labelledby="goals-title">
-      <span class="kicker">Learning outcomes</span>
-      <h2 id="goals-title">After this part, students will be able to…</h2>
-      <ul>
-        <li>Describe how an arriving action potential opens voltage-gated Ca²⁺ channels in the axon terminal and triggers exocytosis of neurotransmitter.</li>
-        <li>Explain how neurotransmitter binding opens ligand-gated (chemically gated) channels in the postsynaptic membrane.</li>
-        <li>Distinguish excitatory (EPSP) from inhibitory (IPSP) postsynaptic potentials, and graded potentials from action potentials.</li>
-        <li>Explain temporal and spatial summation and why threshold must be reached at the axon hillock (trigger zone).</li>
-        <li>Describe how the signal is ended (enzymatic breakdown, reuptake, diffusion).</li>
-      </ul>
+  <div class="tab-panel" id="simulation">
+    <section class="card sim" aria-label="Synaptic transmission simulation">
+      <div class="sim-controls">
+        <button class="btn primary" id="play" aria-pressed="false">Play</button>
+        <button class="btn" id="restart">Restart</button>
+        <button class="btn" id="next">Next step ▸</button>
+        <button class="btn" id="step">Step</button>
+        <label>Speed <select id="speed" aria-label="Playback speed"><option value="0.25">0.25×</option><option value="0.5" selected>0.5×</option><option value="1">1×</option><option value="2">2×</option></select></label>
+        <label><input type="checkbox" id="loop"> Loop</label>
+        <div class="sim-time"><input type="range" id="time" min="0" max="24" step="0.01" value="0" aria-label="Lesson time"><output id="clock" class="readout" for="time">0.00 ms</output></div>
+      </div>
+      <div class="scen-row">
+        <span class="scen-label">Scenario</span>
+        <div class="seg" role="group" aria-label="Scenario">
+          <button data-scen="single" aria-pressed="true">Single EPSP</button>
+          <button data-scen="temporal" aria-pressed="false">Temporal summation</button>
+          <button data-scen="spatial" aria-pressed="false">Spatial summation</button>
+          <button data-scen="inhib" aria-pressed="false">Single IPSP</button>
+          <button data-scen="mixed" aria-pressed="false">EPSPs + IPSP</button>
+        </div>
+        <div class="seg" id="view-switch" role="group" aria-label="Close-up shows" hidden>
+          <button data-view="E" aria-pressed="true">Close-up: excitatory S1</button>
+          <button data-view="I" aria-pressed="false">Close-up: inhibitory S3</button>
+        </div>
+      </div>
+      <p class="scen-text" id="scen-text"></p>
+      <div class="syn-row">
+        <div class="syn-main">
+        <div class="sim-panel"><div class="scroll"><svg id="closeup" class="syn-svg" viewBox="0 0 640 480" role="img" aria-label="Synapse close-up: presynaptic terminal with vesicles and calcium channels, synaptic cleft with neurotransmitter, and postsynaptic membrane with ligand-gated receptors"></svg></div></div>
+          <div class="legend syn-legend" aria-label="Legend">
+        <div class="legend-group"><b>Ions</b>
+          <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="#139fb3" stroke="#fff"/></svg>Ca²⁺ (enters the terminal)</span>
+          <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="#c8352a" stroke="#fff"/></svg>Na⁺ (enters → EPSP)</span>
+          <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="#2f9a45" stroke="#fff"/></svg>Cl⁻ (enters → IPSP)</span>
+        </div>
+        <div class="legend-group"><b>Neurotransmitters</b>
+          <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="#e8861d" stroke="#fff"/></svg>Glutamate (excitatory)</span>
+          <span><svg width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="#a8439a" stroke="#fff"/></svg>GABA (inhibitory)</span>
+          <span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9.5" fill="#fff" stroke="#8f9db0" stroke-width="1.6"/><circle cx="8" cy="9" r="2" fill="#e8861d"/><circle cx="14" cy="9" r="2" fill="#e8861d"/><circle cx="11" cy="14" r="2" fill="#e8861d"/></svg>Synaptic vesicle</span>
+        </div>
+        <div class="legend-group"><b>Channels &amp; receptors</b>
+          <span><svg width="30" height="24" viewBox="-15 -12 30 24" aria-hidden="true"><rect x="-13" y="-7.5" width="26" height="6" rx="3" fill="#e3eef0" stroke="#0f6f7d"/><rect x="-13" y="1.5" width="26" height="6" rx="3" fill="#e3eef0" stroke="#0f6f7d"/></svg><svg width="30" height="24" viewBox="-15 -12 30 24" aria-hidden="true"><rect x="-13" y="-11" width="26" height="6" rx="3" fill="#139fb3" stroke="#0f6f7d"/><rect x="-13" y="5" width="26" height="6" rx="3" fill="#139fb3" stroke="#0f6f7d"/></svg>Voltage-gated Ca²⁺ channel (closed / open)</span>
+          <span><svg width="30" height="30" viewBox="-15 -15 30 30" aria-hidden="true"><path d="M-10.5 13v-24q0-3 3-3h6v27z" fill="#fdebd6" stroke="#c56a12" stroke-width="1.4"/><path d="M10.5 13v-24q0-3 -3-3h-6v27z" fill="#fdebd6" stroke="#c56a12" stroke-width="1.4"/><line x1="-2" y1="0" x2="2" y2="0" stroke="#c56a12" stroke-width="3"/></svg><svg width="30" height="30" viewBox="-15 -15 30 30" aria-hidden="true"><path d="M-15 13v-24q0-3 3-3h6v27z" fill="#f5b971" stroke="#c56a12" stroke-width="1.4"/><path d="M15 13v-24q0-3 -3-3h-6v27z" fill="#f5b971" stroke="#c56a12" stroke-width="1.4"/></svg>AMPA receptor: glutamate opens it, Na⁺ in</span>
+          <span><svg width="30" height="30" viewBox="-15 -15 30 30" aria-hidden="true"><path d="M-10.5 13v-24q0-3 3-3h6v27z" fill="#f3e4f6" stroke="#7d3a99" stroke-width="1.4"/><path d="M10.5 13v-24q0-3 -3-3h-6v27z" fill="#f3e4f6" stroke="#7d3a99" stroke-width="1.4"/><line x1="-2" y1="0" x2="2" y2="0" stroke="#7d3a99" stroke-width="3"/></svg><svg width="30" height="30" viewBox="-15 -15 30 30" aria-hidden="true"><path d="M-15 13v-24q0-3 3-3h6v27z" fill="#cfa0dc" stroke="#7d3a99" stroke-width="1.4"/><path d="M15 13v-24q0-3 -3-3h-6v27z" fill="#cfa0dc" stroke="#7d3a99" stroke-width="1.4"/></svg>GABA-A receptor: GABA opens it, Cl⁻ in</span>
+        </div>
+        <div class="legend-group"><b>Removal &amp; membrane</b>
+          <span><svg width="34" height="20" viewBox="-17 -10 34 20" aria-hidden="true"><rect x="-15" y="-8" width="30" height="16" rx="8" fill="#d9e6f7" stroke="#2c6cc2" stroke-width="1.4"/><path d="M8 0h-15m5 -4l-5 4 5 4" fill="none" stroke="#2c6cc2" stroke-width="1.4"/></svg>Reuptake transporter</span>
+          <span><i class="key" style="background:#fff;border:3px solid #e2512c;border-radius:4px"></i>Depolarized membrane (AP)</span>
+          <span><i class="key" style="background:rgba(221,59,44,.4)"></i>EPSP (inside less negative)</span>
+          <span><i class="key" style="background:rgba(44,108,194,.4)"></i>IPSP (inside more negative)</span>
+        </div>
+      </div>
+        </div>
+        <div class="syn-side">
+          <div class="sim-panel"><div class="scroll"><svg id="neuron" class="side-svg" viewBox="0 0 520 250" role="img" aria-label="Postsynaptic neuron with three synapses, cell body, axon hillock and axon, showing graded potentials spreading to the axon hillock"></svg></div></div>
+          <div class="sim-panel"><div class="scroll"><svg id="graph" class="side-svg" viewBox="0 0 520 250" role="img" aria-label="Membrane voltage over time at the synapse and at the axon hillock, with the threshold line"></svg></div></div>
+        </div>
+      </div>
+      <div class="syn-status" aria-live="polite">
+        <ol class="step-track" id="steps"></ol>
+        <p id="step-text"></p>
+        <p class="result" id="result" hidden></p>
+      </div>
+
     </section>
-    <section class="card" aria-labelledby="link-title">
-      <span class="kicker">How it connects</span>
-      <h2 id="link-title">Hand-off to Part 2 and Part 3</h2>
-      <p class="lede">When summed postsynaptic potentials bring the axon hillock to threshold (≈ −55 mV), an action potential begins. That action potential is the signal that enters from the <b>left edge</b> of the axon in Part 2 (unmyelinated) and Part 3 (myelinated).</p>
-      <div class="clinical"><b>Planned clinical connections.</b> Myasthenia gravis (antibodies against acetylcholine receptors), botulinum toxin (blocks neurotransmitter release), acetylcholinesterase inhibitors, and SSRIs (block serotonin reuptake).</div>
+
+    <section class="card notes">
+      <details open><summary>Key points</summary>
+        <ol class="key-points">
+          <li><b>Electrical → chemical → electrical.</b> An action potential opens voltage-gated Ca²⁺ channels; Ca²⁺ triggers release of neurotransmitter, which opens ligand-gated channels on the next neuron.</li>
+          <li><b>EPSP vs IPSP.</b> Excitatory transmitters (e.g., glutamate) let Na⁺ in and depolarize (EPSP). Inhibitory transmitters (e.g., GABA) let Cl⁻ in and hyperpolarize (IPSP).</li>
+          <li><b>Graded, not all-or-none.</b> Postsynaptic potentials vary in size and fade as they spread. One EPSP is usually too small to reach threshold.</li>
+          <li><b>Summation.</b> EPSPs add up over time (temporal) or from several synapses (spatial); IPSPs subtract. If the axon hillock reaches threshold (−55 mV), an action potential starts, which Part 2 follows down the axon.</li>
+          <li><b>Ending the signal.</b> Glutamate and GABA are removed mainly by reuptake into the terminal (and nearby glial cells) or diffuse away, so each signal is brief. At acetylcholine synapses, such as the neuromuscular junction, the enzyme acetylcholinesterase breaks the transmitter down instead.</li>
+        </ol>
+        <p class="hint">Timing is slowed and simplified for teaching. Only one synapse is drawn in close-up; the neuron diagram shows all three.</p>
+        <div class="clinical"><b>Clinical connections.</b> Myasthenia gravis: antibodies block acetylcholine receptors. Botulinum toxin blocks neurotransmitter release. Acetylcholinesterase inhibitors (e.g., neostigmine, donepezil) keep ACh in the cleft longer. SSRIs block serotonin reuptake. Benzodiazepines enhance GABA receptors, increasing IPSPs.</div>
+      </details>
+    </section>
+
+    <section class="card" aria-labelledby="quiz-title">
+      <span class="kicker">Learning check-in</span><h2 id="quiz-title">Test your understanding</h2>
+      <div id="quiz"></div>
     </section>
   </div>
 
-  <section class="card" aria-labelledby="plan-title">
-    <span class="kicker">Planned simulation storyboard</span>
-    <h2 id="plan-title">What the animation will show, step by step</h2>
-    <ol class="plan-list">
-      <li><b>Action potential arrives</b> at the presynaptic axon terminal (the same waveform used in Part 2).</li>
-      <li><b>Voltage-gated Ca²⁺ channels open</b>; Ca²⁺ flows in down its steep gradient (shown with its own particle colour).</li>
-      <li><b>Vesicles dock and fuse</b> (exocytosis); neurotransmitter is released into the synaptic cleft.</li>
-      <li><b>Neurotransmitter diffuses</b> across the cleft and binds receptors on the postsynaptic membrane.</li>
-      <li><b>Ligand-gated channels open</b>: mainly Na⁺ entry gives an EPSP; Cl⁻ entry or K⁺ exit gives an IPSP. The student chooses an excitatory or inhibitory synapse.</li>
-      <li><b>Graded potential spreads and fades</b> with distance toward the axon hillock (decremental conduction), shown on a voltage-vs-distance plot.</li>
-      <li><b>Summation</b>: students fire one or several synapses, close together in time (temporal) or from different locations (spatial), and watch whether the trigger zone reaches threshold.</li>
-      <li><b>Threshold reached → action potential</b> at the axon hillock, with a button to follow it into Part 2 or Part 3.</li>
-      <li><b>Signal ends</b>: neurotransmitter is broken down, taken back up, or diffuses away; receptor channels close.</li>
-    </ol>
-    <h3>Planned controls</h3>
-    <p class="lede">Shared playback bar (play, step, next stage, speed); synapse type (excitatory / inhibitory); number and timing of presynaptic spikes; a toggle to block reuptake or the enzyme; a probe at the axon hillock with a live voltage-vs-time trace and threshold line.</p>
-  </section>
+  <div class="tab-panel" id="neurotransmitters" hidden>
+    <section class="card" aria-labelledby="nt-title">
+      <span class="kicker">Neurotransmitter guide</span>
+      <h2 id="nt-title">Excitatory and inhibitory neurotransmitters</h2>
+      <p class="lede">Whether a neurotransmitter excites or inhibits depends on the receptor it binds: the same chemical can do both in different tissues. Each card lists the usual effect, where it is used, why it matters in nursing practice, and a first look at drugs that act on it in the brain and spinal cord (CNS).</p>
+      <p class="nt-note"><b>How the signal ends.</b> The action of most neurotransmitters is ended by <b>reuptake</b> into the presynaptic neuron, <b>removal by astrocytes</b> (neuroglia), and/or <b>diffusion</b> away from the synapse. Acetylcholine is the main exception: the enzyme <b>acetylcholinesterase</b> breaks it down in the synaptic cleft.</p>
+      <div class="seg" role="group" aria-label="Filter neurotransmitters">
+        <button data-filter="all" aria-pressed="true">All</button>
+        <button data-filter="E" aria-pressed="false">Excitatory</button>
+        <button data-filter="I" aria-pressed="false">Inhibitory</button>
+        <button data-filter="B" aria-pressed="false">Depends on receptor</button>
+      </div>
+      <div class="nt-cards" id="nt-cards"></div>
+    </section>
+  </div>
 
   <nav class="pager" id="lab-pager" aria-label="Previous and next parts"></nav>
   <footer class="app-footer"><p>No learner data are stored, saved, or submitted. Reference: <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/12-5-communication-between-neurons" target="_blank" rel="noopener">OpenStax A&amp;P 2e, 12.5 Communication Between Neurons</a></p><p class="acknowledgement">© 2026 · Anatomy &amp; Physiology Virtual Labs</p></footer>
 </main>
 <script src="../js/manifest.js"></script>
 <script src="../js/neurolab.js"></script>
-<script>NeuroLab.renderChrome('synapse');</script>
+<script src="synapse.js"></script>
 </body>
 </html>
