@@ -126,3 +126,23 @@ details summary{cursor:pointer;font-weight:750}
 .flux-line{display:flex;gap:14px;font-weight:700;min-height:1.4em}
 .key-points{padding-left:20px;margin:8px 0}
 .key-points li{margin:4px 0;font-size:14.5px;color:#304b4f}
+
+/* Synchronized simulation panel (Part 2) */
+.sim{padding:14px 16px}
+.sim-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-bottom:6px}
+.sim-time{flex:1 1 220px;display:flex;align-items:center;gap:10px;min-width:200px}
+.sim-time input{flex:1}
+.strip{display:block;width:100%;min-width:640px;height:auto;cursor:ew-resize;touch-action:none}
+.sim-row{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:12px;align-items:start;margin-top:4px}
+.sim-panel{min-width:0;border:1px solid var(--line);border-radius:14px;padding:6px;background:#fff}
+.sim-svg{display:block;width:100%;height:auto;max-height:52vh;min-width:420px}
+.sim-status{display:grid;grid-template-columns:auto auto 1fr;gap:4px 14px;align-items:center;margin-top:10px;padding:10px 12px;border-radius:12px;background:#f2f6f4;border:1px solid var(--line)}
+.sim-status .phase{font:700 18px/1.2 Georgia,serif;border-radius:8px;padding:4px 10px;white-space:nowrap}
+.sim-mv{font-size:18px;color:var(--ink)}
+.sim-status p{margin:0;font-size:14px}
+.sim-status #refractory-text{grid-column:1/-1;color:var(--muted);font-size:13px}
+.sim-footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;align-items:center;margin-top:6px}
+.sim-footer .legend{margin-top:0;gap:4px 14px;font-size:12.5px}
+.sim-options{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13.5px}
+.sim-options input[type=range]{width:150px}
+@media(max-width:900px){.sim-row{grid-template-columns:1fr}.sim-svg{max-height:none}.sim-status{grid-template-columns:1fr}}
