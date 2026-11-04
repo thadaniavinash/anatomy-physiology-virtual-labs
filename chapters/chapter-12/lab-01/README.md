@@ -7,7 +7,7 @@ A multi-part lab that follows one nerve signal from the synapse to the end of th
 | Overview hub | `index.html` | ready |
 | 1 · Synaptic transmission (+ neurotransmitter guide tab) | `synaptic-transmission/` | interactive |
 | 2 · Unmyelinated axon (continuous conduction) | `unmyelinated-axon/` | interactive |
-| 3 · Myelinated axon (saltatory conduction) | `myelinated-axon/` | planned (storyboard page) |
+| 3 · Myelinated axon (saltatory conduction) | `myelinated-axon/` | interactive |
 
 All pages are static HTML with classic `<script>` tags, so they work on GitHub Pages **and** when opened directly from disk (`file://`). No build step.
 

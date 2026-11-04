@@ -51,7 +51,7 @@ window.NeuroLab.manifest = {
       label: 'Myelinated axon',
       title: 'Saltatory conduction in a myelinated axon',
       href: 'myelinated-axon/index.html',
-      status: 'planned',
+      status: 'ready',
       summary: 'Myelin insulates the internodes, so the action potential is regenerated only at nodes of Ranvier — faster conduction with less ion exchange.',
       topics: ['Nodes of Ranvier', 'Internodal current', 'Conduction velocity', 'Demyelination']
     }
