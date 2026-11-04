@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chapter 12, Lab 1 · Part 1 · Synaptic Transmission</title>
+  <meta name="description" content="Planned simulation: chemical synaptic transmission, postsynaptic potentials and initiation of the action potential at the axon hillock.">
+  <link rel="stylesheet" href="../../../../assets/css/shared.css">
+  <link rel="stylesheet" href="../neuro.css">
+</head>
+<body data-root="../">
+<a class="library-link" href="../../../../index.html" aria-label="Return to the virtual lab library">← Virtual lab library</a>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand"><div class="mark" aria-label="Anatomy and Physiology">A&amp;P</div><div class="brand-copy"><b>Anatomy &amp; Physiology Interactive Labs</b><small>Chapter 12 · Nerve impulses: from synapse to axon</small></div></div>
+    <div class="progress-wrap" id="lab-progress" aria-label="Position in the signal pathway"></div>
+  </header>
+  <section class="hero"><div class="hero-main"><span class="eyebrow">Chapter 12 · Lab 1 · Part 1</span><h1>Synaptic transmission &amp; initiating the impulse</h1><p>How a chemical message released at a synapse becomes an electrical signal and, if it reaches threshold at the axon hillock, an action potential.</p></div></section>
+  <nav class="tabs" id="lab-nav" aria-label="Lab parts"></nav>
+
+  <div class="status-banner" role="note"><b>In development.</b> This page outlines the planned simulation. The interactive version will reuse the lab's shared playback controls and membrane model. Part 2 is fully interactive now.</div>
+
+  <div class="two-col">
+    <section class="card" aria-labelledby="goals-title">
+      <span class="kicker">Learning outcomes</span>
+      <h2 id="goals-title">After this part, students will be able to…</h2>
+      <ul>
+        <li>Describe how an arriving action potential opens voltage-gated Ca²⁺ channels in the axon terminal and triggers exocytosis of neurotransmitter.</li>
+        <li>Explain how neurotransmitter binding opens ligand-gated (chemically gated) channels in the postsynaptic membrane.</li>
+        <li>Distinguish excitatory (EPSP) from inhibitory (IPSP) postsynaptic potentials, and graded potentials from action potentials.</li>
+        <li>Explain temporal and spatial summation and why threshold must be reached at the axon hillock (trigger zone).</li>
+        <li>Describe how the signal is ended (enzymatic breakdown, reuptake, diffusion).</li>
+      </ul>
+    </section>
+    <section class="card" aria-labelledby="link-title">
+      <span class="kicker">How it connects</span>
+      <h2 id="link-title">Hand-off to Part 2 and Part 3</h2>
+      <p class="lede">When summed postsynaptic potentials bring the axon hillock to threshold (≈ −55 mV), an action potential begins. That action potential is the signal that enters from the <b>left edge</b> of the axon in Part 2 (unmyelinated) and Part 3 (myelinated).</p>
+      <div class="clinical"><b>Planned clinical connections.</b> Myasthenia gravis (antibodies against acetylcholine receptors), botulinum toxin (blocks neurotransmitter release), acetylcholinesterase inhibitors, and SSRIs (block serotonin reuptake).</div>
+    </section>
+  </div>
+
+  <section class="card" aria-labelledby="plan-title">
+    <span class="kicker">Planned simulation storyboard</span>
+    <h2 id="plan-title">What the animation will show, step by step</h2>
+    <ol class="plan-list">
+      <li><b>Action potential arrives</b> at the presynaptic axon terminal (the same waveform used in Part 2).</li>
+      <li><b>Voltage-gated Ca²⁺ channels open</b>; Ca²⁺ flows in down its steep gradient (shown with its own particle colour).</li>
+      <li><b>Vesicles dock and fuse</b> (exocytosis); neurotransmitter is released into the synaptic cleft.</li>
+      <li><b>Neurotransmitter diffuses</b> across the cleft and binds receptors on the postsynaptic membrane.</li>
+      <li><b>Ligand-gated channels open</b>: mainly Na⁺ entry gives an EPSP; Cl⁻ entry or K⁺ exit gives an IPSP. The student chooses an excitatory or inhibitory synapse.</li>
+      <li><b>Graded potential spreads and fades</b> with distance toward the axon hillock (decremental conduction), shown on a voltage-vs-distance plot.</li>
+      <li><b>Summation</b>: students fire one or several synapses, close together in time (temporal) or from different locations (spatial), and watch whether the trigger zone reaches threshold.</li>
+      <li><b>Threshold reached → action potential</b> at the axon hillock, with a button to follow it into Part 2 or Part 3.</li>
+      <li><b>Signal ends</b>: neurotransmitter is broken down, taken back up, or diffuses away; receptor channels close.</li>
+    </ol>
+    <h3>Planned controls</h3>
+    <p class="lede">Shared playback bar (play, step, next stage, speed); synapse type (excitatory / inhibitory); number and timing of presynaptic spikes; a toggle to block reuptake or the enzyme; a probe at the axon hillock with a live voltage-vs-time trace and threshold line.</p>
+  </section>
+
+  <nav class="pager" id="lab-pager" aria-label="Previous and next parts"></nav>
+  <footer class="app-footer"><p>No learner data are stored, saved, or submitted. Reference: <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/12-5-communication-between-neurons" target="_blank" rel="noopener">OpenStax A&amp;P 2e, 12.5 Communication Between Neurons</a></p><p class="acknowledgement">© 2026 · Anatomy &amp; Physiology Virtual Labs</p></footer>
+</main>
+<script src="../js/manifest.js"></script>
+<script src="../js/neurolab.js"></script>
+<script>NeuroLab.renderChrome('synapse');</script>
+</body>
+</html>

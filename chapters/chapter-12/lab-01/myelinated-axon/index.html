@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chapter 12, Lab 1 · Part 3 · Saltatory Conduction in a Myelinated Axon</title>
+  <meta name="description" content="Planned simulation: saltatory conduction of the action potential between nodes of Ranvier in a myelinated axon.">
+  <link rel="stylesheet" href="../../../../assets/css/shared.css">
+  <link rel="stylesheet" href="../neuro.css">
+</head>
+<body data-root="../">
+<a class="library-link" href="../../../../index.html" aria-label="Return to the virtual lab library">← Virtual lab library</a>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand"><div class="mark" aria-label="Anatomy and Physiology">A&amp;P</div><div class="brand-copy"><b>Anatomy &amp; Physiology Interactive Labs</b><small>Chapter 12 · Nerve impulses: from synapse to axon</small></div></div>
+    <div class="progress-wrap" id="lab-progress" aria-label="Position in the signal pathway"></div>
+  </header>
+  <section class="hero"><div class="hero-main"><span class="eyebrow">Chapter 12 · Lab 1 · Part 3</span><h1>Saltatory conduction in a myelinated axon</h1><p>Myelin insulates the axon between nodes of Ranvier. Current flows quickly under the myelin, and the action potential is regenerated only at the nodes — so the signal appears to "jump" from node to node.</p></div></section>
+  <nav class="tabs" id="lab-nav" aria-label="Lab parts"></nav>
+
+  <div class="status-banner" role="note"><b>In development.</b> This page outlines the planned simulation. It will reuse the membrane model from Part 2 at each node, so channel states and ion flow match exactly between the two axon types.</div>
+
+  <div class="two-col">
+    <section class="card" aria-labelledby="goals-title">
+      <span class="kicker">Learning outcomes</span>
+      <h2 id="goals-title">After this part, students will be able to…</h2>
+      <ul>
+        <li>Identify myelin (Schwann cells in the PNS, oligodendrocytes in the CNS), internodes and nodes of Ranvier.</li>
+        <li>Explain why voltage-gated Na⁺ channels are concentrated at the nodes and why the action potential is regenerated only there.</li>
+        <li>Describe how myelin reduces current leakage and membrane capacitance, so local current reaches the next node quickly.</li>
+        <li>Compare conduction velocity and ion exchange (energy cost) in myelinated and unmyelinated axons.</li>
+        <li>Predict the effect of demyelination on conduction.</li>
+      </ul>
+    </section>
+    <section class="card" aria-labelledby="link-title">
+      <span class="kicker">How it connects</span>
+      <h2 id="link-title">Built on Part 2</h2>
+      <p class="lede">Each node behaves like a patch of the unmyelinated membrane in Part 2: the same Na⁺/K⁺ channel cycle, refractory periods and ion flow. What changes is the <b>geometry</b>: active membrane only at the nodes, with fast passive spread along the internodes.</p>
+      <div class="clinical"><b>Planned clinical connections.</b> Multiple sclerosis (CNS demyelination) and Guillain–Barré syndrome (PNS demyelination): slowed or blocked conduction when current leaks out before reaching the next node.</div>
+    </section>
+  </div>
+
+  <section class="card" aria-labelledby="plan-title">
+    <span class="kicker">Planned simulation storyboard</span>
+    <h2 id="plan-title">What the animation will show, step by step</h2>
+    <ol class="plan-list">
+      <li><b>Anatomy view</b>: an axon with myelin sheaths, labelled internodes and nodes of Ranvier with clustered Na⁺ channels.</li>
+      <li><b>Action potential at node 1</b>: Na⁺ influx and K⁺ efflux, using the same channel and ion visuals as Part 2.</li>
+      <li><b>Internodal current</b>: positive charge spreads rapidly under the myelin with little leakage (arrows stay strong between nodes).</li>
+      <li><b>Node 2 reaches threshold</b> and regenerates the action potential; node 1 becomes refractory.</li>
+      <li><b>Space–time comparison</b>: a voltage-vs-position snapshot shows separated peaks at the nodes rather than a smooth wave.</li>
+      <li><b>Race mode</b>: myelinated and unmyelinated axons of the same diameter side by side, with distance-vs-time read-outs.</li>
+      <li><b>Demyelination mode</b>: remove myelin from one internode and watch current leak out, so conduction slows or fails.</li>
+    </ol>
+    <h3>Planned controls</h3>
+    <p class="lede">Shared playback bar; internode length; axon diameter; myelin on/off per internode; a probe at a node or internode with the same voltage and conductance trace used in Part 2.</p>
+  </section>
+
+  <nav class="pager" id="lab-pager" aria-label="Previous and next parts"></nav>
+  <footer class="app-footer"><p>No learner data are stored, saved, or submitted. Reference: <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/12-4-the-action-potential" target="_blank" rel="noopener">OpenStax A&amp;P 2e, 12.4 The Action Potential</a></p><p class="acknowledgement">© 2026 · Anatomy &amp; Physiology Virtual Labs</p></footer>
+</main>
+<script src="../js/manifest.js"></script>
+<script src="../js/neurolab.js"></script>
+<script>NeuroLab.renderChrome('myelinated');</script>
+</body>
+</html>

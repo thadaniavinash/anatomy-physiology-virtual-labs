@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chapter 12, Lab 1 · Nerve Impulses: From Synapse to Axon</title>
+  <meta name="description" content="A multi-part virtual lab following a nerve signal from synaptic transmission to action potential conduction in unmyelinated and myelinated axons.">
+  <link rel="stylesheet" href="../../../assets/css/shared.css">
+  <link rel="stylesheet" href="neuro.css">
+</head>
+<body data-root="">
+<a class="library-link" href="../../../index.html" aria-label="Return to the virtual lab library">← Virtual lab library</a>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand"><div class="mark" aria-label="Anatomy and Physiology">A&amp;P</div><div class="brand-copy"><b>Anatomy &amp; Physiology Interactive Labs</b><small>Chapter 12 · The nervous system and nervous tissue</small></div></div>
+    <div class="progress-wrap" id="lab-progress" aria-label="Position in the signal pathway"></div>
+  </header>
+  <section class="hero"><div class="hero-main"><span class="eyebrow">Chapter 12 · Lab 1</span><h1>Nerve impulses: from synapse to axon</h1><p>Follow a single nerve signal: a chemical message at a synapse triggers an electrical signal, which then travels along an axon by continuous conduction (unmyelinated) or saltatory conduction (myelinated).</p></div></section>
+  <nav class="tabs" id="lab-nav" aria-label="Lab parts"></nav>
+
+  <section class="card" aria-labelledby="journey-title">
+    <span class="kicker">The big picture</span>
+    <h2 id="journey-title">The journey of a nerve signal</h2>
+    <p class="lede">Each part of this lab magnifies one region of the neuron. Select a region to open its simulation.</p>
+    <div class="scroll" tabindex="0" role="region" aria-label="Neuron pathway diagram">
+      <svg class="journey" viewBox="0 0 1000 300" style="display:block;width:100%;min-width:720px;height:auto" role="img" aria-labelledby="journey-desc">
+        <desc id="journey-desc">A presynaptic axon terminal releases neurotransmitter onto a dendrite. The signal spreads to the cell body and axon hillock, where an action potential starts and travels along either an unmyelinated or a myelinated axon.</desc>
+        <defs><marker id="j-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#5a6f73"/></marker></defs>
+        <!-- Part 1: synapse -->
+        <a href="synaptic-transmission/index.html" aria-label="Part 1: synaptic transmission">
+          <rect class="stage-box" x="14" y="34" width="250" height="200" rx="16" fill="#f7fbfa" stroke="#bcd9d3" stroke-width="1.5"/>
+          <path d="M20 128 H70" stroke="#8c7bb8" stroke-width="12" stroke-linecap="round"/>
+          <path d="M70 92 Q140 92 140 128 Q140 164 70 164 Q58 128 70 92Z" fill="#e9e2f7" stroke="#7b4fc0" stroke-width="2"/>
+          <circle cx="100" cy="112" r="8" fill="#fff" stroke="#7b4fc0"/><circle cx="118" cy="130" r="8" fill="#fff" stroke="#7b4fc0"/><circle cx="98" cy="146" r="8" fill="#fff" stroke="#7b4fc0"/>
+          <circle cx="152" cy="118" r="2.6" fill="#e8b84e"/><circle cx="158" cy="132" r="2.6" fill="#e8b84e"/><circle cx="151" cy="142" r="2.6" fill="#e8b84e"/>
+          <path d="M166 96 Q178 128 166 160 L250 160 L250 96Z" fill="#dcefeb" stroke="#087c76" stroke-width="2"/>
+          <text x="139" y="62" font-size="15" font-weight="800" fill="#102f35" text-anchor="middle">1 · Synapse</text>
+          <text x="139" y="200" font-size="12" fill="#5a6f73" text-anchor="middle">Neurotransmitter → graded</text>
+          <text x="139" y="216" font-size="12" fill="#5a6f73" text-anchor="middle">postsynaptic potential</text>
+        </a>
+        <!-- Soma and hillock (context) -->
+        <path d="M250 128 H300" stroke="#087c76" stroke-width="14"/>
+        <circle cx="345" cy="128" r="50" fill="#dcefeb" stroke="#087c76" stroke-width="2"/>
+        <circle cx="345" cy="128" r="14" fill="#b9dcd5"/>
+        <path d="M394 112 L430 122 L430 134 L394 144Z" fill="#cfe8e2" stroke="#087c76" stroke-width="2"/>
+        <text x="345" y="200" font-size="12" fill="#5a6f73" text-anchor="middle">Cell body</text>
+        <text x="395" y="38" font-size="12" font-weight="700" fill="#102f35" text-anchor="middle">Axon hillock</text>
+        <text x="395" y="52" font-size="12" fill="#5a6f73" text-anchor="middle">threshold reached →</text>
+        <text x="395" y="66" font-size="12" fill="#5a6f73" text-anchor="middle">action potential starts</text>
+        <path d="M430 128 H458" stroke="#5a6f73" stroke-width="2" marker-end="url(#j-arrow)"/>
+        <!-- Part 2: unmyelinated -->
+        <a href="unmyelinated-axon/index.html" aria-label="Part 2: continuous conduction in an unmyelinated axon">
+          <rect class="stage-box" x="464" y="34" width="250" height="200" rx="16" fill="#fbf8ff" stroke="#cdbfe8" stroke-width="1.5"/>
+          <rect x="480" y="116" width="218" height="24" rx="12" fill="#fff8e4" stroke="#8c9b98" stroke-width="2"/>
+          <g fill="#7b4fc0"><rect x="500" y="112" width="4" height="8"/><rect x="530" y="112" width="4" height="8"/><rect x="560" y="112" width="4" height="8"/><rect x="590" y="112" width="4" height="8"/><rect x="620" y="112" width="4" height="8"/><rect x="650" y="112" width="4" height="8"/><rect x="680" y="112" width="4" height="8"/></g>
+          <path d="M490 104 H690" stroke="#c0392b" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#j-arrow)"/>
+          <text x="589" y="62" font-size="15" font-weight="800" fill="#102f35" text-anchor="middle">2 · Unmyelinated axon</text>
+          <text x="589" y="176" font-size="12" fill="#5a6f73" text-anchor="middle">Channels along the whole</text>
+          <text x="589" y="192" font-size="12" fill="#5a6f73" text-anchor="middle">membrane: continuous conduction</text>
+          <text x="589" y="216" font-size="12" fill="#7b4fc0" text-anchor="middle" font-weight="700">≈ 0.5–2 m/s</text>
+        </a>
+        <text x="739" y="134" font-size="13" font-weight="700" fill="#5a6f73" text-anchor="middle">or</text>
+        <!-- Part 3: myelinated -->
+        <a href="myelinated-axon/index.html" aria-label="Part 3: saltatory conduction in a myelinated axon">
+          <rect class="stage-box" x="764" y="34" width="222" height="200" rx="16" fill="#fffaf0" stroke="#e6cf9f" stroke-width="1.5"/>
+          <rect x="776" y="122" width="198" height="12" fill="#fff8e4" stroke="#8c9b98"/>
+          <g fill="#f3e3c3" stroke="#b49456" stroke-width="1.5"><rect x="782" y="112" width="52" height="32" rx="12"/><rect x="846" y="112" width="52" height="32" rx="12"/><rect x="910" y="112" width="52" height="32" rx="12"/></g>
+          <g fill="#7b4fc0"><rect x="837" y="118" width="6" height="6"/><rect x="901" y="118" width="6" height="6"/></g>
+          <path d="M790 100 Q808 84 840 100 Q872 84 904 100 Q936 84 958 100" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#j-arrow)"/>
+          <text x="875" y="62" font-size="15" font-weight="800" fill="#102f35" text-anchor="middle">3 · Myelinated axon</text>
+          <text x="875" y="176" font-size="12" fill="#5a6f73" text-anchor="middle">Action potential regenerated</text>
+          <text x="875" y="192" font-size="12" fill="#5a6f73" text-anchor="middle">only at nodes of Ranvier</text>
+          <text x="875" y="216" font-size="12" fill="#a77b16" text-anchor="middle" font-weight="700">up to ≈ 120 m/s</text>
+        </a>
+        <text x="500" y="276" font-size="13" fill="#5a6f73" text-anchor="middle">Direction of signal: dendrite → cell body → axon hillock → axon → axon terminal → next synapse</text>
+      </svg>
+    </div>
+  </section>
+
+  <section aria-labelledby="parts-title" style="margin-bottom:14px">
+    <h2 id="parts-title" class="visually-hidden" style="position:absolute;left:-9999px">Lab parts</h2>
+    <div class="part-cards" id="part-cards"></div>
+  </section>
+
+  <section class="card" aria-labelledby="ideas-title">
+    <span class="kicker">Ideas that connect every part</span>
+    <h2 id="ideas-title">Key concepts</h2>
+    <div class="key-ideas">
+      <div><b>Gradients store energy</b>The Na⁺/K⁺ pump keeps Na⁺ high outside and K⁺ high inside. Opening a channel lets an ion flow down its electrochemical gradient.</div>
+      <div><b>Graded vs. action potentials</b>Synaptic (graded) potentials vary in size and fade with distance. Action potentials are all-or-none and are regenerated as they travel.</div>
+      <div><b>Threshold</b>At about −55 mV, enough voltage-gated Na⁺ channels open that Na⁺ entry outpaces K⁺ exit, and depolarization becomes self-reinforcing.</div>
+      <div><b>Refractory periods</b>Na⁺ channel inactivation makes the membrane briefly unable to fire again, so signals travel one way and stay separate.</div>
+      <div><b>Conduction velocity</b>Larger axon diameter and myelin both speed conduction. Myelin is the bigger effect: it lets the signal jump between nodes.</div>
+    </div>
+  </section>
+
+  <nav class="pager" id="lab-pager" aria-label="Previous and next parts"></nav>
+  <footer class="app-footer"><p>No learner data are stored, saved, or submitted.</p><p class="acknowledgement">© 2026 · Anatomy &amp; Physiology Virtual Labs</p></footer>
+</main>
+<script src="js/manifest.js"></script>
+<script src="js/neurolab.js"></script>
+<script>
+  NeuroLab.renderChrome('overview');
+  NeuroLab.renderPartCards(document.getElementById('part-cards'));
+</script>
+</body>
+</html>

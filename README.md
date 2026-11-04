@@ -9,12 +9,17 @@ A growing collection of free, browser-based anatomy and physiology learning acti
   - Body regions and surface anatomy
   - Anatomical planes
   - Abdominal quadrants
+- Chapter 12, Lab 1: **Nerve Impulses: From Synapse to Axon** (multi-part)
+  - Part 1 · Synaptic transmission (in development)
+  - Part 2 · Continuous conduction in an unmyelinated axon
+  - Part 3 · Saltatory conduction in a myelinated axon (in development)
 
 ## Project structure
 
 - `index.html` — public lab catalogue
 - `assets/` — shared branding, styles, scripts, and optimized images
 - `chapters/chapter-XX/lab-XX/` — hosted lab applications
+  - Multi-part labs keep one sub-folder per part plus shared lab code (see `chapters/chapter-12/lab-01/README.md`)
 - `blackboard-exports/` — self-contained HTML versions for Blackboard
 
 The hosted versions use external optimized assets for faster delivery. Blackboard exports remain fully self-contained for direct insertion into a learning-management system.
