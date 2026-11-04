@@ -211,7 +211,8 @@
     }
   });
   function propagation(t) {
-    const pts = $('show-points').checked, PX1 = pts ? 668 : 932, PPX = (PX1 - PX0) / PW;
+    const pts = true,   // points A, B, C are always shown
+       PX1 = pts ? 668 : 932, PPX = (PX1 - PX0) / PW;
     const c0 = clamp(probe - PW / 2, 0, L - PW), Xp = mm => PX0 + (mm - c0) * PPX;
     let s = `<defs>${hatchDefs.replace(/hatch-/g, 'phatch-')}${S.arrowMarkers()}<marker id="arr-cur" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#9e2318"/></marker><clipPath id="clip-prop"><rect x="${PX0}" y="${P_ECF0}" width="${PX1 - PX0}" height="${P_ECF1 - P_ECF0}"/></clipPath></defs>`;
     s += S.text(PX0, 16, `Current propagation: ${c0.toFixed(2)}–${(c0 + PW).toFixed(2)} mm around the probe`, 13.5, C.ink, 'start', 'font-weight="700"');
@@ -423,7 +424,7 @@
   });
   const setProbe = mm => { probe = clamp(Math.round(mm * 20) / 20, 0.1, L - 0.1); $('probe').value = probe; player.invalidate(); };
   $('probe').addEventListener('input', e => setProbe(+e.target.value));
-  for (const id of ['show-flux', 'show-charge', 'show-points']) $(id).addEventListener('change', player.invalidate);
+  for (const id of ['show-flux', 'show-charge']) $(id).addEventListener('change', player.invalidate);
   const toSvg = (svg, e) => { const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); };
   let dragging = false;
   const stripPoint = e => { const p = toSvg($('strip'), e); if (p.x >= SX0 - 10 && p.x <= SX1 + 10) setProbe((p.x - SX0) / SW * L); };
