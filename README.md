@@ -12,6 +12,10 @@ A growing collection of free, browser-based anatomy and physiology learning acti
 - Chapter 11, Lab 1: **3D Muscle Labelling**
   - Interactive 3D model with 36 superficial muscle labels
   - Study mode and quiz mode (typed or multiple choice)
+- Chapter 12, Lab 1: **Nerve Impulses: From Synapse to Axon** (multi-part)
+  - Part 1 · Synaptic transmission and neurotransmitter guide
+  - Part 2 · Continuous conduction in an unmyelinated axon
+  - Part 3 · Saltatory conduction in a myelinated axon
 - Chapter 18, Lab 1: **Blood Typing Lab**
   - ABO and Rh (D) antigens and antibodies
   - Slide typing simulation
@@ -27,6 +31,7 @@ A growing collection of free, browser-based anatomy and physiology learning acti
 - `index.html` — public lab catalogue
 - `assets/` — shared branding, styles, scripts, and optimized images
 - `chapters/chapter-XX/lab-XX/` — hosted lab applications
+  - Multi-part labs keep one sub-folder per part plus shared lab code (see `chapters/chapter-12/lab-01/README.md`)
 - `blackboard-exports/` — self-contained HTML versions for Blackboard
 
 The hosted versions use external optimized assets for faster delivery. Blackboard exports remain fully self-contained for direct insertion into a learning-management system.
