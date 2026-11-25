@@ -2,10 +2,11 @@
    Blood Typing Lab — styles
    ===================================================================== */
 :root {
-  --page: #e9eef2;
-  --ink: #1d2733; --ink-2: #4a5866; --ink-3: #7a8794;
-  --line: #cfd8e0; --panel: #ffffff;
-  --accent: #0e7490; --accent-soft: #e0f2f7;
+  /* Mapped to the A&P Virtual Labs platform tokens (assets/css/platform.css) */
+  --page: var(--surface-page);
+  --ink: var(--text); --ink-2: var(--text-muted); --ink-3: var(--text-subtle);
+  --line: var(--border-subtle); --panel: var(--surface);
+  --accent: var(--brand); --accent-soft: var(--surface-selected);
   --ok: #15803d; --ok-soft: #e7f6ec;
   --warn: #b45309; --warn-soft: #fdf3e2;
   --bad: #b91c1c; --bad-soft: #fdecec;
@@ -14,7 +15,7 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { background: var(--page); color: var(--ink); font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; line-height: 1.5; padding: 18px 16px 40px; }
+body { background: var(--page); color: var(--ink); font-family: var(--font-body); line-height: 1.5; padding: 18px 16px 40px; }
 button { font-family: inherit; }
 a { color: var(--accent); }
 .wrap { max-width: 1040px; margin: 0 auto; }
@@ -49,7 +50,7 @@ header.site p { color: var(--ink-2); margin-top: 2px; }
 .keybox dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin-top: 8px; }
 .keybox dt { font-weight: 700; } .keybox dd { color: var(--ink-2); }
 .fig { background: #fbfcfd; border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
-.fig svg { width: 100%; height: auto; display: block; font-family: 'Atkinson Hyperlegible', sans-serif; }
+.fig svg { width: 100%; height: auto; display: block; font-family: var(--font-body); }
 .callout { background: var(--accent-soft); border-left: 5px solid var(--accent); border-radius: 10px; padding: 12px 16px; }
 .callout .btn { margin-top: 10px; display: flex; width: max-content; }
 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -230,6 +231,18 @@ footer.site p + p { margin-top: 6px; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
-/* ---------- return link to the lab library ---------- */
-.library-link { position: fixed; right: 14px; bottom: 14px; z-index: 20; padding: 8px 11px; border: 1px solid var(--line); border-radius: 10px; background: #fffffff0; color: var(--accent); font-size: .75rem; font-weight: 700; text-decoration: none; box-shadow: 0 6px 18px #1d273320; }
-.library-link:hover { background: #fff; color: var(--ink); }
+
+/* ---------- Platform theme (A&P Virtual Labs) ---------- */
+body.pl-page { padding: 0; font-size: 15px; }
+.pl-rail-item.on { background: var(--surface-selected); color: var(--brand); font-weight: 700; box-shadow: inset 3px 0 0 var(--brand); }
+.pl-rail-item.on .pl-rail-num { background: var(--brand); border-color: var(--brand); color: #fff; }
+@media (max-width: 1000px) { .pl-rail-item.on { box-shadow: inset 0 -3px 0 var(--brand); } }
+.prose { border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+.prose h2, .simhead h2 { font-family: var(--font-title); font-weight: 600; color: var(--text); }
+.prose h3 { font-family: var(--font-title); font-weight: 600; }
+.btn { min-height: 44px; border-radius: var(--radius-md); font-weight: 600; font-size: .95rem; }
+.btn:hover { filter: none; background: var(--brand-hover); }
+.btn.small { min-height: 36px; }
+.callout { border-left: 0; border: 1px solid #bfdbfe; border-radius: var(--radius-md); }
+.instr { border-left: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-muted); }
+.keybox, .fig, .mini, .phase { border-radius: var(--radius-md); }

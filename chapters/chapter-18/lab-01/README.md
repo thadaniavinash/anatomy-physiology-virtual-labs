@@ -24,7 +24,7 @@ blood-typing-lab/
 └── assets/hand.webp    hand photo (background removed)
 ```
 
-No build step or libraries are needed. The only external resource is the Atkinson Hyperlegible font from Google Fonts. Without it the page falls back to a system font.
+No build step or libraries are needed. It uses the shared platform stylesheet (`assets/css/platform.css`) and the Inter and Outfit fonts from Google Fonts. Without the fonts the page falls back to a system font.
 
 ## Publishing with GitHub Pages
 

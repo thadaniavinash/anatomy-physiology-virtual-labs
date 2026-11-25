@@ -6,26 +6,40 @@
 <title>Blood Typing Lab</title>
 <meta name="description" content="Interactive blood typing simulation with theory on red cell antigens, blood and plasma transfusion, and a self-check quiz for nursing students.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/platform.css">
 <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-<a class="library-link" href="../../../index.html" aria-label="Return to the virtual lab library">← Virtual lab library</a>
-<div class="wrap">
-
-<header class="site">
-  <h1><span class="logo-drop" aria-hidden="true"></span>Blood Typing Lab</h1>
-  <p>ABO and Rh blood groups, transfusion safety and plasma, with a hands-on slide simulation</p>
+<body class="pl-page">
+<header class="pl-topbar">
+  <a class="pl-brand" href="../../../index.html" aria-label="A&amp;P Virtual Labs home">
+    <span class="pl-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/></svg></span>
+    <span class="pl-brand-text"><span class="pl-brand-name">A&amp;P Virtual Labs</span><span class="pl-brand-sub">Anatomy &amp; physiology simulations</span></span>
+  </a>
+  <div class="pl-topbar-actions"><a class="pl-btn pl-btn--sm" href="../../../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span class="pl-btn-label">All labs</span></a></div>
 </header>
-
-<nav class="tabs" role="tablist" aria-label="Sections">
-  <button role="tab" data-tab="antigens" aria-controls="tab-antigens"><span class="n">1</span>Antigens &amp; Antibodies</button>
-  <button role="tab" data-tab="simulation" aria-controls="tab-simulation"><span class="n">2</span>Simulation</button>
-  <button role="tab" data-tab="transfusion" aria-controls="tab-transfusion"><span class="n">3</span>Blood Transfusion</button>
-  <button role="tab" data-tab="plasma" aria-controls="tab-plasma"><span class="n">4</span>Plasma Transfusion</button>
-  <button role="tab" data-tab="quiz" aria-controls="tab-quiz"><span class="n">5</span>Quiz</button>
-</nav>
-
+<div class="pl-lab">
+<div class="pl-labhead">
+  <div class="pl-labhead-id">
+    <span class="pl-labhead-num" aria-hidden="true">18</span>
+    <div>
+      <p class="pl-crumb"><a href="../../../index.html">Virtual labs</a>  ›  Chapter 18 · The cardiovascular system: blood</p>
+      <h1 class="pl-lab-title">Blood Typing Lab</h1>
+      <p class="pl-lab-sub">ABO and Rh blood groups, transfusion safety and plasma, with a hands-on slide simulation.</p>
+    </div>
+  </div>
+</div>
+<div class="pl-lab-body">
+  <nav class="pl-rail" role="tablist" aria-label="Lab sections" aria-orientation="vertical">
+    <p class="pl-rail-label" aria-hidden="true">In this lab</p>
+    <button class="pl-rail-item" role="tab" data-tab="antigens" aria-controls="tab-antigens"><span class="pl-rail-num">1</span>Antigens &amp; antibodies</button>
+    <button class="pl-rail-item" role="tab" data-tab="simulation" aria-controls="tab-simulation"><span class="pl-rail-num">2</span>Simulation</button>
+    <button class="pl-rail-item" role="tab" data-tab="transfusion" aria-controls="tab-transfusion"><span class="pl-rail-num">3</span>Blood transfusion</button>
+    <button class="pl-rail-item" role="tab" data-tab="plasma" aria-controls="tab-plasma"><span class="pl-rail-num">4</span>Plasma transfusion</button>
+    <button class="pl-rail-item" role="tab" data-tab="quiz" aria-controls="tab-quiz"><span class="pl-rail-num">5</span>Quiz</button>
+  </nav>
+  <div class="pl-lab-main">
 <main>
 
 <!-- ================================================================ ANTIGENS -->
@@ -282,11 +296,13 @@
 
 </main>
 
-<footer class="site">
-  <p>For educational use in nursing programs. Always follow your agency’s policies and procedures for blood and blood product administration.</p>
+  </div>
+</div>
+</div>
+<footer class="pl-footer">
+  <p>Lab design, ideas and content by the course instructor. Simulations programmed by Claude Code, with some assistance from ChatGPT Codex. For educational use in nursing programs. Always follow your agency’s policies and procedures for blood and blood product administration.</p>
   <p>Sources: Canadian Blood Services, <i>Clinical Guide to Transfusion</i>; Shared Health Manitoba, <i>Transfusion Practice Manual</i>; Alberta Health Services, <i>Plasma</i> clinical information. Blood type frequencies: Canadian population data supplied by the course instructor.</p>
 </footer>
-</div>
 
 <div class="toast" id="toast" role="status"></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">

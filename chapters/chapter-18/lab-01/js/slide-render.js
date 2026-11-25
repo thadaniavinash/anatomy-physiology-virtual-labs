@@ -150,7 +150,7 @@ window.SlideRender = (function () {
     if (opts.label !== false) {
       roundRect(ctx, 3, H * 0.83, W - 6, H * 0.17 - 3, 3);
       ctx.fillStyle = 'rgba(238,242,246,0.92)'; ctx.fill();
-      ctx.fillStyle = '#1d2733'; ctx.font = `700 ${Math.max(9, W * 0.105)}px "Atkinson Hyperlegible",sans-serif`;
+      ctx.fillStyle = '#1d2733'; ctx.font = `700 ${Math.max(9, W * 0.105)}px Inter,sans-serif`;
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText(BT.NAME[sl.ab].toUpperCase(), W / 2, H * 0.915);
     }

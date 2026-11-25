@@ -41,8 +41,8 @@ window.Sim = (function () {
       <path d="M14,62 Q14,53 26,53 L54,53 Q66,53 66,62 L66,128 Q66,136 58,136 L22,136 Q14,136 14,128 Z" fill="rgba(240,246,250,.55)" stroke="#8a97a4" stroke-width="1.2"/>
       <path d="M16,74 L64,74 L64,128 Q64,134 58,134 L22,134 Q16,134 16,128 Z" fill="${liq}" ${ab === 'Rh' ? 'stroke="#c9cdd2"' : ''} opacity=".92"/>
       <rect x="12" y="80" width="56" height="40" rx="3" fill="#fff" stroke="#9aa6b2"/>
-      <text x="40" y="97" text-anchor="middle" font-family="Atkinson Hyperlegible, sans-serif" font-weight="700" font-size="14" fill="#1d2733">${NAME[ab]}</text>
-      <text x="40" y="112" text-anchor="middle" font-family="Atkinson Hyperlegible, sans-serif" font-size="11" fill="#1d2733">Antibody</text>
+      <text x="40" y="97" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="14" fill="#1d2733">${NAME[ab]}</text>
+      <text x="40" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#1d2733">Antibody</text>
       <path d="M20,60 L20,128" stroke="rgba(255,255,255,.7)" stroke-width="3" stroke-linecap="round"/>
     </svg>`;
   }
