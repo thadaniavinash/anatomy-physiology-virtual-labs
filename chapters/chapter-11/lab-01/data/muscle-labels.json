@@ -1,0 +1,2458 @@
+[
+  {
+    "id": "q1782335426167",
+    "answer": "Pectoralis major",
+    "acceptedAnswers": "",
+    "feedback": "At shoulder joint: adduction (especially when arm is elevated), medial rotation of arm, extension of arm\nAt shoulder girdle: depression of the scapula",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.160361027117373,
+          0.7347848554565668,
+          0.14733418326568914
+        ],
+        "meshName": "Object_23"
+      },
+      "view": {
+        "cameraPosition": [
+          -1.3049779292660472e-145,
+          0.32,
+          4.2
+        ],
+        "target": [
+          -1.3049779292660472e-145,
+          0.12,
+          9.940569244495792e-145
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.160361027117373,
+          0.7347848554565668,
+          0.14733418326568914
+        ],
+        "meshName": "Object_23"
+      },
+      "view": {
+        "cameraPosition": [
+          -1.3049779292660472e-145,
+          0.32,
+          4.2
+        ],
+        "target": [
+          -1.3049779292660472e-145,
+          0.12,
+          9.940569244495792e-145
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782336770518",
+    "answer": "Occipitofrontalis",
+    "acceptedAnswers": "Frontalis",
+    "feedback": "From above: raises the eyebrows; from below: produces horizontal wrinkles",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.03878037732038269,
+          1.3203508642457393,
+          0.11460203485873517
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.03156429858755475,
+          1.0394073972170779,
+          1.906454159471689
+        ],
+        "target": [
+          -0.03156429858755475,
+          0.9467491511851264,
+          -0.03936900719929177
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": [
+          {
+            "localPosition": [
+              0.006210198301697126,
+              1.2857149159436696,
+              0.13259462315988174
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.08654213489238713,
+              1.3404495572290687,
+              0.06682892111080108
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.09351349659071101,
+              1.2863719493498778,
+              0.08935695641787189
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.005211478411805814,
+              1.2964082288918624,
+              0.1257594236531694
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.0018010329992584782,
+              1.3578852550555363,
+              0.0948837085086536
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.09489520128768597,
+              1.331216799112378,
+              0.05826927431695372
+            ],
+            "meshName": "Object_15"
+          }
+        ],
+        "updatedAt": "2026-06-25T20:18:07.328Z"
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.03878037732038269,
+          1.3203508642457393,
+          0.11460203485873517
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.03156429858755475,
+          1.0394073972170779,
+          1.906454159471689
+        ],
+        "target": [
+          -0.03156429858755475,
+          0.9467491511851264,
+          -0.03936900719929177
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": [
+          {
+            "localPosition": [
+              0.006210198301697126,
+              1.2857149159436696,
+              0.13259462315988174
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.08654213489238713,
+              1.3404495572290687,
+              0.06682892111080108
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.09351349659071101,
+              1.2863719493498778,
+              0.08935695641787189
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.005211478411805814,
+              1.2964082288918624,
+              0.1257594236531694
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.0018010329992584782,
+              1.3578852550555363,
+              0.0948837085086536
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.09489520128768597,
+              1.331216799112378,
+              0.05826927431695372
+            ],
+            "meshName": "Object_15"
+          }
+        ],
+        "updatedAt": "2026-06-25T20:18:07.328Z"
+      }
+    }
+  },
+  {
+    "id": "q1782344302573",
+    "answer": "Trapezius",
+    "acceptedAnswers": "",
+    "feedback": "",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.1145407108801902,
+          0.9050935545856771,
+          -0.18308003311804127
+        ],
+        "meshName": "Object_13"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.007799629671269562,
+          0.5049150962062732,
+          -3.4103541620854294
+        ],
+        "target": [
+          -0.007799653685622843,
+          0.3420140506338455,
+          0.010572097649230712
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.1145407108801902,
+          0.9050935545856771,
+          -0.18308003311804127
+        ],
+        "meshName": "Object_13"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.007799629671269562,
+          0.5049150962062732,
+          -3.4103541620854294
+        ],
+        "target": [
+          -0.007799653685622843,
+          0.3420140506338455,
+          0.010572097649230712
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782389570023",
+    "answer": "Orbicularis oculi",
+    "acceptedAnswers": "",
+    "feedback": "Sphincter muscle of the eyelids (closing the eyelids)",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.0629705236217429,
+          1.2675633691623054,
+          0.11707970931113093
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          0.09796511457535605,
+          1.2799390503210024,
+          1.327223649404258
+        ],
+        "target": [
+          -0.03966517982795807,
+          1.040052623110509,
+          -0.14706004246194498
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": [
+          {
+            "localPosition": [
+              0.02386755120818391,
+              1.2628753510936919,
+              0.12871531670696873
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.0639236667228897,
+              1.2685218012880537,
+              0.11688032544605874
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.1000996153339416,
+              1.242754952766423,
+              0.08893204862756918
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.09567605622805943,
+              1.2071481672383921,
+              0.08992540731858462
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.06642047592390028,
+              1.1983207122720496,
+              0.10951417049247344
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.028439648599682517,
+              1.213386566316284,
+              0.11938836860520656
+            ],
+            "meshName": "Object_15"
+          }
+        ],
+        "updatedAt": "2026-07-01T20:10:39.015Z"
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.0629705236217429,
+          1.2675633691623054,
+          0.11707970931113093
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          0.09796511457535605,
+          1.2799390503210024,
+          1.327223649404258
+        ],
+        "target": [
+          -0.03966517982795807,
+          1.040052623110509,
+          -0.14706004246194498
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": [
+          {
+            "localPosition": [
+              0.02386755120818391,
+              1.2628753510936919,
+              0.12871531670696873
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.0639236667228897,
+              1.2685218012880537,
+              0.11688032544605874
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.1000996153339416,
+              1.242754952766423,
+              0.08893204862756918
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.09567605622805943,
+              1.2071481672383921,
+              0.08992540731858462
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.06642047592390028,
+              1.1983207122720496,
+              0.10951417049247344
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              0.028439648599682517,
+              1.213386566316284,
+              0.11938836860520656
+            ],
+            "meshName": "Object_15"
+          }
+        ],
+        "updatedAt": "2026-07-01T20:10:39.015Z"
+      }
+    }
+  },
+  {
+    "id": "q1782390014608",
+    "answer": "Orbicularis oris",
+    "acceptedAnswers": "",
+    "feedback": "Various movements of the lips, and\nother facial expressions",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.014228949354212442,
+          1.1290467353285654,
+          0.15105917299106156
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.12502530199567016,
+          1.051656451211114,
+          1.4646904328430617
+        ],
+        "target": [
+          -0.12502530199567016,
+          0.9799592667294049,
+          -0.04095044127282883
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.014228949354212442,
+          1.1290467353285654,
+          0.15105917299106156
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.12502530199567016,
+          1.051656451211114,
+          1.4646904328430617
+        ],
+        "target": [
+          -0.12502530199567016,
+          0.9799592667294049,
+          -0.04095044127282883
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782390086701",
+    "answer": "Buccinator",
+    "acceptedAnswers": "",
+    "feedback": "Compresses the cheek against the teeth and gums during mastication",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.07224155550420272,
+          1.1157361025264074,
+          0.08699788527799404
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -1.1083176437431668,
+          0.8535660029191572,
+          1.018886948913964
+        ],
+        "target": [
+          -0.07982185215335695,
+          0.9616172920687815,
+          -0.06763103326357706
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": [
+          {
+            "localPosition": [
+              -0.0829517860513201,
+              1.1469720471865754,
+              0.08794269585721871
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.062353655318722674,
+              1.1199292296148187,
+              0.10871331404043703
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.0570676932312247,
+              1.0902960979524194,
+              0.08535383310789996
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.07137222193088863,
+              1.1022244112780468,
+              0.06055243379458511
+            ],
+            "meshName": "Object_15"
+          }
+        ],
+        "updatedAt": "2026-06-25T20:10:36.946Z"
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.07224155550420272,
+          1.1157361025264074,
+          0.08699788527799404
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -1.1083176437431668,
+          0.8535660029191572,
+          1.018886948913964
+        ],
+        "target": [
+          -0.07982185215335695,
+          0.9616172920687815,
+          -0.06763103326357706
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": [
+          {
+            "localPosition": [
+              -0.0829517860513201,
+              1.1469720471865754,
+              0.08794269585721871
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.062353655318722674,
+              1.1199292296148187,
+              0.10871331404043703
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.0570676932312247,
+              1.0902960979524194,
+              0.08535383310789996
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.07137222193088863,
+              1.1022244112780468,
+              0.06055243379458511
+            ],
+            "meshName": "Object_15"
+          }
+        ],
+        "updatedAt": "2026-06-25T20:10:36.946Z"
+      }
+    }
+  },
+  {
+    "id": "q1782390176929",
+    "answer": "Masseter",
+    "acceptedAnswers": "",
+    "feedback": "Elevates the mandible",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.0953361169954706,
+          1.1172737282075498,
+          0.04748829160454136
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -1.0429843113128374,
+          1.170497481103587,
+          1.129966484079519
+        ],
+        "target": [
+          -0.12502530199567266,
+          0.9799592667295198,
+          -0.04095044127283429
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": [
+          {
+            "localPosition": [
+              -0.1113512029797246,
+              1.1646832184404035,
+              0.03147193006618647
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.09960222184380473,
+              1.1546114009956763,
+              0.08226165597754635
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.09232380029266213,
+              1.1201921256946505,
+              0.0623180615988181
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.07873466567415995,
+              1.064895061397102,
+              0.02793616505142541
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.09171742819219869,
+              1.0886518858968812,
+              0.0022561755006892947
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.1007597085449748,
+              1.1281620199917675,
+              0.015162975466152312
+            ],
+            "meshName": "Object_15"
+          }
+        ],
+        "updatedAt": "2026-06-25T20:15:55.582Z"
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.0953361169954706,
+          1.1172737282075498,
+          0.04748829160454136
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -1.0429843113128374,
+          1.170497481103587,
+          1.129966484079519
+        ],
+        "target": [
+          -0.12502530199567266,
+          0.9799592667295198,
+          -0.04095044127283429
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": [
+          {
+            "localPosition": [
+              -0.1113512029797246,
+              1.1646832184404035,
+              0.03147193006618647
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.09960222184380473,
+              1.1546114009956763,
+              0.08226165597754635
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.09232380029266213,
+              1.1201921256946505,
+              0.0623180615988181
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.07873466567415995,
+              1.064895061397102,
+              0.02793616505142541
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.09171742819219869,
+              1.0886518858968812,
+              0.0022561755006892947
+            ],
+            "meshName": "Object_15"
+          },
+          {
+            "localPosition": [
+              -0.1007597085449748,
+              1.1281620199917675,
+              0.015162975466152312
+            ],
+            "meshName": "Object_15"
+          }
+        ],
+        "updatedAt": "2026-06-25T20:15:55.582Z"
+      }
+    }
+  },
+  {
+    "id": "q1782393314329",
+    "answer": "Temporalis",
+    "acceptedAnswers": "",
+    "feedback": "",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.12217849112083089,
+          1.2734270572626865,
+          -0.011095490355050815
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          0.9741529298694946,
+          1.2296786636121046,
+          0.9487199267863318
+        ],
+        "target": [
+          -0.12502530199567266,
+          0.9799592667295198,
+          -0.04095044127283429
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.12217849112083089,
+          1.2734270572626865,
+          -0.011095490355050815
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          0.9741529298694946,
+          1.2296786636121046,
+          0.9487199267863318
+        ],
+        "target": [
+          -0.12502530199567266,
+          0.9799592667295198,
+          -0.04095044127283429
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782393387682",
+    "answer": "Sternocleidomastoid",
+    "acceptedAnswers": "",
+    "feedback": "Acting alone: each sterno-cleidomastoid muscle will rotate the head towards the opposite shoulder (side to side rotation); Acting together: they flex the head (tilt the head forward)",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.05972017716222599,
+          0.9566619658619351,
+          0.004344848153461443
+        ],
+        "meshName": "Object_19"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.033317525849766834,
+          0.9939595284151092,
+          1.4605664439988606
+        ],
+        "target": [
+          -0.0264826155385672,
+          0.9220810451617604,
+          -0.037694804130529135
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.05972017716222599,
+          0.9566619658619351,
+          0.004344848153461443
+        ],
+        "meshName": "Object_19"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.033317525849766834,
+          0.9939595284151092,
+          1.4605664439988606
+        ],
+        "target": [
+          -0.0264826155385672,
+          0.9220810451617604,
+          -0.037694804130529135
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782393537213",
+    "answer": "Rectus abdominus",
+    "acceptedAnswers": "",
+    "feedback": "Flexes the trunk; compresses the abdomen during expiration",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.04468548152628627,
+          0.3253061205386578,
+          0.17399898797964122
+        ],
+        "meshName": "Object_23"
+      },
+      "view": {
+        "cameraPosition": [
+          0.000022093996880593786,
+          0.25873309179618614,
+          2.9338422142062264
+        ],
+        "target": [
+          0.00005662393711405653,
+          0.11884749708940409,
+          0.0008359663499550559
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.04468548152628627,
+          0.3253061205386578,
+          0.17399898797964122
+        ],
+        "meshName": "Object_23"
+      },
+      "view": {
+        "cameraPosition": [
+          0.000022093996880593786,
+          0.25873309179618614,
+          2.9338422142062264
+        ],
+        "target": [
+          0.00005662393711405653,
+          0.11884749708940409,
+          0.0008359663499550559
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782393570814",
+    "answer": "External oblique",
+    "acceptedAnswers": "",
+    "feedback": "Acting alone: rotates the thorax contralaterally\nActing together: flexes the trunk",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.17352280431934874,
+          0.27878174084673885,
+          0.12019391813087252
+        ],
+        "meshName": "Object_23"
+      },
+      "view": {
+        "cameraPosition": [
+          0.000022093996880593786,
+          0.25873309179618614,
+          2.9338422142062264
+        ],
+        "target": [
+          0.00005662393711405653,
+          0.11884749708940409,
+          0.0008359663499550559
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.17352280431934874,
+          0.27878174084673885,
+          0.12019391813087252
+        ],
+        "meshName": "Object_23"
+      },
+      "view": {
+        "cameraPosition": [
+          0.000022093996880593786,
+          0.25873309179618614,
+          2.9338422142062264
+        ],
+        "target": [
+          0.00005662393711405653,
+          0.11884749708940409,
+          0.0008359663499550559
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782393822414",
+    "answer": "Serratus anterior",
+    "acceptedAnswers": "",
+    "feedback": "Holds the scapula to the trunk (together with the rhomboid muscles); superior part elevates\nthe scapula; medial and inferior parts depress the scapula; works with trapezius to raise the arm above the horizontal plane",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.25162807343807864,
+          0.5612747432692684,
+          -0.025858483437858678
+        ],
+        "meshName": "Object_13"
+      },
+      "view": {
+        "cameraPosition": [
+          -2.253015454033329,
+          0.21083998660438827,
+          1.3922710264391964
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.25162807343807864,
+          0.5612747432692684,
+          -0.025858483437858678
+        ],
+        "meshName": "Object_13"
+      },
+      "view": {
+        "cameraPosition": [
+          -2.253015454033329,
+          0.21083998660438827,
+          1.3922710264391964
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782394005760",
+    "answer": "Latissimus dorsi",
+    "acceptedAnswers": "",
+    "feedback": "At shoulder joint: adduction, medial rotation, and extension\nAt shoulder girdle: draws the scapula and the arm medially and downwards ",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.16792850840133022,
+          0.519738799576642,
+          -0.20827528386367924
+        ],
+        "meshName": "Object_13"
+      },
+      "view": {
+        "cameraPosition": [
+          0.3479775452574071,
+          -0.21076374139787474,
+          -4.177260702347078
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.16792850840133022,
+          0.519738799576642,
+          -0.20827528386367924
+        ],
+        "meshName": "Object_13"
+      },
+      "view": {
+        "cameraPosition": [
+          0.3479775452574071,
+          -0.21076374139787474,
+          -4.177260702347078
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782394703649",
+    "answer": "Biceps brachii",
+    "acceptedAnswers": "",
+    "feedback": "Flexion at elbow joint; supination (especially when elbow is flexed)",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.37375595947851026,
+          0.5531956783394996,
+          -0.024258432875486704
+        ],
+        "meshName": "Object_33"
+      },
+      "view": {
+        "cameraPosition": [
+          0.011571425893710291,
+          0.5104899830028671,
+          2.9210078834375834
+        ],
+        "target": [
+          -0.007929686590501842,
+          0.3708225237841113,
+          -0.011943929704005313
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.37375595947851026,
+          0.5531956783394996,
+          -0.024258432875486704
+        ],
+        "meshName": "Object_33"
+      },
+      "view": {
+        "cameraPosition": [
+          0.011571425893710291,
+          0.5104899830028671,
+          2.9210078834375834
+        ],
+        "target": [
+          -0.007929686590501842,
+          0.3708225237841113,
+          -0.011943929704005313
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782394739853",
+    "answer": "Brachialis",
+    "acceptedAnswers": "",
+    "feedback": "Flexion at elbow joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.4453493439454921,
+          0.511643247943587,
+          -0.12639087006774774
+        ],
+        "meshName": "Object_33"
+      },
+      "view": {
+        "cameraPosition": [
+          -3.070580219262812,
+          0.3695564298050923,
+          0.2506492674841232
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.4453493439454921,
+          0.511643247943587,
+          -0.12639087006774774
+        ],
+        "meshName": "Object_33"
+      },
+      "view": {
+        "cameraPosition": [
+          -3.070580219262812,
+          0.3695564298050923,
+          0.2506492674841232
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782394768547",
+    "answer": "Triceps brachii",
+    "acceptedAnswers": "Triceps",
+    "feedback": "Extension of elbow joint ",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.3260931217381471,
+          0.541814439506875,
+          -0.22909081640005532
+        ],
+        "meshName": "Object_33"
+      },
+      "view": {
+        "cameraPosition": [
+          0.21063050604019068,
+          0.891113328428118,
+          -3.3302090399607436
+        ],
+        "target": [
+          7.5440129714575804e-124,
+          0.12,
+          -1.848119924520252e-122
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.3260931217381471,
+          0.541814439506875,
+          -0.22909081640005532
+        ],
+        "meshName": "Object_33"
+      },
+      "view": {
+        "cameraPosition": [
+          0.21063050604019068,
+          0.891113328428118,
+          -3.3302090399607436
+        ],
+        "target": [
+          7.5440129714575804e-124,
+          0.12,
+          -1.848119924520252e-122
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782394837537",
+    "answer": "Brachioradialis",
+    "acceptedAnswers": "",
+    "feedback": "Flexion of elbow joint (especially when forearm is in semi-pronated position)",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.47837407431608825,
+          0.3226629592475779,
+          -0.0742779678946669
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          -2.9103369849895354e-67,
+          0.22807201753252776,
+          2.269512368183083
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.47837407431608825,
+          0.3226629592475779,
+          -0.0742779678946669
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          -2.9103369849895354e-67,
+          0.22807201753252776,
+          2.269512368183083
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395009700",
+    "answer": "Pronator teres",
+    "acceptedAnswers": "",
+    "feedback": "Pronation",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.4410298576058296,
+          0.2721003803002245,
+          -0.09067985756043417
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          0.05341474834385835,
+          0.6033394982127835,
+          1.5978317532151722
+        ],
+        "target": [
+          -8.82137327548965e-147,
+          0.12,
+          1.7502789841124933e-146
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.4410298576058296,
+          0.2721003803002245,
+          -0.09067985756043417
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          0.05341474834385835,
+          0.6033394982127835,
+          1.5978317532151722
+        ],
+        "target": [
+          -8.82137327548965e-147,
+          0.12,
+          1.7502789841124933e-146
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395031544",
+    "answer": "Flexor carpi radialis",
+    "acceptedAnswers": "",
+    "feedback": "Flexion of wrist joint; abduction of wrist joint ",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.4363352387938103,
+          0.1807218839664546,
+          -0.08141258830625435
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          0.7732071598773774,
+          0.539193561203984,
+          1.4198464577606185
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.4363352387938103,
+          0.1807218839664546,
+          -0.08141258830625435
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          0.7732071598773774,
+          0.539193561203984,
+          1.4198464577606185
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395272290",
+    "answer": "Palmaris longus",
+    "acceptedAnswers": "",
+    "feedback": "Weak wrist flexor; tensing the palm",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.4022262131031592,
+          0.23547499789320142,
+          -0.12071459862829848
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          0.9238683710063103,
+          0.2939335396107704,
+          1.5940619191483594
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.4022262131031592,
+          0.23547499789320142,
+          -0.12071459862829848
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          0.9238683710063103,
+          0.2939335396107704,
+          1.5940619191483594
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395348956",
+    "answer": "Flexor carpi ulnaris",
+    "acceptedAnswers": "",
+    "feedback": "Flexion of the wrist; adduction of the wrist joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.4403871351695992,
+          0.1479726336567208,
+          -0.12574734458165177
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          0.5904798021192057,
+          0.3991767372425313,
+          1.3503310529910357
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.4403871351695992,
+          0.1479726336567208,
+          -0.12574734458165177
+        ],
+        "meshName": "Object_31"
+      },
+      "view": {
+        "cameraPosition": [
+          0.5904798021192057,
+          0.3991767372425313,
+          1.3503310529910357
+        ],
+        "target": [
+          0,
+          0.12,
+          0
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395475596",
+    "answer": "Gracilis",
+    "acceptedAnswers": "",
+    "feedback": "Abduction of the hip joint; weak flexor of knee joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.02648222374944731,
+          -0.25092863143663513,
+          0.0005827139081959962
+        ],
+        "meshName": "Object_27"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.10784007007213711,
+          -0.16293791764182228,
+          1.7687875600790934
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.02648222374944731,
+          -0.25092863143663513,
+          0.0005827139081959962
+        ],
+        "meshName": "Object_27"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.10784007007213711,
+          -0.16293791764182228,
+          1.7687875600790934
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395733708",
+    "answer": "Adductor longus",
+    "acceptedAnswers": "",
+    "feedback": "Adduction of the hip joint; lateral rotation of the hip joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.06899612244499895,
+          -0.09094493651293112,
+          0.06415268497051771
+        ],
+        "meshName": "Object_27"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.0631591331968299,
+          -0.15126281830371252,
+          1.7707519428121508
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.06899612244499895,
+          -0.09094493651293112,
+          0.06415268497051771
+        ],
+        "meshName": "Object_27"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.0631591331968299,
+          -0.15126281830371252,
+          1.7707519428121508
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395824370",
+    "answer": "Sartorius",
+    "acceptedAnswers": "",
+    "feedback": "Flexion of the hip joint; flexion of the knee joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.10623568811728831,
+          -0.10612373930660707,
+          0.09286091176834523
+        ],
+        "meshName": "Object_17"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.0028462434533579,
+          -0.16293791764182247,
+          1.7729521041425742
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.10623568811728831,
+          -0.10612373930660707,
+          0.09286091176834523
+        ],
+        "meshName": "Object_17"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.0028462434533579,
+          -0.16293791764182247,
+          1.7729521041425742
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395912690",
+    "answer": "Rectus femoris",
+    "acceptedAnswers": "Quadriceps",
+    "feedback": "Extension of the knee joint; flexion of the hip joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.17339716903568247,
+          -0.2436652439007081,
+          0.12067388098343503
+        ],
+        "meshName": "Object_17"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.0028462434533579,
+          -0.16293791764182247,
+          1.7729521041425742
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.17339716903568247,
+          -0.2436652439007081,
+          0.12067388098343503
+        ],
+        "meshName": "Object_17"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.0028462434533579,
+          -0.16293791764182247,
+          1.7729521041425742
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395971210",
+    "answer": "Vastus lateralis",
+    "acceptedAnswers": "",
+    "feedback": "Extension of the knee joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.24675687524221696,
+          -0.3579146530507792,
+          0.05972695429951491
+        ],
+        "meshName": "Object_17"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.7989838585428277,
+          -0.13959181192777298,
+          1.5720234971582712
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.24675687524221696,
+          -0.3579146530507792,
+          0.05972695429951491
+        ],
+        "meshName": "Object_17"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.7989838585428277,
+          -0.13959181192777298,
+          1.5720234971582712
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782395992248",
+    "answer": "Vastus medialis",
+    "acceptedAnswers": "",
+    "feedback": "Extension of the knee joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.09458120277968488,
+          -0.412819088405618,
+          0.06281449582244905
+        ],
+        "meshName": "Object_17"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.14280374775160345,
+          -0.1742732409303529,
+          1.7664877405060948
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.09458120277968488,
+          -0.412819088405618,
+          0.06281449582244905
+        ],
+        "meshName": "Object_17"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.14280374775160345,
+          -0.1742732409303529,
+          1.7664877405060948
+        ],
+        "target": [
+          0.014231351288131603,
+          -0.2438295940745488,
+          0.01680174589913603
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782396113742",
+    "answer": "Biceps femoris",
+    "acceptedAnswers": "",
+    "feedback": "Flexion of the knee joint; extension of the hip joint; lateral rotation of the knee joint (when knee is flexed)\n",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.17398893370037258,
+          -0.29324017836987903,
+          -0.14038989177565772
+        ],
+        "meshName": "Object_9"
+      },
+      "view": {
+        "cameraPosition": [
+          0.06342770179975998,
+          -0.024357151973802393,
+          -2.6929697519938087
+        ],
+        "target": [
+          -0.032590954971442716,
+          -0.37845016272226273,
+          -0.0684416596251549
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.17398893370037258,
+          -0.29324017836987903,
+          -0.14038989177565772
+        ],
+        "meshName": "Object_9"
+      },
+      "view": {
+        "cameraPosition": [
+          0.06342770179975998,
+          -0.024357151973802393,
+          -2.6929697519938087
+        ],
+        "target": [
+          -0.032590954971442716,
+          -0.37845016272226273,
+          -0.0684416596251549
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782396358580",
+    "answer": "Semitendinosus",
+    "acceptedAnswers": "",
+    "feedback": "Flexion of the knee joint; medial rotation of the knee joint (when the knee is flexed); extension at the hip joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.09814277641925401,
+          -0.3109310669932268,
+          -0.14065769116769486
+        ],
+        "meshName": "Object_9"
+      },
+      "view": {
+        "cameraPosition": [
+          0.046594955961129475,
+          -0.2884659502200039,
+          -2.2328715188920456
+        ],
+        "target": [
+          -0.0316128400956201,
+          -0.5768769205559425,
+          -0.09517698435719556
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.09814277641925401,
+          -0.3109310669932268,
+          -0.14065769116769486
+        ],
+        "meshName": "Object_9"
+      },
+      "view": {
+        "cameraPosition": [
+          0.046594955961129475,
+          -0.2884659502200039,
+          -2.2328715188920456
+        ],
+        "target": [
+          -0.0316128400956201,
+          -0.5768769205559425,
+          -0.09517698435719556
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782396428872",
+    "answer": "Semimembranosus",
+    "acceptedAnswers": "",
+    "feedback": "Flexion of the knee joint; medial rotation of the knee joint (when the knee is flexed); extension at the hip joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.04594750703852725,
+          -0.3135859707690166,
+          -0.05742646492832662
+        ],
+        "meshName": "Object_27"
+      },
+      "view": {
+        "cameraPosition": [
+          0.046594955961129475,
+          -0.2884659502200039,
+          -2.2328715188920456
+        ],
+        "target": [
+          -0.0316128400956201,
+          -0.5768769205559425,
+          -0.09517698435719556
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.04594750703852725,
+          -0.3135859707690166,
+          -0.05742646492832662
+        ],
+        "meshName": "Object_27"
+      },
+      "view": {
+        "cameraPosition": [
+          0.046594955961129475,
+          -0.2884659502200039,
+          -2.2328715188920456
+        ],
+        "target": [
+          -0.0316128400956201,
+          -0.5768769205559425,
+          -0.09517698435719556
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782396517765",
+    "answer": "Tibialis anterior",
+    "acceptedAnswers": "",
+    "feedback": "Dorsiflexion; inversion",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.18635036905140445,
+          -0.8958391385856759,
+          -0.03110649037025395
+        ],
+        "meshName": "Object_25"
+      },
+      "view": {
+        "cameraPosition": [
+          0.1511083820456875,
+          -0.7252314949970016,
+          1.5419488360685734
+        ],
+        "target": [
+          0.1511083820456875,
+          -0.7965792191201758,
+          0.0436466294819132
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.18635036905140445,
+          -0.8958391385856759,
+          -0.03110649037025395
+        ],
+        "meshName": "Object_25"
+      },
+      "view": {
+        "cameraPosition": [
+          0.1511083820456875,
+          -0.7252314949970016,
+          1.5419488360685734
+        ],
+        "target": [
+          0.1511083820456875,
+          -0.7965792191201758,
+          0.0436466294819132
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782396578012",
+    "answer": "Gluteus maximus",
+    "acceptedAnswers": "",
+    "feedback": "Extension of the hip joint; lateral rotation of the hip joint; extension of the trunk when limbs are fixed ",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.10167486200143085,
+          0.07189611618090302,
+          -0.2220646574151612
+        ],
+        "meshName": "Object_3"
+      },
+      "view": {
+        "cameraPosition": [
+          0.06367400370927666,
+          0.39917673724253777,
+          -1.47241501304294
+        ],
+        "target": [
+          1.385492308076445e-87,
+          0.12,
+          1.1929708906262467e-88
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.10167486200143085,
+          0.07189611618090302,
+          -0.2220646574151612
+        ],
+        "meshName": "Object_3"
+      },
+      "view": {
+        "cameraPosition": [
+          0.06367400370927666,
+          0.39917673724253777,
+          -1.47241501304294
+        ],
+        "target": [
+          1.385492308076445e-87,
+          0.12,
+          1.1929708906262467e-88
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782396698637",
+    "answer": "Gastrocnemius",
+    "acceptedAnswers": "",
+    "feedback": "Plantar flexion",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.12714201079852036,
+          -0.8747799796697167,
+          -0.21067336856767754
+        ],
+        "meshName": "Object_7"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.014440053236851704,
+          -0.45888596325062375,
+          -1.983997409011332
+        ],
+        "target": [
+          0.0011514780473784408,
+          -0.6802605175887246,
+          -0.4207235996332107
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.12714201079852036,
+          -0.8747799796697167,
+          -0.21067336856767754
+        ],
+        "meshName": "Object_7"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.014440053236851704,
+          -0.45888596325062375,
+          -1.983997409011332
+        ],
+        "target": [
+          0.0011514780473784408,
+          -0.6802605175887246,
+          -0.4207235996332107
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782396907157",
+    "answer": "Infraspinatus",
+    "acceptedAnswers": "",
+    "feedback": "Lateral rotation of shoulder joint",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.1599970451823467,
+          0.7292042832628338,
+          -0.21241565764822035
+        ],
+        "meshName": "Object_5"
+      },
+      "view": {
+        "cameraPosition": [
+          0.1248725025843304,
+          0.35230421295454456,
+          -1.9889452447452396
+        ],
+        "target": [
+          -0.026344060710617137,
+          0.5957299712025366,
+          -0.06211084664100489
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.1599970451823467,
+          0.7292042832628338,
+          -0.21241565764822035
+        ],
+        "meshName": "Object_5"
+      },
+      "view": {
+        "cameraPosition": [
+          0.1248725025843304,
+          0.35230421295454456,
+          -1.9889452447452396
+        ],
+        "target": [
+          -0.026344060710617137,
+          0.5957299712025366,
+          -0.06211084664100489
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782936062987",
+    "answer": "Deltoid",
+    "acceptedAnswers": "",
+    "feedback": "Abduction (up to horizontal plane); carry weight of the arm",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          0.33646431889732825,
+          0.8071031790288632,
+          -0.00631286829043879
+        ],
+        "meshName": "Object_5"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.0271951226141963,
+          0.5853716635445687,
+          2.7705239718618917
+        ],
+        "target": [
+          -0.02719499324235076,
+          0.45269114798454013,
+          -0.015842009583077733
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          0.33646431889732825,
+          0.8071031790288632,
+          -0.00631286829043879
+        ],
+        "meshName": "Object_5"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.0271951226141963,
+          0.5853716635445687,
+          2.7705239718618917
+        ],
+        "target": [
+          -0.02719499324235076,
+          0.45269114798454013,
+          -0.015842009583077733
+        ],
+        "orientation": "posterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  },
+  {
+    "id": "q1782389864661",
+    "answer": "Zygomaticus Major",
+    "acceptedAnswers": "Zygomaticus",
+    "feedback": "Raises the angle of the mouth in smiling",
+    "left": {
+      "anchor": {
+        "localPosition": [
+          -0.07333388512744078,
+          1.1450211986628647,
+          0.10876059402649221
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.42116440066910255,
+          1.2305908374940873,
+          1.2910475798518797
+        ],
+        "target": [
+          -0.03966517982795807,
+          1.040052623110509,
+          -0.14706004246194498
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    },
+    "right": {
+      "anchor": {
+        "localPosition": [
+          -0.07333388512744078,
+          1.1450211986628647,
+          0.10876059402649221
+        ],
+        "meshName": "Object_15"
+      },
+      "view": {
+        "cameraPosition": [
+          -0.42116440066910255,
+          1.2305908374940873,
+          1.2910475798518797
+        ],
+        "target": [
+          -0.03966517982795807,
+          1.040052623110509,
+          -0.14706004246194498
+        ],
+        "orientation": "anterior"
+      },
+      "clickRegion": {
+        "points": []
+      }
+    }
+  }
+]

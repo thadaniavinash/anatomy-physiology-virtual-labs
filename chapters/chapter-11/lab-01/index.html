@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muscle Labelling Practice App</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="scene"></canvas>
+
+      <section class="topbar" aria-label="Application controls">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+          </div>
+          <div class="brand-copy">
+            <strong>Superficial Muscles</strong>
+            <span>Learn and test the superficial muscles on an interactive 3D model.</span>
+          </div>
+        </div>
+
+        <div class="mode-switch" role="tablist" aria-label="Choose a mode">
+          <button id="study-mode" class="mode-tab is-active" type="button" role="tab" aria-selected="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5Z"></path><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5Z"></path></svg>
+            <span>Study</span>
+          </button>
+          <button id="preview-mode" class="mode-tab" type="button" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16l-7-3-7 3Z"></path><path d="M9 9h6"></path><path d="M9 12.5h4"></path></svg>
+            <span>Quiz</span>
+          </button>
+          <button id="author-mode" class="mode-tab" type="button" role="tab" aria-selected="false" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+            <span>Author</span>
+          </button>
+        </div>
+
+        <div class="toolbar-actions">
+          <button id="new-label" class="secondary" type="button" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+            <span>Add label</span>
+          </button>
+          <a class="library-link" href="../../../index.html" title="Return to the virtual lab library">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+            <span class="btn-label">Lab library</span>
+          </a>
+          <button id="reset-view" class="ghost" type="button" title="Reset the camera view">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6"></path><path d="M20 20v-6h-6"></path><path d="M20 8a8 8 0 0 0-14-3L4 8"></path><path d="M4 16a8 8 0 0 0 14 3l2-3"></path></svg>
+            <span class="btn-label">Reset</span>
+          </button>
+          <button id="theme-toggle" class="icon-button" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"></path></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2v2.5"></path><path d="M12 19.5V22"></path><path d="M2 12h2.5"></path><path d="M19.5 12H22"></path><path d="M4.9 4.9l1.8 1.8"></path><path d="M17.3 17.3l1.8 1.8"></path><path d="M19.1 4.9l-1.8 1.8"></path><path d="M6.7 17.3l-1.8 1.8"></path></svg>
+          </button>
+          <button id="instructor-lock" class="icon-button" type="button" aria-label="Instructor tools" title="Instructor tools">
+            <svg class="icon-locked" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+            <svg class="icon-unlocked" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 7.5-2"></path></svg>
+          </button>
+        </div>
+      </section>
+
+      <section id="quiz-progress" class="quiz-progress is-hidden" aria-label="Quiz progress"></section>
+
+      <aside id="label-sidebar" class="label-sidebar" aria-label="Saved muscle labels">
+        <header>
+          <div>
+            <p>Muscles</p>
+            <strong id="label-count">0 muscles</strong>
+          </div>
+          <button id="toggle-sidebar" class="icon-button" type="button" aria-label="Collapse menu">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+          </button>
+        </header>
+        <div class="sidebar-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+          <input id="label-search" type="search" placeholder="Search muscles" autocomplete="off" aria-label="Search muscles" />
+        </div>
+        <div id="label-list" class="label-list"></div>
+      </aside>
+
+      <button id="expand-sidebar" class="expand-sidebar" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
+        <span>Muscles</span>
+      </button>
+
+      <div id="modal-backdrop" class="modal-backdrop is-hidden"></div>
+      <section id="edit-modal" class="edit-modal is-hidden" aria-live="polite" aria-modal="true" role="dialog"></section>
+      <section id="placement-banner" class="placement-banner is-hidden" aria-live="polite"></section>
+
+      <section id="student-callout" class="student-callout is-hidden">
+        <span></span>
+        Identify this muscle
+      </section>
+
+      <aside id="student-panel" class="student-panel is-hidden" aria-label="Study and quiz panel"></aside>
+
+      <section id="quiz-setup" class="quiz-screen is-hidden" aria-label="Quiz setup"></section>
+
+      <section id="score-screen" class="quiz-screen is-hidden" aria-label="Quiz score"></section>
+
+      <section id="toast" class="toast" role="status" aria-live="polite"></section>
+
+      <svg id="arrow-layer" class="arrow-layer" aria-hidden="true">
+        <defs>
+          <marker
+            id="arrow-head"
+            viewBox="0 0 10 10"
+            refX="9"
+            refY="5"
+            markerWidth="7"
+            markerHeight="7"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z"></path>
+          </marker>
+        </defs>
+        <line id="anchor-arrow" x1="0" y1="0" x2="0" y2="0"></line>
+        <circle id="anchor-dot" cx="0" cy="0" r="5"></circle>
+      </svg>
+
+      <footer class="credit">
+        3D model: <a href="https://sketchfab.com/3d-models/male-full-body-ecorche-ab11ebff89224f03bd75efede1164cf6" target="_blank" rel="noopener">&ldquo;Male Full Body Ecorche&rdquo;</a> by
+        <a href="https://sketchfab.com/diegoluga" target="_blank" rel="noopener">Diego Luj&aacute;n Garc&iacute;a</a>
+        (<a href="https://www.artstation.com/artwork/LkmLk" target="_blank" rel="noopener">ArtStation</a>), licensed under
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution (CC BY)</a>.
+      </footer>
+    </main>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.min.js",
+          "three/addons/": "./vendor/three/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./src/app.js?v=51"></script>
+  </body>
+</html>

@@ -9,6 +9,9 @@ A growing collection of free, browser-based anatomy and physiology learning acti
   - Body regions and surface anatomy
   - Anatomical planes
   - Abdominal quadrants
+- Chapter 11, Lab 1: **3D Muscle Labelling**
+  - Interactive 3D model with 36 superficial muscle labels
+  - Study mode and quiz mode (typed or multiple choice)
 - Chapter 18, Lab 1: **Blood Typing Lab**
   - ABO and Rh (D) antigens and antibodies
   - Slide typing simulation
