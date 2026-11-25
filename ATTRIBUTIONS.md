@@ -2,7 +2,7 @@
 
 ## Artificial-intelligence assistance
 
-The application code, interface development, and project organization were developed with the assistance of ChatGPT Codex.
+The lab design, ideas and educational content were developed by the course instructor. The simulations were programmed by Claude Code, with some assistance from ChatGPT Codex.
 
 ## Images
 

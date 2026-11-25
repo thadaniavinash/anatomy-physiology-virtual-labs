@@ -28,8 +28,9 @@ A growing collection of free, browser-based anatomy and physiology learning acti
 
 ## Project structure
 
-- `index.html` — public lab catalogue
-- `assets/` — shared branding, styles, scripts, and optimized images
+- `index.html` — public lab catalogue (organised by chapter, with search)
+- `assets/css/platform.css` — the shared look for the library and every lab: colours, fonts, top bar, lab header and "In this lab" side rail, matching the Clinical Judgment Lab (NCLEX) app
+- `assets/` — other shared styles, scripts, and optimized images
 - `chapters/chapter-XX/lab-XX/` — hosted lab applications
   - Multi-part labs keep one sub-folder per part plus shared lab code (see `chapters/chapter-12/lab-01/README.md`)
 - `blackboard-exports/` — self-contained HTML versions for Blackboard
@@ -46,7 +47,7 @@ Model and instructional images used in the current lab were generated with artif
 
 ## Acknowledgement
 
-© 2026. Developed with the assistance of ChatGPT Codex.
+© 2026. Lab design, ideas and content by the course instructor. Simulations programmed by Claude Code, with some assistance from ChatGPT Codex.
 
 ## Copyright
 
