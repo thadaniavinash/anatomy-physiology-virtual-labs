@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>A&amp;P Virtual Labs · Anatomy &amp; physiology simulations</title>
-  <meta name="description" content="Free interactive anatomy and physiology virtual labs for nursing students, organised by textbook chapter.">
+  <title>Virtual Experiential Learning for Nurses</title>
+  <meta name="description" content="Free interactive learning for nursing students: anatomy and physiology virtual labs and NCLEX-style clinical judgment case studies.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,22 +12,19 @@
 </head>
 <body class="pl-page">
   <header class="pl-topbar">
-    <a class="pl-brand" href="index.html" aria-label="A&amp;P Virtual Labs home">
-      <span class="pl-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/></svg></span>
-      <span class="pl-brand-text"><span class="pl-brand-name">A&amp;P Virtual Labs</span><span class="pl-brand-sub">Anatomy &amp; physiology simulations</span></span>
+    <a class="pl-brand" href="index.html" aria-label="Virtual Experiential Learning for Nurses home">
+      <span class="pl-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.4 3.4 4.2 6.7-.4 1.1-1.1 2.2-2 3.2"/><path d="M3.5 12.5h4l1.6-3 2.4 6 1.6-3h3"/></svg></span>
+      <span class="pl-brand-text"><span class="pl-brand-name pl-brand-name--platform">Virtual Experiential Learning for Nurses</span></span>
     </a>
-    <div class="pl-topbar-actions">
-      <form class="pl-search" role="search" onsubmit="return false">
-        <label class="pl-visually-hidden" for="lab-search">Search labs</label>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="lab-search" type="search" placeholder="Search labs" autocomplete="off">
-      </form>
-    </div>
   </header>
 
   <div class="pl-app">
     <nav class="pl-sidebar" aria-label="Main">
       <a class="pl-nav-item" href="index.html" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        Home
+      </a>
+      <a class="pl-nav-item" href="labs/index.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/></svg>
         Virtual labs
       </a>
@@ -36,106 +33,89 @@
         Case studies
         <span class="pl-badge pl-badge--tag">NCLEX</span>
       </a>
-      <p class="pl-sidebar-label">Jump to chapter</p>
-      <a class="pl-nav-item pl-nav-item--chapter" href="#ch1"><span class="pl-nav-num">1</span>Introduction</a>
-      <a class="pl-nav-item pl-nav-item--chapter" href="#ch11"><span class="pl-nav-num">11</span>Muscular system</a>
-      <a class="pl-nav-item pl-nav-item--chapter" href="#ch12"><span class="pl-nav-num">12</span>Nervous tissue</a>
-      <a class="pl-nav-item pl-nav-item--chapter" href="#ch18"><span class="pl-nav-num">18</span>Blood</a>
-      <a class="pl-nav-item pl-nav-item--chapter" href="#ch19"><span class="pl-nav-num">19</span>The heart</a>
-      <p class="pl-sidebar-foot">Free for nursing students. Nothing is saved or sent.</p>
+      <p class="pl-sidebar-foot">Free for nursing students. Nothing to install.</p>
     </nav>
 
     <main class="pl-main">
-      <div class="pl-pagehead">
-        <div>
-          <h1 class="pl-page-title">Virtual labs</h1>
-          <p class="pl-lead">Hands-on simulations that follow your anatomy and physiology textbook, chapter by chapter.</p>
-        </div>
-        <div class="pl-stats" aria-label="Library size">
-          <span class="pl-stat"><strong>5</strong>labs</span>
-          <span class="pl-stat"><strong>5</strong>chapters</span>
-        </div>
+      <div>
+        <h1 class="pl-page-title">Welcome</h1>
+        <p class="pl-lead">Learn by doing. Run anatomy and physiology experiments, then practise the clinical judgment you will use as a nurse.</p>
       </div>
 
-      <section class="pl-card pl-atlas" aria-label="Labs by chapter">
-        <article class="pl-chapter" id="ch1">
-          <div class="pl-chapter-id"><span class="pl-chapter-num">01</span><span class="pl-chapter-name">An introduction to the human body</span></div>
-          <div>
-            <h2 class="pl-lab-name">Anatomical Orientation &amp; Body Mapping</h2>
-            <p class="pl-lab-desc">Describe locations on the body the way nurses assess and document them.</p>
-            <div class="pl-chips"><span class="pl-chip">Directional terms</span><span class="pl-chip">Body regions</span><span class="pl-chip">Planes</span><span class="pl-chip">Abdominal quadrants</span></div>
+      <div class="pl-sections">
+        <section class="pl-card pl-section-card" aria-labelledby="labs-title">
+          <div class="pl-section-head">
+            <span class="pl-icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/></svg></span>
+            <div>
+              <p class="pl-eyebrow">A&amp;P Virtual Labs</p>
+              <h2 class="pl-section-title" id="labs-title">Virtual labs</h2>
+            </div>
           </div>
-          <a class="pl-btn pl-btn--outline" href="chapters/chapter-01/lab-01/index.html">Open lab<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </article>
-
-        <article class="pl-chapter" id="ch11">
-          <div class="pl-chapter-id"><span class="pl-chapter-num">11</span><span class="pl-chapter-name">The muscular system</span></div>
-          <div>
-            <h2 class="pl-lab-name">3D Muscle Labelling</h2>
-            <p class="pl-lab-desc">Turn a 3D model to find 36 superficial muscles, then test yourself.</p>
-            <div class="pl-chips"><span class="pl-chip">3D model</span><span class="pl-chip">Study mode</span><span class="pl-chip">Quiz mode</span></div>
+          <p class="pl-section-desc">Interactive anatomy and physiology simulations that follow your textbook, chapter by chapter.</p>
+          <ul class="pl-quicklist" aria-label="Labs by chapter">
+            <li><a href="chapters/chapter-01/lab-01/index.html"><span class="pl-nav-num">1</span>Anatomical Orientation &amp; Body Mapping</a></li>
+            <li><a href="chapters/chapter-11/lab-01/index.html"><span class="pl-nav-num">11</span>3D Muscle Labelling</a></li>
+            <li><a href="chapters/chapter-12/lab-01/index.html"><span class="pl-nav-num">12</span>Nerve Impulses: From Synapse to Axon</a></li>
+            <li><a href="chapters/chapter-18/lab-01/index.html"><span class="pl-nav-num">18</span>Blood Typing Lab</a></li>
+            <li><a href="chapters/chapter-19/lab-01/index.html"><span class="pl-nav-num">19</span>ECG Rhythm Monitor</a></li>
+          </ul>
+          <div class="pl-section-foot">
+            <a class="pl-btn pl-btn--primary" href="labs/index.html">Browse all labs</a>
+            <span class="pl-badge pl-badge--soon">Coming soon: Osmosis</span>
           </div>
-          <a class="pl-btn pl-btn--outline" href="chapters/chapter-11/lab-01/index.html">Open lab<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </article>
+        </section>
 
-        <article class="pl-chapter" id="ch12">
-          <div class="pl-chapter-id"><span class="pl-chapter-num">12</span><span class="pl-chapter-name">The nervous system and nervous tissue</span></div>
-          <div>
-            <h2 class="pl-lab-name">Nerve Impulses: From Synapse to Axon</h2>
-            <p class="pl-lab-desc">Follow one signal across a synapse and along unmyelinated and myelinated axons.</p>
-            <div class="pl-chips"><span class="pl-chip">Part 1 · Synapse</span><span class="pl-chip">Part 2 · Unmyelinated axon</span><span class="pl-chip">Part 3 · Myelinated axon</span></div>
+        <section class="pl-card pl-section-card" aria-labelledby="cases-title">
+          <div class="pl-section-head">
+            <span class="pl-icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
+            <div>
+              <p class="pl-eyebrow">Clinical Judgment Lab</p>
+              <h2 class="pl-section-title" id="cases-title">Case studies</h2>
+            </div>
           </div>
-          <a class="pl-btn pl-btn--outline" href="chapters/chapter-12/lab-01/index.html">Open lab<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </article>
-
-        <article class="pl-chapter" id="ch18">
-          <div class="pl-chapter-id"><span class="pl-chapter-num">18</span><span class="pl-chapter-name">The cardiovascular system: blood</span></div>
-          <div>
-            <h2 class="pl-lab-name">Blood Typing Lab</h2>
-            <p class="pl-lab-desc">Type a sample on a slide, then apply ABO and Rh to blood and plasma transfusion.</p>
-            <div class="pl-chips"><span class="pl-chip">Antigens &amp; antibodies</span><span class="pl-chip">Slide simulation</span><span class="pl-chip">Transfusion</span><span class="pl-chip">Quiz</span></div>
+          <p class="pl-section-desc">NCLEX-RN® style unfolding case studies and stand-alone questions that build clinical judgment.</p>
+          <form class="pl-form" id="open-form" novalidate>
+            <label class="pl-label" for="open-code">Open a case study or question</label>
+            <p class="pl-help">Type the code your instructor gave you, such as C-7KD4M, or paste the link.</p>
+            <div class="pl-input-row">
+              <input class="pl-input" id="open-code" name="code" type="text" placeholder="Code or link" autocomplete="off" autocapitalize="characters" spellcheck="false">
+              <button class="pl-btn pl-btn--primary" type="submit">Open</button>
+            </div>
+            <div class="pl-choice-row" role="radiogroup" aria-label="How to answer">
+              <label class="pl-choice"><input type="radio" name="mode" value="review" checked><span><b>Practice</b><span>Rationale after each question</span></span></label>
+              <label class="pl-choice"><input type="radio" name="mode" value="test"><span><b>Exam conditions</b><span>No going back, results at the end</span></span></label>
+            </div>
+            <p class="pl-form-error" id="open-error" role="alert" hidden>Enter a code or a link first.</p>
+          </form>
+          <div class="pl-section-foot">
+            <a class="pl-btn pl-btn--outline" href="https://thadaniavinash.github.io/NCLEX_Claude/">Go to case studies</a>
           </div>
-          <a class="pl-btn pl-btn--outline" href="chapters/chapter-18/lab-01/index.html">Open lab<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </article>
-
-        <article class="pl-chapter" id="ch19">
-          <div class="pl-chapter-id"><span class="pl-chapter-num">19</span><span class="pl-chapter-name">The cardiovascular system: the heart</span></div>
-          <div>
-            <h2 class="pl-lab-name">ECG Rhythm Monitor</h2>
-            <p class="pl-lab-desc">Read 14 rhythms on a bedside monitor and compare two strips side by side.</p>
-            <div class="pl-chips"><span class="pl-chip">Sinus</span><span class="pl-chip">Atrial</span><span class="pl-chip">Ventricular</span><span class="pl-chip">AV blocks</span></div>
-          </div>
-          <a class="pl-btn pl-btn--outline" href="chapters/chapter-19/lab-01/index.html">Open lab<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </article>
-
-        <p class="pl-empty" id="no-results" hidden>No lab matches that search.</p>
-      </section>
-
-      <div class="pl-soon"><span class="pl-badge pl-badge--soon">Coming soon</span>Osmosis · Chapter 3, The Cellular Level of Organization</div>
+        </section>
+      </div>
 
       <footer class="pl-footer">
         <p>Lab design, ideas and content by the course instructor. Simulations programmed by Claude Code, with some assistance from ChatGPT Codex.</p>
-        <p>No learner data are stored, saved or sent.</p>
+        <p>NCLEX® and NCLEX-RN® are registered trademarks of the National Council of State Boards of Nursing, Inc. (NCSBN), which is not affiliated with this site.</p>
       </footer>
     </main>
   </div>
 
   <script>
-    // Filter the chapter list as the learner types.
+    // Hand the code (or pasted link) to the case-study app, which opens it like its own Home box.
     (function () {
-      var input = document.getElementById('lab-search');
-      var rows = Array.prototype.slice.call(document.querySelectorAll('.pl-chapter'));
-      var empty = document.getElementById('no-results');
-      input.addEventListener('input', function () {
-        var q = input.value.trim().toLowerCase();
-        var shown = 0;
-        rows.forEach(function (row) {
-          var match = !q || row.textContent.toLowerCase().indexOf(q) !== -1;
-          row.hidden = !match;
-          if (match) shown++;
-        });
-        empty.hidden = shown !== 0;
+      var CASES = 'https://thadaniavinash.github.io/NCLEX_Claude/';
+      var form = document.getElementById('open-form');
+      var input = document.getElementById('open-code');
+      var error = document.getElementById('open-error');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var text = input.value.trim();
+        if (!text) { error.hidden = false; input.focus(); return; }
+        error.hidden = true;
+        var mode = form.querySelector('input[name="mode"]:checked').value;
+        window.location.href = CASES + '?code=' + encodeURIComponent(text) + (mode === 'test' ? '&mode=test' : '');
       });
+      input.addEventListener('input', function () { error.hidden = true; });
     })();
   </script>
 </body>

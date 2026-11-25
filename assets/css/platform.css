@@ -204,6 +204,55 @@ body.pl-page {
 }
 
 /* =====================================================================
+   Platform home (Virtual Experiential Learning for Nurses)
+   ===================================================================== */
+.pl-brand-name--platform { white-space: normal; font-size: 17px; line-height: 1.15; }
+.pl-sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; align-items: stretch; }
+.pl-section-card { display: flex; flex-direction: column; gap: 16px; padding: 24px; }
+.pl-section-head { display: flex; align-items: flex-start; gap: 14px; }
+.pl-icon-tile {
+  width: 48px; height: 48px; flex: none; border-radius: 10px;
+  background: var(--surface-selected); color: var(--brand); display: grid; place-items: center;
+}
+.pl-icon-tile svg { width: 24px; height: 24px; }
+.pl-eyebrow { margin: 0 0 2px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-subtle); }
+.pl-section-title { margin: 0; font: 700 22px/1.2 var(--font-title); color: var(--brand-deep); }
+.pl-section-desc { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-secondary); }
+.pl-section-foot { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+.pl-quicklist { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; }
+.pl-quicklist li + li { border-top: 1px solid var(--border-subtle); }
+.pl-quicklist a {
+  display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 6px 14px;
+  color: var(--text-secondary); font-size: 14px; font-weight: 500; text-decoration: none;
+}
+.pl-quicklist a:hover { background: var(--surface-selected); color: var(--brand); }
+.pl-quicklist .pl-nav-num { width: 24px; }
+.pl-quicklist small { margin-left: auto; color: var(--text-subtle); font-size: 12px; }
+
+.pl-form { display: flex; flex-direction: column; gap: 12px; }
+.pl-label { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+.pl-help { margin: -6px 0 0; font-size: 13px; color: var(--text-subtle); }
+.pl-input-row { display: flex; gap: 8px; }
+.pl-input {
+  flex: 1; min-width: 0; min-height: 48px; padding: 0 14px;
+  border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface);
+  font: 400 16px/1 var(--font-body); color: var(--text);
+}
+.pl-input::placeholder { color: var(--text-faint); }
+.pl-choice-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
+.pl-choice {
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; cursor: pointer;
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--surface);
+}
+.pl-choice input { margin: 3px 0 0; accent-color: var(--brand); }
+.pl-choice b { display: block; font-size: 14px; font-weight: 600; color: var(--text); }
+.pl-choice span { font-size: 12px; color: var(--text-subtle); }
+.pl-choice:has(input:checked) { border-color: var(--brand); background: var(--surface-selected); }
+.pl-choice:has(input:checked) b { color: var(--brand); }
+.pl-form-error { margin: 0; font-size: 13px; color: var(--danger-text); }
+
+/* =====================================================================
    Lab pages
    ===================================================================== */
 .pl-lab { width: 100%; max-width: 1360px; margin: 0 auto; padding: 24px 32px 8px; }
