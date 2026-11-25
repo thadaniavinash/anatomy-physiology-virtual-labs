@@ -43,7 +43,7 @@ The labs do not store, save, or submit learner data.
 
 ## Image disclosure
 
-Model and instructional images used in the current lab were generated with artificial intelligence and are identified as such within the application.
+The human-model and plane images in Chapter 1 and the hand image in the Chapter 18 blood typing simulation were generated with artificial intelligence and are labelled as such within each lab.
 
 ## Acknowledgement
 

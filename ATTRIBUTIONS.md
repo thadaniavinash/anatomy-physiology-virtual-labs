@@ -8,7 +8,7 @@ The lab design, ideas and educational content were developed by the course instr
 
 The human-model and anatomical-plane images included in Chapter 1, Lab 1 were generated using artificial intelligence. Each image area includes an in-application disclosure.
 
-The hand photograph in Chapter 18, Lab 1 (`chapters/chapter-18/lab-01/assets/hand.webp`) is adapted (background removed, resized) from a photograph supplied by the course instructor.
+The hand image in Chapter 18, Lab 1 (`chapters/chapter-18/lab-01/assets/hand.webp`) was generated using artificial intelligence (background removed, resized). The simulation labels it as AI-generated.
 
 ## Chapter 11, Lab 1 (3D Muscle Labelling)
 
