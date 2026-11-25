@@ -4,18 +4,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Chapter 1, Lab 1 · Anatomical Orientation &amp; Body Mapping</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/platform.css">
   <link rel="stylesheet" href="../../../assets/css/shared.css">
   <link rel="stylesheet" href="lab.css">
 </head>
-<body>
-<a class="library-link" href="../../../index.html" aria-label="Return to the virtual lab library">← Virtual lab library</a>
-<main class="shell">
-  <header class="topbar"><div class="brand"><div class="mark" aria-label="Anatomy and Physiology">A&amp;P</div><div class="brand-copy"><b>Anatomy &amp; Physiology Interactive Labs</b><small>Chapter-based learning for nursing practice</small></div></div><div class="progress-wrap" aria-label="Lab progress"><div class="progress-label"><span>Lab progress</span><b id="progressText">Activity 1 of 4</b></div><div class="progress" aria-hidden="true"><i id="progressBar"></i></div><div class="progress-steps" id="progressSteps"><span class="progress-step active">Directional</span><span class="progress-step">Regions</span><span class="progress-step">Planes</span><span class="progress-step">Quadrants</span></div></div></header>
-  <section class="hero"><div class="hero-main"><span class="eyebrow">Chapter 1 · Lab 1</span><h1>Anatomical Orientation &amp; Body Mapping</h1><p>Learn the anatomical language nurses use to assess patients, document findings, communicate clearly with the healthcare team, and understand diagnostic imaging.</p></div></section>
-  <nav class="tabs" aria-label="Lab activities">
-    <button class="tab active" data-tab="directional">1 · Directional terms</button><button class="tab" data-tab="regions">2 · Body regions</button><button class="tab" data-tab="planes">3 · Planes</button><button class="tab" data-tab="abdomen">4 · Abdominal quadrants</button>
+<body class="pl-page">
+<header class="pl-topbar">
+  <a class="pl-brand" href="../../../index.html" aria-label="A&amp;P Virtual Labs home">
+    <span class="pl-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/></svg></span>
+    <span class="pl-brand-text"><span class="pl-brand-name">A&amp;P Virtual Labs</span><span class="pl-brand-sub">Anatomy &amp; physiology simulations</span></span>
+  </a>
+  <div class="pl-topbar-actions"><a class="pl-btn pl-btn--sm" href="../../../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span class="pl-btn-label">All labs</span></a></div>
+</header>
+<main class="pl-lab">
+<div class="pl-labhead">
+  <div class="pl-labhead-id">
+    <span class="pl-labhead-num" aria-hidden="true">01</span>
+    <div>
+      <p class="pl-crumb"><a href="../../../index.html">Virtual labs</a>  ›  Chapter 1 · An introduction to the human body</p>
+      <h1 class="pl-lab-title">Anatomical Orientation &amp; Body Mapping</h1>
+      <p class="pl-lab-sub">Learn the anatomical language nurses use to assess patients, document findings, communicate with the healthcare team and read diagnostic imaging.</p>
+    </div>
+  </div>
+</div>
+<div class="pl-lab-body">
+  <nav class="pl-rail" id="labSections" aria-label="Lab activities">
+    <p class="pl-rail-label">In this lab</p>
+    <button class="pl-rail-item active" data-tab="directional"><span class="pl-rail-num">1</span>Directional terms</button>
+    <button class="pl-rail-item" data-tab="regions"><span class="pl-rail-num">2</span>Body regions</button>
+    <button class="pl-rail-item" data-tab="planes"><span class="pl-rail-num">3</span>Planes</button>
+    <button class="pl-rail-item" data-tab="abdomen"><span class="pl-rail-num">4</span>Abdominal quadrants</button>
+    <div class="pl-rail-foot pl-progress" aria-label="Lab progress">
+      <div class="pl-progress-label"><span>Progress</span><b id="progressText">Activity 1 of 4</b></div>
+      <div class="pl-progress-track" aria-hidden="true"><i id="progressBar"></i></div>
+    </div>
   </nav>
-
+  <div class="pl-lab-main">
   <section class="activity active" id="directional"><div class="workbench"><div class="visual"><div class="canvas-wrap"><div class="view-switch"><button class="active" data-view="anterior">Anterior</button><button data-view="posterior">Posterior</button><button data-view="lateral">Lateral</button></div><div class="photo-stage"><div class="model-photo anterior" id="directionModel"></div><canvas class="body-canvas" id="bodyCanvas"></canvas></div></div></div><aside class="panel"><span class="step">Activity 1</span><h2>Anatomical position &amp; directional terms</h2><p><b>Begin by choosing a view:</b> anterior, posterior, or lateral. Examine the anatomical position, then select a directional term to reveal its arrow.</p><div class="term-grid" id="termGrid"></div><div class="question"><b>Learning Check-In</b><span id="directionQuestion"></span></div><div class="choices" id="directionChoices"></div><div class="feedback" id="directionFeedback">Choose the best directional term.</div><div class="actions"><button class="secondary" id="resetDirection">Reset</button><button class="secondary" id="anotherDirectionQuestion">Another question</button><button class="primary next">Next activity →</button></div></aside></div></section>
 
   <section class="activity" id="regions"><div class="workbench"><div class="visual"><div class="canvas-wrap" id="regionStage"><div class="view-switch"><button class="active" data-view="anterior">Anterior</button><button data-view="posterior">Posterior</button></div><div class="photo-stage"><div class="model-photo anterior" id="regionModel"></div><canvas class="body-canvas" id="regionCanvas"></canvas></div></div></div><aside class="panel"><span class="step">Activity 2</span><h2>Surface anatomy: body regions</h2><p>Identify externally visible landmarks used in physical assessment and clinical documentation.</p><div class="question"><b>Learning Check-In</b><span id="regionQuestion"></span><span id="regionClue"></span></div><div class="choices" id="regionChoices"></div><div class="feedback" id="regionFeedback">Choose the best response.</div><div class="actions"><button class="secondary" id="resetRegion">Reset</button><button class="secondary" id="anotherRegionQuestion">Another question</button><button class="primary next">Next activity →</button></div><p class="hint">Some questions require selecting a marker; others require choosing the correct regional term.</p></aside></div></section>
@@ -23,8 +50,13 @@
   <section class="activity" id="planes"><div class="workbench"><div class="visual"><div class="canvas-wrap"><div class="plane-reference-stage"><div class="planes-reference" role="img" aria-label="Human model with midsagittal, sagittal, frontal, and transverse anatomical planes"></div><canvas class="body-canvas" id="planeCanvas"></canvas></div></div></div><aside class="panel"><span class="step">Activity 3</span><h2>Planes</h2><p>Select a plane to display it on the model, then compare the portions it creates.</p><div class="plane-controls" id="planeControls"><button class="chip" data-plane="midsagittal">Midsagittal</button><button class="chip" data-plane="sagittal">Sagittal</button><button class="chip" data-plane="frontal">Frontal / coronal</button><button class="chip" data-plane="transverse">Transverse</button></div><div class="question"><b id="planeTitle">Select a plane</b><span id="planeText">Choose a button to examine that anatomical plane.</span></div><div class="question"><b>Learning Check-In</b><span id="planeQuestion"></span></div><div class="choices" id="planeChoices"></div><div class="feedback" id="planeFeedback">Choose the best anatomical plane.</div><div class="actions"><button class="secondary" id="resetPlane">Reset</button><button class="secondary" id="anotherPlaneQuestion">Another question</button><button class="primary next">Next activity →</button></div></aside></div></section>
 
   <section class="activity" id="abdomen"><div class="workbench"><div class="visual"><div class="canvas-wrap"><div class="abdomen" id="abdomenMap"></div></div></div><aside class="panel"><span class="step">Activity 4</span><h2>Abdominal quadrants</h2><p>Use the four clinical quadrants to describe abdominal findings. Remember: right and left always refer to the patient's right and left.</p><div class="question"><b>Learning Check-In</b><span id="abdomenQuestion"></span></div><div class="choices" id="abdomenChoices"></div><div class="feedback" id="abdomenFeedback">Choose the best response.</div><div class="actions"><button class="secondary" id="resetAbdomen">Reset</button><button class="secondary" id="anotherAbdomenQuestion">Another question</button><button class="primary" id="completeLab">Complete lab</button></div></aside></div></section>
-  <footer class="app-footer"><p>No learner data are stored, saved, or submitted.</p><p class="acknowledgement">© 2026 · Developed with the assistance of ChatGPT Codex.</p></footer>
+  </div>
+</div>
 </main>
+<footer class="pl-footer">
+  <p>Lab design, ideas and content by the course instructor. Simulations programmed by Claude Code, with some assistance from ChatGPT Codex.</p>
+  <p>No learner data are stored, saved or sent.</p>
+</footer>
 <script type="application/json" id="regionQuestionBank">[
   {"type":"locate","prompt":"Locate the antecubital region.","answer":"antecubital","view":"anterior","clue":"Select the marker at the anterior elbow joint."},
   {"type":"locate","prompt":"Locate the popliteal region.","answer":"popliteal","view":"posterior","clue":"Select the marker at the back of the knee."},
