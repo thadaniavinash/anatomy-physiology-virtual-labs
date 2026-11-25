@@ -3,8 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Muscle Labelling Practice App</title>
+    <title>Chapter 11, Lab 1 · 3D Muscle Labelling</title>
     <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../assets/css/platform.css">
     <link rel="stylesheet" href="./src/styles.css" />
   </head>
   <body>
@@ -13,12 +17,10 @@
 
       <section class="topbar" aria-label="Application controls">
         <div class="brand">
-          <div class="brand-mark" aria-hidden="true">
-            <span></span>
-          </div>
+          <a class="pl-logo brand-home" href="../../../index.html" aria-label="A&amp;P Virtual Labs home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/></svg></a>
           <div class="brand-copy">
-            <strong>Superficial Muscles</strong>
-            <span>Learn and test the superficial muscles on an interactive 3D model.</span>
+            <span class="brand-crumb"><a href="../../../index.html">Virtual labs</a>  ›  Chapter 11 · The muscular system</span>
+            <strong>3D Muscle Labelling</strong>
           </div>
         </div>
 
@@ -42,9 +44,9 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
             <span>Add label</span>
           </button>
-          <a class="library-link" href="../../../index.html" title="Return to the virtual lab library">
+          <a class="library-link" href="../../../index.html" title="Back to all labs">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
-            <span class="btn-label">Lab library</span>
+            <span class="btn-label">All labs</span>
           </a>
           <button id="reset-view" class="ghost" type="button" title="Reset the camera view">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6"></path><path d="M20 20v-6h-6"></path><path d="M20 8a8 8 0 0 0-14-3L4 8"></path><path d="M4 16a8 8 0 0 0 14 3l2-3"></path></svg>
@@ -125,6 +127,7 @@
         <a href="https://sketchfab.com/diegoluga" target="_blank" rel="noopener">Diego Luj&aacute;n Garc&iacute;a</a>
         (<a href="https://www.artstation.com/artwork/LkmLk" target="_blank" rel="noopener">ArtStation</a>), licensed under
         <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution (CC BY)</a>.
+        <span class="credit-line">Lab design, ideas and content by the course instructor. Simulations programmed by Claude Code, with some assistance from ChatGPT Codex.</span>
       </footer>
     </main>
 
