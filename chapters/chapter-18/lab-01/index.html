@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blood Typing Lab</title>
+<meta name="description" content="Interactive blood typing simulation with theory on red cell antigens, blood and plasma transfusion, and a self-check quiz for nursing students.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a class="library-link" href="../../../index.html" aria-label="Return to the virtual lab library">← Virtual lab library</a>
+<div class="wrap">
+
+<header class="site">
+  <h1><span class="logo-drop" aria-hidden="true"></span>Blood Typing Lab</h1>
+  <p>ABO and Rh blood groups, transfusion safety and plasma, with a hands-on slide simulation</p>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <button role="tab" data-tab="antigens" aria-controls="tab-antigens"><span class="n">1</span>Antigens &amp; Antibodies</button>
+  <button role="tab" data-tab="simulation" aria-controls="tab-simulation"><span class="n">2</span>Simulation</button>
+  <button role="tab" data-tab="transfusion" aria-controls="tab-transfusion"><span class="n">3</span>Blood Transfusion</button>
+  <button role="tab" data-tab="plasma" aria-controls="tab-plasma"><span class="n">4</span>Plasma Transfusion</button>
+  <button role="tab" data-tab="quiz" aria-controls="tab-quiz"><span class="n">5</span>Quiz</button>
+</nav>
+
+<main>
+
+<!-- ================================================================ ANTIGENS -->
+<section id="tab-antigens" class="tab prose" role="tabpanel" hidden>
+  <h2>Red cell antigens and antibodies</h2>
+  <p class="lead">Every red blood cell (RBC) carries molecules on its surface called <b>antigens</b>. Antibodies in plasma can recognize and bind antigens that the body sees as foreign. Blood typing identifies which antigens are present, so that a client receives blood their immune system will not attack.</p>
+
+  <div class="keybox">
+    <h3>Key terms</h3>
+    <dl>
+      <dt>Antigen</dt><dd>A molecule (here, a sugar or protein on the RBC membrane) that can trigger an immune response.</dd>
+      <dt>Antibody</dt><dd>A Y-shaped immunoglobulin in plasma that binds a specific antigen. Each antibody has at least two binding sites.</dd>
+      <dt>Agglutination</dt><dd>Clumping of red cells when antibodies bind matching antigens on neighbouring cells.</dd>
+      <dt>Hemolysis</dt><dd>Destruction of red cells, for example when antibodies activate complement against them.</dd>
+    </dl>
+  </div>
+
+  <h3>Many blood group systems</h3>
+  <p>More than 40 blood group systems and over 300 red cell antigens are recognized. Most rarely cause problems. Two systems matter most in everyday practice: <b>ABO</b>, because its antibodies are already present without any exposure, and <b>Rh (D)</b>, because the D antigen readily provokes antibody formation.</p>
+
+  <h3>The ABO system</h3>
+  <p>The A and B antigens are sugar chains built on a precursor called the <b>H antigen</b>. A person inherits one ABO gene from each parent. The A and B genes are <i>codominant</i>, and the O gene is <i>recessive</i> (it adds no sugar, so the H antigen is left unchanged).</p>
+  <figure class="fig" id="figABO"></figure>
+  <p>From early infancy (around 3–6 months), everyone forms antibodies against whichever A or B antigen they <b>lack</b>, probably after exposure to similar sugars on gut bacteria. These <b>naturally occurring</b> anti-A and anti-B antibodies are mainly IgM. They activate complement strongly, so ABO-incompatible red cells are destroyed rapidly inside blood vessels.</p>
+  <div id="tblABO" class="tblwrap"></div>
+
+  <h3>The Rh (D) system</h3>
+  <p>“Rh positive” means the <b>D antigen</b> is present on the red cells, and “Rh negative” means it is absent. In Canada about <b id="rhPos">85%</b> of people are Rh positive.</p>
+  <ul>
+    <li>Anti-D is <b>not</b> naturally occurring. An Rh-negative person forms it only after exposure to Rh-positive red cells, through <b>transfusion</b> or <b>pregnancy</b>.</li>
+    <li>Anti-D is IgG, so it can cross the placenta. In a later pregnancy it can destroy the red cells of an Rh-positive fetus: <b>hemolytic disease of the fetus and newborn (HDFN)</b>.</li>
+    <li><b>Rh immune globulin (RhIG)</b> prevents this. It is given to Rh-negative pregnant clients (routinely around 28 weeks, and after the birth of an Rh-positive baby or other sensitizing events) so they do not form anti-D.</li>
+  </ul>
+
+  <h3>How the slide test works</h3>
+  <p>Each slide in the simulation contains a reagent antibody: anti-A, anti-B or anti-Rh (anti-D). If the client’s red cells carry the matching antigen, the antibodies link the cells together and visible clumps form. If not, the blood stays smooth and evenly red.</p>
+  <figure class="fig" id="figAgg"></figure>
+  <div class="callout">Agglutination with a reagent antibody tells you the <b>antigen is present</b>. For example, clumping with anti-B and anti-Rh but not anti-A means the cells carry B and D antigens only: type <b>B+</b>.
+    <a href="#simulation" class="btn small" data-tab-link="simulation">Try the simulation →</a></div>
+
+  <h3>Red cell compatibility</h3>
+  <p>Donor red cells must not carry any antigen the recipient lacks, or the recipient’s antibodies will attack them.</p>
+  <div id="gridRBC" class="tblwrap"></div>
+  <div class="pair">
+    <div class="mini"><b>O− : universal red cell donor</b><br>No A, B or D antigens, so it is used in emergencies before the client’s type is known.</div>
+    <div class="mini"><b>AB+ : universal red cell recipient</b><br>Has A, B and D antigens and no anti-A or anti-B, so it can receive red cells of any type.</div>
+  </div>
+</section>
+
+<!-- ================================================================ SIMULATION -->
+<section id="tab-simulation" class="tab" role="tabpanel" hidden>
+  <div class="simhead">
+    <div>
+      <h2>Slide blood typing</h2>
+      <p class="muted">Test your own (pretend) blood with anti-A, anti-B and anti-Rh antibodies.</p>
+    </div>
+    <div class="controls">
+      <div class="ctl">Sample odds
+        <div class="seg" role="group" aria-label="Sample odds">
+          <button id="oddsReal" class="on" title="Weighted by Canadian blood type frequencies">Canadian</button>
+          <button id="oddsEven" title="All eight blood types equally likely">Balanced</button>
+        </div>
+      </div>
+      <div class="ctl" id="skinCtl"></div>
+      <div class="ctl score">Attempts <b id="sAtt">0</b> · Correct <b id="sOk">0</b></div>
+    </div>
+  </div>
+
+  <div class="steps" id="simSteps"></div>
+  <div class="instr" id="instr" aria-live="polite"></div>
+
+  <div class="bench">
+    <div class="handcol">
+      <div class="handwrap">
+        <canvas id="handCanvas" class="hand" aria-label="Your hand"></canvas>
+        <div id="fingerDrop" class="fdrop" aria-hidden="true"></div>
+      </div>
+      <div class="cap" id="handCap">Your fingertip</div>
+    </div>
+    <div class="centre">
+      <div class="row3" id="bottles"></div>
+      <div class="tray" id="tray"><div class="row3" id="slides"></div></div>
+      <div class="actions" id="actions"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="answerPanel">
+    <div class="ans">
+      <label class="q" for="answer">What is the blood type?</label>
+      <div class="ansrow">
+        <input id="answer" type="text" placeholder="e.g.,  B+  or  O-" maxlength="20" autocomplete="off">
+        <button class="btn" id="submit">Submit</button>
+      </div>
+    </div>
+    <div class="fb" id="fb">
+      <h3>Feedback</h3>
+      <div class="res" id="fbRes"></div>
+      <div id="fbTable"></div>
+      <div class="exp" id="fbExp"></div>
+      <div class="compat" id="fbCompat"></div>
+      <button class="btn" id="newBtn">↺ New blood sample</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ TRANSFUSION -->
+<section id="tab-transfusion" class="tab prose" role="tabpanel" hidden>
+  <h2>Blood transfusion: nursing considerations</h2>
+  <p class="lead">Most serious transfusion reactions are preventable, and the most dangerous, ABO incompatibility, is usually caused by an <b>identification error</b> at sample collection or at the bedside. The nurse is the final safety check before blood reaches the client.</p>
+  <p class="muted small">This section focuses on red blood cells. Always follow your agency’s transfusion policy, which may differ in details such as time limits and monitoring frequency.</p>
+
+  <div class="phase">
+    <h3><span class="ph">Before</span> Preparing the client</h3>
+    <ul class="checks">
+      <li><b>Verify the order</b>: product, number of units, rate and any special requirements (e.g., irradiated products).</li>
+      <li><b>Informed consent</b> is obtained and documented. Ask about previous transfusions and reactions, and about beliefs that affect accepting blood (e.g., Jehovah’s Witnesses).</li>
+      <li><b>Pre-transfusion sample</b>: a current group and screen or crossmatch, with the sample labelled at the bedside immediately after collection.</li>
+      <li><b>Baseline assessment within 30 minutes before starting</b>: temperature, pulse, respirations, blood pressure, SpO₂, lung sounds and fluid status. Note clients at higher risk of overload (older adults, heart or kidney failure).</li>
+      <li><b>IV access</b>: commonly 20–22 G for routine adult transfusion and 16–18 G for rapid transfusion. Smaller catheters can be used for fragile veins and children.</li>
+      <li><b>Equipment</b>: a blood administration set with a 170–260 µm filter, primed with <b>0.9% sodium chloride only</b>. Never add medications to blood or run it with dextrose or other solutions.</li>
+      <li><b>Pick up one unit at a time</b> and start promptly. If it cannot be started within the agency’s time limit, return it to the blood bank.</li>
+      <li><b>Bedside check with a second qualified person</b>: match two client identifiers on the wristband, requisition and unit tag; check the unit number, ABO/Rh, product and expiry; inspect the bag for clots, discolouration or leaks.</li>
+    </ul>
+  </div>
+
+  <div class="phase">
+    <h3><span class="ph">During</span> Starting and monitoring</h3>
+    <ul class="checks">
+      <li><b>Start slowly</b> (e.g., about 50 mL/h) for the first 15 minutes and <b>stay with the client</b>. Severe reactions usually appear early, after only a small volume. Repeat for each unit.</li>
+      <li><b>Vital signs after the first 15 minutes</b>, then at least hourly (or per policy), and at the end of the unit.</li>
+      <li>If there are no concerns, increase to the ordered rate. A unit of red cells usually runs over 1.5–2 hours, more slowly for clients at risk of overload.</li>
+      <li><b>Complete within 4 hours</b> of leaving controlled storage.</li>
+      <li>Teach the client to report chills, itching, rash, shortness of breath, back pain or feeling unwell right away.</li>
+    </ul>
+  </div>
+
+  <div class="phase">
+    <h3><span class="ph">After</span> Follow-up</h3>
+    <ul class="checks">
+      <li>Vital signs at completion and afterwards per policy (e.g., within an hour for inpatients).</li>
+      <li>Document the product, unit number, volume, start and stop times, vital signs and the client’s response.</li>
+      <li>Evaluate effect (e.g., symptoms, post-transfusion hemoglobin as ordered).</li>
+      <li>Teach the client to report fever, jaundice, dark urine or breathlessness in the following days, since delayed reactions can occur.</li>
+    </ul>
+  </div>
+
+  <h3>Adverse transfusion reactions</h3>
+  <div class="tblwrap">
+  <table class="tbl rx">
+    <thead><tr><th>Reaction</th><th>Typical timing</th><th>Key signs and symptoms</th><th>Cause / notes</th></tr></thead>
+    <tbody>
+      <tr><td><b>Acute hemolytic (AHTR)</b></td><td>Minutes, often in the first 15 min</td><td>Fever, chills, flank or back pain, pain at the IV site, hypotension, tachycardia, red or dark urine, anxiety or a sense of impending doom; may progress to DIC and acute kidney injury</td><td>ABO-incompatible red cells, usually from an identification error. A medical emergency.</td></tr>
+      <tr><td><b>Febrile non-hemolytic (FNHTR)</b></td><td>During or up to 4 h after</td><td>Fever (≥38 °C and a rise of ≥1 °C), chills, rigors; client otherwise stable</td><td>Cytokines or recipient antibodies to donor white cells. Diagnosed only after hemolysis and sepsis are ruled out.</td></tr>
+      <tr><td><b>Minor allergic</b></td><td>During</td><td>Hives (urticaria), itching, flushing only</td><td>Reaction to donor plasma proteins. The most common reaction.</td></tr>
+      <tr><td><b>Anaphylaxis</b></td><td>Seconds to minutes</td><td>Hypotension, wheeze or stridor, angioedema, respiratory distress; usually no fever</td><td>Severe allergic reaction (e.g., IgA-deficient client with anti-IgA). Life-threatening.</td></tr>
+      <tr><td><b>TACO</b><br><span class="small">circulatory overload</span></td><td>During or within 12 h</td><td>Dyspnea, orthopnea, crackles, <b>hypertension</b>, distended neck veins, edema</td><td>Volume overload. Higher risk in older adults, heart failure, kidney failure, and large or rapid transfusions.</td></tr>
+      <tr><td><b>TRALI</b><br><span class="small">acute lung injury</span></td><td>Within 6 h</td><td>Sudden hypoxemia and respiratory distress, bilateral infiltrates, often fever and <b>hypotension</b>; no fluid overload</td><td>Donor antibodies activate the recipient’s white cells in the lungs. Most often linked to plasma-rich products.</td></tr>
+      <tr><td><b>Septic (bacterial)</b></td><td>During or soon after</td><td>High fever, rigors, hypotension, tachycardia, shock</td><td>Contaminated product. Platelets carry the highest risk because they are stored at room temperature.</td></tr>
+      <tr><td><b>Delayed hemolytic (DHTR)</b></td><td>3–14 days</td><td>Unexplained fall in hemoglobin, fever, jaundice, dark urine</td><td>A re-stimulated antibody (from earlier transfusion or pregnancy) slowly destroys donor cells.</td></tr>
+      <tr><td><b>Other</b></td><td>Varies</td><td colspan="2">Massive transfusion: hypothermia, hypocalcemia (citrate), hyperkalemia. Repeated transfusion: iron overload. Rare: transfusion-associated graft-versus-host disease (prevented with irradiated products).</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="small muted">Tip: TACO and TRALI both cause breathing difficulty. Blood pressure helps tell them apart: usually high in TACO, often low in TRALI.</p>
+
+  <h3>If you suspect a reaction</h3>
+  <ol class="steps-list">
+    <li><b>Stop the transfusion</b> immediately.</li>
+    <li><b>Keep the IV open</b> with 0.9% sodium chloride through <b>new tubing</b>. Do not flush the blood line.</li>
+    <li><b>Assess the client</b>: airway, breathing, circulation and vital signs. Stay with the client.</li>
+    <li><b>Recheck identification</b>: client wristband against the unit tag and paperwork, at the bedside.</li>
+    <li><b>Notify</b> the prescriber and the blood bank (transfusion service).</li>
+    <li><b>Treat as ordered</b>: for example oxygen, an antipyretic, an antihistamine, epinephrine for anaphylaxis, or a diuretic and upright positioning for TACO.</li>
+    <li><b>Return the bag and tubing</b> to the blood bank and collect blood and urine samples per protocol.</li>
+    <li><b>Document and report</b> the reaction through the transfusion service.</li>
+  </ol>
+  <div class="callout">For <b>isolated mild hives</b> with stable vital signs, the prescriber may order an antihistamine and allow the same unit to be restarted slowly. Never restart a transfusion after fever, hypotension or breathing difficulty without a full investigation.</div>
+</section>
+
+<!-- ================================================================ PLASMA -->
+<section id="tab-plasma" class="tab prose" role="tabpanel" hidden>
+  <h2>Plasma transfusion</h2>
+  <p class="lead"><b>Plasma</b> is the liquid part of blood, about 55% of its volume. It is mostly water and carries proteins (albumin, immunoglobulins and <b>clotting factors</b>), electrolytes, nutrients and wastes. Plasma is transfused mainly to replace clotting factors.</p>
+
+  <h3>Plasma products in Canada</h3>
+  <ul>
+    <li><b>Frozen plasma (FP)</b> and <b>apheresis fresh frozen plasma (AFP)</b>: contain all the clotting factors.</li>
+    <li><b>Solvent/detergent-treated plasma (Octaplasma)</b>: pooled plasma treated to inactivate many viruses.</li>
+    <li><b>Cryoprecipitate</b>: a concentrated source of fibrinogen (also factor VIII, von Willebrand factor and factor XIII).</li>
+    <li>Plasma protein products such as albumin, IVIG and prothrombin complex concentrate (PCC) are manufactured from plasma and are handled differently.</li>
+  </ul>
+
+  <div class="pair">
+    <div class="mini good"><b>When plasma is indicated</b>
+      <ul>
+        <li>Bleeding, or an invasive procedure, when several clotting factors are deficient (e.g., liver disease, DIC)</li>
+        <li>Massive hemorrhage with clotting abnormalities</li>
+        <li>Therapeutic plasma exchange (e.g., TTP)</li>
+      </ul></div>
+    <div class="mini bad"><b>When plasma is not indicated</b>
+      <ul>
+        <li>Volume replacement</li>
+        <li>A mildly raised INR (below 1.8) before a procedure in a client who is not bleeding</li>
+        <li>Warfarin reversal: use PCC with vitamin K instead</li>
+        <li>When a specific factor concentrate is available</li>
+      </ul></div>
+  </div>
+
+  <h3>Plasma compatibility: the rule is reversed</h3>
+  <p>With red cells, we ask: <i>which antigens are on the donor cells?</i> With plasma, we ask: <i>which antibodies are in the donor plasma?</i> Donor plasma must not contain antibodies against the recipient’s own red cell antigens.</p>
+  <div id="gridPlasma" class="tblwrap narrow"></div>
+  <div class="pair">
+    <div class="mini"><b>AB : universal plasma donor</b><br>AB plasma has neither anti-A nor anti-B, so any client can receive it.</div>
+    <div class="mini"><b>O : universal plasma recipient</b><br>Group O red cells have no A or B antigens, so a group O client can receive plasma of any ABO group.</div>
+  </div>
+  <div class="callout"><b>Rh is not a factor</b> in plasma transfusion, and plasma is not crossmatched. Only ABO compatibility is needed, so the client’s ABO/Rh group must be known.</div>
+
+  <h3>Nursing considerations</h3>
+  <ul class="checks">
+    <li><b>Plan ahead:</b> plasma is stored frozen. Thawing takes at least 20 minutes (30 minutes for solvent/detergent plasma). Thawed plasma cannot be refrozen and is kept refrigerated in the blood bank for up to 5 days.</li>
+    <li><b>Dose:</b> usually 10–15 mL/kg, as ordered, which often means several units. Watch the total fluid volume.</li>
+    <li><b>Same safety checks as red cells:</b> consent, two-person bedside identification, blood administration set with filter, 0.9% sodium chloride only, stay with the client for the first 15 minutes, and complete within 4 hours.</li>
+    <li><b>Monitor closely for:</b> TACO (large volumes), TRALI (plasma-rich products carry the highest risk) and allergic reactions, including anaphylaxis.</li>
+    <li><b>Evaluate the effect:</b> bleeding and repeat coagulation tests (INR, aPTT, fibrinogen) as ordered.</li>
+  </ul>
+</section>
+
+<!-- ================================================================ QUIZ -->
+<section id="tab-quiz" class="tab" role="tabpanel" hidden>
+  <div class="prose"><h2>Check your understanding</h2>
+  <p class="muted">Ten questions covering slide reading, antigens and antibodies, blood transfusion and plasma. Each attempt draws a new set.</p></div>
+  <div class="quiz">
+    <div class="qbar"><div id="qBar"></div></div>
+    <div class="qcard" id="quizCard">
+      <div class="qmeta"><span id="qProg"></span><span class="chip" id="qTopic"></span></div>
+      <p class="qtext" id="qText"></p>
+      <div class="qslides" id="qSlides" hidden></div>
+      <p class="qhint" id="qHint"></p>
+      <div class="qopts" id="qOpts"></div>
+      <div class="qfb" id="qFb" aria-live="polite"></div>
+      <div class="qbtns"><button class="btn" id="qCheck">Check answer</button><button class="btn" id="qNext" hidden>Next question →</button></div>
+    </div>
+    <div class="qcard" id="quizEnd" hidden>
+      <p class="qprog">Your score</p>
+      <p class="qscore" id="qScore"></p>
+      <p id="qMsg"></p>
+      <div class="tchips" id="qTopics"></div>
+      <h3>Review</h3>
+      <ol class="review" id="qReview"></ol>
+      <button class="btn" id="qRestart">↺ Take a new quiz</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <p>For educational use in nursing programs. Always follow your agency’s policies and procedures for blood and blood product administration.</p>
+  <p>Sources: Canadian Blood Services, <i>Clinical Guide to Transfusion</i>; Shared Health Manitoba, <i>Transfusion Practice Manual</i>; Alberta Health Services, <i>Plasma</i> clinical information. Blood type frequencies: Canadian population data supplied by the course instructor.</p>
+</footer>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="mbox">
+    <div class="mhead"><span id="mTitle">Magnified view</span><button class="xbtn" id="mClose">Close ✕</button></div>
+    <canvas class="lens" id="lens"></canvas>
+    <p id="mCap"></p>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/slide-render.js"></script>
+<script src="js/hand.js"></script>
+<script src="js/simulation.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

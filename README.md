@@ -9,6 +9,11 @@ A growing collection of free, browser-based anatomy and physiology learning acti
   - Body regions and surface anatomy
   - Anatomical planes
   - Abdominal quadrants
+- Chapter 18, Lab 1: **Blood Typing Lab**
+  - ABO and Rh (D) antigens and antibodies
+  - Slide typing simulation
+  - Blood and plasma transfusion nursing care
+  - Self-check quiz
 
 ## Project structure
 

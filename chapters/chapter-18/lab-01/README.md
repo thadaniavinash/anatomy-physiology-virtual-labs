@@ -1,0 +1,66 @@
+# Blood Typing Lab
+
+An interactive blood typing simulation for first-year BScN nursing students. It has five tabs:
+
+1. **Antigens & Antibodies**: ABO and Rh (D) systems, how agglutination works, and red cell compatibility
+2. **Simulation**: slide typing with your own (pretend) blood: add antibodies → add blood → mix & stir → wait → identify
+3. **Blood Transfusion**: nursing care before, during and after a transfusion; adverse reactions; what to do if a reaction is suspected
+4. **Plasma Transfusion**: plasma products, indications, reversed ABO compatibility, nursing considerations
+5. **Quiz**: 10 questions per attempt (3 slide-reading + 7 drawn from the question bank), with rationales
+
+## Folder structure
+
+```
+blood-typing-lab/
+├── index.html          page layout and all theory text
+├── css/styles.css      styles
+├── js/
+│   ├── data.js         blood type frequencies, explanations, quiz question bank  ← edit content here
+│   ├── slide-render.js draws slides and the agglutination pattern
+│   ├── hand.js         hand photo and skin-tone recolouring
+│   ├── simulation.js   simulation steps and feedback
+│   ├── quiz.js         quiz engine
+│   └── app.js          tabs, theory figures and tables
+└── assets/hand.webp    hand photo (background removed)
+```
+
+No build step or libraries are needed. The only external resource is the Atkinson Hyperlegible font from Google Fonts. Without it the page falls back to a system font.
+
+## Publishing with GitHub Pages
+
+1. This lab lives at `chapters/chapter-18/lab-01/` in the Anatomy & Physiology Virtual Labs repository.
+2. In the repository, go to **Settings → Pages** and choose **Deploy from a branch** (e.g., `main`, folder `/root`).
+3. The lab will be at `https://<username>.github.io/<repo-name>/chapters/chapter-18/lab-01/`.
+4. Open a tab directly with `#antigens`, `#simulation`, `#transfusion`, `#plasma` or `#quiz` at the end of the URL.
+
+To embed it in an LMS, use an iframe pointing to the GitHub Pages URL.
+
+## Previewing locally
+
+Opening `index.html` straight from disk works. However, browsers block pixel access to images on `file://` pages, so the skin-tone control falls back to approximate colour filters there. For the accurate recolouring, run a small local server from the folder:
+
+```
+python3 -m http.server 8000
+```
+
+Then open `http://localhost:8000`. GitHub Pages always uses the accurate method.
+
+## Editing content
+
+- **Quiz questions**: add or edit entries in the `QUIZ` array in `js/data.js`. Each needs `topic` (`antigens`, `transfusion` or `plasma`), `type` (`single` or `sata`), `q`, `options`, `answer` (an index, or an array of indices for `sata`) and `why` (the rationale). Answer order is shuffled automatically.
+- **Questions per topic**: change `PLAN` at the top of `js/quiz.js`.
+- **Blood type explanations and frequencies**: `EXPLAIN` and `FREQ` in `js/data.js`.
+- **Theory text**: edit the sections directly in `index.html`.
+- **Waiting time**: `WAIT_SECONDS` in `js/simulation.js` (20 s by default, sped up from about 2 minutes).
+
+## Sources
+
+- Canadian Blood Services, *Clinical Guide to Transfusion*
+- Shared Health Manitoba, *Transfusion Practice Manual* (administration guideline)
+- Alberta Health Services, *Plasma* clinical information sheet
+
+Content is for education. Clinical details such as time limits and monitoring frequency vary by agency, so learners should always follow local policy.
+
+## Image credit
+
+`assets/hand.webp` is adapted (background removed, resized) from a photograph supplied by the course instructor. Confirm the photo's licence permits public redistribution before publishing, and add its credit here.
