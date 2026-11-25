@@ -12,21 +12,21 @@ a.tab{display:block;text-decoration:none}
 
 /* Cards and typography */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:14px}
-.card h2{font:700 21px/1.2 Georgia,serif;margin:0 0 6px}
-.card h3{font:700 17px/1.25 Georgia,serif;margin:14px 0 6px}
+.card h2{font:700 21px/1.2 'Outfit','Inter',sans-serif;margin:0 0 6px}
+.card h3{font:700 17px/1.25 'Outfit','Inter',sans-serif;margin:14px 0 6px}
 .kicker{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:4px}
 .lede{color:var(--muted);margin:0 0 8px;max-width:90ch}
 .hint{font-size:13px;color:var(--muted)}
 .two-col{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
 
 /* Buttons and controls */
-.btn{border:1px solid #c4d3cf;background:#fff;color:var(--ink);border-radius:10px;padding:9px 13px;font:700 14px system-ui,sans-serif;cursor:pointer}
+.btn{border:1px solid #c4d3cf;background:#fff;color:var(--ink);border-radius:10px;padding:9px 13px;font:700 14px 'Inter',system-ui,sans-serif;cursor:pointer}
 .btn:hover{border-color:var(--teal)}
 .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff;min-width:88px}
 .btn.primary:hover{background:#075d63}
 .btn:disabled{opacity:.45;cursor:default}
 .btn:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,.scroll:focus-visible{outline:3px solid #4778b3;outline-offset:2px}
-select{padding:8px 10px;border:1px solid #c4d3cf;border-radius:10px;background:#fff;font:600 14px system-ui,sans-serif;color:var(--ink)}
+select{padding:8px 10px;border:1px solid #c4d3cf;border-radius:10px;background:#fff;font:600 14px 'Inter',system-ui,sans-serif;color:var(--ink)}
 label{display:inline-flex;align-items:center;gap:7px}
 input[type=range]{accent-color:var(--open)}
 .toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
@@ -56,7 +56,7 @@ svg text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .probe-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}
 .probe-layout>*,.two-col>*{min-width:0}
 .status{background:#f2f6f4;border:1px solid var(--line);border-radius:14px;padding:14px}
-.status .phase{font:700 20px/1.2 Georgia,serif;margin:2px 0 4px}
+.status .phase{font:700 20px/1.2 'Outfit','Inter',sans-serif;margin:2px 0 4px}
 .status p{font-size:14px;margin:8px 0}
 .status .eyebrow{color:var(--muted);font-size:10px}
 .meter{margin:8px 0}
@@ -95,9 +95,9 @@ details summary{cursor:pointer;font-weight:750}
 .part-cards{display:grid;gap:12px}
 .part-card{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:20px;align-items:center;padding:20px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow)}
 .part-card.planned{background:#fbfcfb;border-style:dashed}
-.part-num{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;background:var(--teal2);color:var(--teal);font:700 26px Georgia,serif}
+.part-num{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;background:var(--teal2);color:var(--teal);font:700 26px 'Outfit','Inter',sans-serif}
 .part-label{margin:0 0 2px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--coral)}
-.part-card h3{margin:0 0 4px;font:700 21px/1.2 Georgia,serif}
+.part-card h3{margin:0 0 4px;font:700 21px/1.2 'Outfit','Inter',sans-serif}
 .part-card p{margin:0;color:var(--muted)}
 .part-card ul{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0;padding:0;list-style:none}
 .part-card li{padding:3px 8px;border-radius:7px;background:#eef4f1;color:#4c6563;font-size:12px}
@@ -137,7 +137,7 @@ details summary{cursor:pointer;font-weight:750}
 .sim-panel{min-width:0;border:1px solid var(--line);border-radius:14px;padding:6px;background:#fff}
 .sim-svg{display:block;width:100%;height:auto;max-height:32vh;min-width:420px}
 .sim-status{display:grid;grid-template-columns:auto auto 1fr;gap:4px 14px;align-items:center;margin-top:10px;padding:10px 12px;border-radius:12px;background:#f2f6f4;border:1px solid var(--line)}
-.sim-status .phase{font:700 18px/1.2 Georgia,serif;border-radius:8px;padding:4px 10px;white-space:nowrap}
+.sim-status .phase{font:700 18px/1.2 'Outfit','Inter',sans-serif;border-radius:8px;padding:4px 10px;white-space:nowrap}
 .sim-mv{font-size:18px;color:var(--ink)}
 .sim-status p{margin:0;font-size:14px}
 .sim-status #refractory-text{grid-column:1/-1;color:var(--muted);font-size:13px}
@@ -153,10 +153,10 @@ details summary{cursor:pointer;font-weight:750}
 
 /* Part 1 — synapse simulation */
 .page-tabs{display:flex;gap:6px;margin:0 0 12px}
-.page-tabs button{border:1px solid var(--line);background:#fff;border-radius:10px 10px 0 0;padding:9px 16px;font:750 14px system-ui,sans-serif;color:#476260;cursor:pointer}
+.page-tabs button{border:1px solid var(--line);background:#fff;border-radius:10px 10px 0 0;padding:9px 16px;font:750 14px 'Inter',system-ui,sans-serif;color:#476260;cursor:pointer}
 .page-tabs button[aria-selected=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
 .seg{display:inline-flex;flex-wrap:wrap;gap:4px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#f4f7f6}
-.seg button{border:0;background:transparent;border-radius:9px;padding:7px 11px;font:650 13px system-ui,sans-serif;color:var(--ink);cursor:pointer}
+.seg button{border:0;background:transparent;border-radius:9px;padding:7px 11px;font:650 13px 'Inter',system-ui,sans-serif;color:var(--ink);cursor:pointer}
 .seg button[aria-pressed=true]{background:var(--teal);color:#fff}
 .seg button:focus-visible,.page-tabs button:focus-visible{outline:3px solid #4778b3;outline-offset:2px}
 .scen-row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:6px 0 2px}
@@ -180,7 +180,7 @@ details summary{cursor:pointer;font-weight:750}
 .nt-card{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff;border-top:5px solid #999}
 .nt-card.kind-e{border-top-color:#e8861d}.nt-card.kind-i{border-top-color:#a8439a}.nt-card.kind-b{border-top-color:#2c6cc2}
 .nt-card header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.nt-card h3{margin:0;font:700 18px/1.2 Georgia,serif}
+.nt-card h3{margin:0;font:700 18px/1.2 'Outfit','Inter',sans-serif}
 .nt-pill{font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;white-space:nowrap}
 .kind-e .nt-pill{background:#fdebd7;color:#9a4f06}.kind-i .nt-pill{background:#f4e1f0;color:#7d2f72}.kind-b .nt-pill{background:#dfe9f8;color:#1d4f96}
 .nt-card dl{margin:10px 0 0}
@@ -208,3 +208,21 @@ details summary{cursor:pointer;font-weight:750}
 .why-grid b{display:block;margin-bottom:3px}
 body.part3 .strip{max-height:19vh}
 body.part3 .sim-svg{max-height:29vh}
+
+/* ---------- Platform theme (A&P Virtual Labs) ---------- */
+.card{border-color:var(--border-subtle);box-shadow:var(--shadow-sm);border-radius:var(--radius-lg)}
+.card h2,.card h3,.part-card h3,.nt-card h3{font-weight:600;color:var(--text)}
+.kicker,.part-label{color:var(--brand);letter-spacing:.08em}
+.btn{min-height:40px;border-color:var(--border);border-radius:var(--radius-md);font:600 14px/1.2 var(--font-body);color:var(--text-secondary)}
+.btn:hover{border-color:var(--border-strong);color:var(--text)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand-hover)}
+select{border-color:var(--border);border-radius:var(--radius-md);font-family:var(--font-body)}
+.clinical{border:1px solid var(--warning-border);background:var(--warning-bg-subtle);border-radius:var(--radius-md)}
+.result{border-left-color:var(--brand)}
+.pager{margin-top:16px}
+.pager-link{border-radius:var(--radius-lg);color:var(--brand);font-weight:600;box-shadow:var(--shadow-sm);min-height:44px}
+.pager-link:hover{border-color:var(--brand);background:var(--surface-selected)}
+.part-num{border-radius:var(--radius-lg);background:var(--surface-selected);color:var(--brand)}
+.journey a:hover rect.stage-box,.journey a:focus rect.stage-box{stroke:var(--brand)}
+.page-tabs button[aria-selected=true],.step-track li.now{background:var(--brand);border-color:var(--brand);color:#fff}

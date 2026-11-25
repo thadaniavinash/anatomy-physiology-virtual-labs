@@ -323,14 +323,15 @@
     const M = NL.manifest, root = document.body.dataset.root || '';
     const parts = M.parts, steps = parts.filter(p => p.step), active = parts.find(p => p.id === activeId);
     const nav = document.getElementById('lab-nav');
-    if (nav) nav.innerHTML = parts.map(p => {
+    if (nav) nav.innerHTML = '<p class="pl-rail-label">In this lab</p>' + parts.map(p => {
       const cur = p.id === activeId;
-      return `<a class="tab${cur ? ' active' : ''}" href="${root}${p.href}"${cur ? ' aria-current="page"' : ''}>${p.step ? p.step + ' · ' : ''}${p.label}${p.status === 'planned' ? '<span class="tab-badge">In development</span>' : ''}</a>`;
-    }).join('');
+      const num = p.step ? p.step : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>';
+      return `<a class="pl-rail-item${cur ? ' active' : ''}" href="${root}${p.href}"${cur ? ' aria-current="page"' : ''}><span class="pl-rail-num">${num}</span>${p.label}${p.status === 'planned' ? '<span class="pl-badge pl-badge--soon">Soon</span>' : ''}</a>`;
+    }).join('') + '<div class="pl-rail-foot" id="lab-progress"></div>';
     const prog = document.getElementById('lab-progress');
     if (prog) {
       const idx = active && active.step ? active.step : 0;
-      prog.innerHTML = `<div class="progress-label"><span>Signal pathway</span><b>${idx ? `Part ${idx} of ${steps.length}` : 'Overview'}</b></div><div class="progress" aria-hidden="true"><i style="width:${idx / steps.length * 100}%"></i></div><div class="progress-steps" style="grid-template-columns:repeat(${steps.length},1fr)">${steps.map(p => `<span class="progress-step${p.id === activeId ? ' active' : ''}">${p.label}</span>`).join('')}</div>`;
+      prog.innerHTML = `<div class="pl-progress-label"><span>Signal pathway</span><b>${idx ? `Part ${idx} of ${steps.length}` : 'Overview'}</b></div><div class="pl-progress-track" aria-hidden="true"><i style="width:${idx / steps.length * 100}%"></i></div>`;
     }
     const pn = document.getElementById('lab-pager');
     if (pn) {
