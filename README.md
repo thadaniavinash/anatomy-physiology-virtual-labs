@@ -14,6 +14,10 @@ A growing collection of free, browser-based anatomy and physiology learning acti
   - Slide typing simulation
   - Blood and plasma transfusion nursing care
   - Self-check quiz
+- Chapter 19, Lab 1: **ECG Rhythm Monitor**
+  - 14 synthesized rhythms: sinus, atrial, ventricular, AV blocks, PVCs
+  - Adjustable sinus rate, 25/50 mm/s sweep, ECG-paper or monitor display
+  - Two-strip side-by-side comparison
 
 ## Project structure
 
