@@ -34,6 +34,7 @@ A growing collection of free, browser-based anatomy and physiology learning acti
 
 - `index.html` — platform home for **Virtual Experiential Learning for Nurses**: one card for the virtual labs and one for the NCLEX-style case studies (its code box opens the Clinical Judgment Lab app with `?code=`)
 - `labs/index.html` — the **A&P Virtual Labs** catalogue, organised by chapter, with search
+- `lab-values/index.html` — **LabRef**, the case-study companion: Medical Council of Canada normal adult lab values (December 2020 list) with interpretation and nursing considerations. `?q=potassium` opens a search; `#t<number>` opens one test
 - `assets/css/platform.css` — the shared look for the library and every lab: colours, fonts, top bar, lab header and "In this lab" side rail, matching the Clinical Judgment Lab (NCLEX) app
 - `assets/` — other shared styles, scripts, and optimized images
 - `chapters/chapter-XX/lab-XX/` — hosted lab applications

@@ -19,6 +19,11 @@ The hand image in Chapter 18, Lab 1 (`chapters/chapter-18/lab-01/assets/hand.web
 
 - Heart illustration rebuilt from HyperHeart (Spencer S. Eccles Health Sciences Library, University of Utah; HTML5 port by Quentin Roper, Massey University), https://library.med.utah.edu/kw/pharm/hyperheart/, used under Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0). Non-commercial teaching use only; the credit also appears in the simulator.
 
+## Lab values (LabRef)
+
+- Reference ranges: Medical Council of Canada, *Normal lab values* (https://mcc.ca/examinations-assessments/resources-to-help-with-exam-prep/normal-lab-values/), last updated December 2020. Checked against the published page in November 2026: all tests and values match.
+- The interpretation content (possible causes, nursing interventions, treatment cautions) was written for this site for training use and is not part of the MCC list.
+
 ## Sources: Chapter 18, Lab 1 (Blood Typing)
 
 - Canadian Blood Services, *Clinical Guide to Transfusion*

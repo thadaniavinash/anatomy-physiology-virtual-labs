@@ -211,7 +211,7 @@ body.pl-page {
    Platform home (Virtual Experiential Learning for Nurses)
    ===================================================================== */
 .pl-brand-name--platform { white-space: normal; font-size: 17px; line-height: 1.15; }
-.pl-sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; align-items: stretch; }
+.pl-sections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
 .pl-section-card { display: flex; flex-direction: column; gap: 16px; padding: 24px; }
 .pl-section-head { display: flex; align-items: flex-start; gap: 14px; }
 .pl-icon-tile {
@@ -222,6 +222,9 @@ body.pl-page {
 .pl-eyebrow { margin: 0 0 2px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-subtle); }
 .pl-section-title { margin: 0; font: 700 22px/1.2 var(--font-title); color: var(--brand-deep); }
 .pl-section-desc { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-secondary); }
+.pl-section-card--wide { grid-column: 1 / -1; }
+.pl-chip--link { min-height: 32px; text-decoration: none; color: var(--brand); font-weight: 600; }
+.pl-chip--link:hover { background: var(--surface-selected); }
 .pl-section-foot { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
 .pl-quicklist { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; }
@@ -331,6 +334,7 @@ body.pl-page {
   .pl-nav-item { flex: none; white-space: nowrap; }
   .pl-nav-item[aria-current="page"] { box-shadow: inset 0 -3px 0 var(--brand); }
   .pl-main { padding: 24px 16px; }
+  .pl-sections { grid-template-columns: minmax(0, 1fr); }
   .pl-chapter { grid-template-columns: minmax(0, 1fr); padding: 18px 16px; }
   .pl-chapter-id { flex-direction: row; align-items: baseline; gap: 10px; }
   .pl-chapter-num { font-size: 32px; }

@@ -1,0 +1,1490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LabRef · Normal lab values · Virtual Experiential Learning for Nurses</title>
+<meta name="description" content="Searchable MCC normal lab values with interpretation and nursing considerations, for NCLEX-style case study practice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/platform.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: EMR results-review shell on desktop (tree nav | results grid | component detail); on phones it becomes a "pocket" flow: section accordion, list, full-screen detail sheet. */
+:root{
+  /* Mapped to the platform tokens (assets/css/platform.css) */
+  --bg:#eef2f5; --panel:#ffffff; --panel-2:#f8fafc; --ink:#1e293b; --ink-2:#334155; --muted:#475569;
+  --line:#cbd5e1; --line-2:#e2e8f0;
+  --bar:#002f5c; --bar-ink:#e6edf5; --bar-ink-2:#b2c3d6;
+  --accent:#025287; --accent-ink:#ffffff; --accent-soft:#e0eef8;
+  --hi:#a3361f; --hi-soft:#fbe6e0; --lo:#1f5fa8; --lo-soft:#e0ebf8; --ok:#2f6b3a; --ok-soft:#e2f0e4;
+  --flag:#f2c94c; --flag-ink:#3a2c00; --sel:#fff4cc; --sel-line:#c9a93a; --mark:#ffe58a; --mark-ink:#3a2c00;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0b1622; --panel:#12202e; --panel-2:#172838; --ink:#e3e9ef; --ink-2:#bcc7d2; --muted:#94a2af;
+  --line:#2a3d50; --line-2:#1f3042;
+  --bar:#081422; --bar-ink:#e3ebf4; --bar-ink-2:#9fb1c5;
+  --accent:#4ba3e3; --accent-ink:#0b1622; --accent-soft:#16314a;
+  --hi:#f08a70; --hi-soft:#3a1e17; --lo:#7cb0f0; --lo-soft:#172a42; --ok:#86c992; --ok-soft:#183020;
+  --flag:#d9b23d; --flag-ink:#231a00; --sel:#33301c; --sel-line:#a68a2c; --mark:#6a5a1c; --mark-ink:#fff3c4;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0b1622; --panel:#12202e; --panel-2:#172838; --ink:#e3e9ef; --ink-2:#bcc7d2; --muted:#94a2af;
+  --line:#2a3d50; --line-2:#1f3042;
+  --bar:#081422; --bar-ink:#e3ebf4; --bar-ink-2:#9fb1c5;
+  --accent:#4ba3e3; --accent-ink:#0b1622; --accent-soft:#16314a;
+  --hi:#f08a70; --hi-soft:#3a1e17; --lo:#7cb0f0; --lo-soft:#172a42; --ok:#86c992; --ok-soft:#183020;
+  --flag:#d9b23d; --flag-ink:#231a00; --sel:#33301c; --sel-line:#a68a2c; --mark:#6a5a1c; --mark-ink:#fff3c4;
+  color-scheme:dark }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bar)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+mark{background:var(--mark);color:var(--mark-ink);border-radius:2px;padding:0 1px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg{flex:none}
+
+/* system bar */
+.sysbar{background:var(--bar);color:var(--bar-ink);flex:none}
+.sysbar .in{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;min-height:44px;padding-block:6px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px;white-space:nowrap}
+.brand small{font-weight:400;color:var(--bar-ink-2);font-size:13px}
+.logo{width:26px;height:26px;border-radius:5px;background:#2f6db0;display:flex;align-items:center;justify-content:center}
+.grow{flex:1}
+.trainflag{background:var(--flag);color:var(--flag-ink);font-weight:700;font-size:10.5px;letter-spacing:.08em;padding:4px 8px;border-radius:3px;white-space:nowrap}
+.iconbtn{background:transparent;border:1px solid #ffffff38;color:var(--bar-ink);border-radius:4px;height:32px;padding:0 10px;cursor:pointer;font-size:12.5px;display:inline-flex;align-items:center;gap:6px}
+
+/* toolbar */
+.toolbar{background:var(--panel);border-bottom:1px solid var(--line);flex:none}
+.toolbar .in{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding-block:10px}
+.search{flex:1 1 380px;display:flex;align-items:center;gap:8px;background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:0 10px;height:40px;min-width:0}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search input{flex:1;border:0;background:transparent;outline:none;min-width:0;font-size:15px}
+.kbd{font:500 11px var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:1px 6px}
+.facts{display:flex;flex-wrap:wrap;gap:6px 22px}
+.fact .k{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.07em}
+.fact .v{font-weight:600;font-size:13px}
+
+/* workspace */
+.work{flex:1;min-height:0;display:grid;grid-template-columns:272px minmax(0,1fr) minmax(380px,460px)}
+.pane{min-height:0;overflow-y:auto}
+.nav{background:var(--panel-2);border-right:1px solid var(--line)}
+.list{background:var(--panel)}
+.detail{background:var(--panel-2);border-left:1px solid var(--line)}
+
+/* tree nav */
+.navhead{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:12px 14px 6px;display:flex;justify-content:space-between;align-items:center}
+.navtoggle{display:none}
+.tree{padding-bottom:16px}
+.t-all,.t-cat,.t-sub{display:flex;align-items:center;gap:8px;width:100%;border:0;background:transparent;text-align:left;cursor:pointer;color:var(--ink);min-height:36px}
+.t-all{padding:8px 14px;font-weight:600;border-left:3px solid transparent}
+.t-cat{padding:9px 12px 9px 11px;font-weight:600;font-size:13.5px;line-height:1.3;border-left:3px solid transparent}
+.t-sub{padding:7px 12px 7px 40px;font-size:13px;color:var(--ink-2);border-left:3px solid transparent;line-height:1.3}
+.t-all:hover,.t-cat:hover,.t-sub:hover{background:var(--line-2)}
+.t-all.on,.t-cat.on,.t-sub.on{background:var(--accent-soft);border-left-color:var(--accent);color:var(--accent)}
+.t-cat .chev{width:14px;color:var(--muted);transition:transform .15s}
+.t-cat[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.t-cat .lbl,.t-sub .lbl,.t-all .lbl{flex:1}
+.cnt{font:500 11px var(--mono);color:var(--muted)}
+.subs[hidden]{display:none}
+
+/* results list */
+.listhead{position:sticky;top:0;z-index:2;background:var(--panel);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:12px 16px}
+.listhead h1{margin:0;font-size:17px;line-height:1.25;text-wrap:balance}
+.listhead .meta{font:500 12px var(--mono);color:var(--muted)}
+.grp{font-size:11px;font-weight:700;color:var(--ink-2);letter-spacing:.08em;text-transform:uppercase;background:var(--panel-2);border-bottom:1px solid var(--line);border-top:1px solid var(--line);padding:6px 16px}
+.colhead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:6px 16px;font-size:11.5px;font-weight:700;color:var(--muted);border-bottom:1px solid var(--line-2)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line-2);background:transparent;padding:9px 16px;cursor:pointer;color:var(--ink)}
+.row:nth-child(even){background:color-mix(in srgb,var(--panel-2) 55%,var(--panel))}
+.row:hover{background:var(--accent-soft)}
+.row.on{background:var(--sel);box-shadow:inset 3px 0 0 var(--sel-line)}
+.row .tn{font-weight:600;line-height:1.35}
+.row .vals{font-family:var(--mono);font-size:13px;display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums}
+.row .vals .c{color:var(--muted);font-family:var(--sans);font-size:12px}
+.row .vals .nn{font-family:var(--sans);font-style:italic;color:var(--muted)}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+.empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:6px}
+
+/* detail */
+.dhead{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 16px 0}
+.back{display:none}
+.crumb{font:500 11.5px var(--mono);color:var(--muted)}
+.dname{margin:4px 0 10px;font-size:19px;line-height:1.25;font-weight:700;text-wrap:balance}
+.tabs{display:flex;gap:2px}
+.tab{border:0;background:transparent;padding:9px 12px;font-weight:600;font-size:13.5px;color:var(--ink-2);border-bottom:3px solid transparent;cursor:pointer;min-height:42px}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.dbody{padding:14px 16px 28px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px}
+.ch{padding:8px 12px;border-bottom:1px solid var(--line);background:var(--panel-2);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+.cb{padding:12px}
+.refline{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line-2)}
+.refline:last-child{border-bottom:0}
+.refline .ctx{color:var(--ink-2);font-size:13px;flex:1}
+.refline .v{font:600 15px var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.refline .nn{font-style:italic;color:var(--muted);flex:1}
+.copy{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:4px;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+.copy:hover{color:var(--accent);border-color:var(--accent)}
+.copy.done{color:var(--ok);border-color:var(--ok)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0}
+.note{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.note a{color:var(--accent)}
+
+/* checker */
+.check{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.check input{width:120px;height:38px;border:1px solid var(--line);border-radius:4px;background:var(--panel);padding:0 10px;font-family:var(--mono);font-size:15px}
+.check select{height:38px;border:1px solid var(--line);border-radius:4px;background:var(--panel);padding:0 8px;max-width:100%;min-width:0}
+.check .u{font:500 12px var(--mono);color:var(--muted)}
+.verdict{margin-top:8px;font-size:13.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:24px}
+.chip{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:22px;padding:0 7px;border-radius:3px;font:700 11px var(--mono);letter-spacing:.04em}
+.chip.H{background:var(--hi-soft);color:var(--hi);border:1px solid var(--hi)}
+.chip.L{background:var(--lo-soft);color:var(--lo);border:1px solid var(--lo)}
+.chip.N{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok)}
+
+/* high / low switch */
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--panel)}
+.seg button{border:0;background:transparent;padding:10px 8px;font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--ink-2);min-height:44px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.hi[aria-pressed="true"]{background:var(--hi-soft);color:var(--hi);box-shadow:inset 0 -3px 0 var(--hi)}
+.seg button.lo[aria-pressed="true"]{background:var(--lo-soft);color:var(--lo);box-shadow:inset 0 -3px 0 var(--lo)}
+
+.suggest{font-size:16px;line-height:1.45;font-weight:600;margin:0}
+.sect h3{margin:0 0 6px;font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.dx{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;counter-reset:d}
+.dx li{display:grid;grid-template-columns:22px 1fr;gap:4px;counter-increment:d}
+.dx li::before{content:counter(d);font:600 12px var(--mono);color:var(--muted);padding-top:2px}
+.ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.tx{display:flex;flex-direction:column}
+.tx div{padding:8px 0;border-top:1px solid var(--line-2)}
+.tx div:first-child{border-top:0;padding-top:0}
+.tx b{display:block;font-size:13.5px}
+.tx span{font-size:13px;color:var(--ink-2)}
+.na{font-size:14px;color:var(--ink-2);padding:4px 0}
+.special{background:var(--accent-soft);border:1px solid var(--accent);border-radius:4px;padding:10px 12px;font-size:13px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{height:36px;padding:0 12px;border:1px solid var(--line);background:var(--panel);border-radius:4px;font-size:13px;cursor:pointer}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.status{font-size:12px;color:var(--ok)}
+.review{font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+
+.statusbar{background:var(--panel-2);border-top:1px solid var(--line);font-size:12px;color:var(--ink-2);flex:none}
+.statusbar .in{display:flex;flex-wrap:wrap;gap:2px 18px;padding-block:5px;padding-bottom:max(5px,env(safe-area-inset-bottom,0px))}
+
+/* ---------- phone / pocket ---------- */
+@media (max-width:900px){
+  body{display:block;height:auto}
+  .trainflag{font-size:9.5px}
+  .facts{display:none}
+  .work{display:block}
+  .pane{overflow:visible}
+  .nav{border-right:0;border-bottom:1px solid var(--line)}
+  .navtoggle{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--ink);text-transform:none;letter-spacing:0;min-height:36px}
+  .navhead{padding:12px 16px}
+  .tree[data-collapsed="true"]{display:none}
+  .t-cat{font-size:15px;padding:12px 16px;min-height:48px}
+  .t-sub{font-size:14px;padding:11px 16px 11px 40px;min-height:44px}
+  .t-all{padding:12px 16px;min-height:48px}
+  .listhead{position:static}
+  .grp{position:static}
+  .colhead{display:none}
+  .row{grid-template-columns:minmax(0,1fr);gap:4px;padding:12px 16px}
+  .row .tn{font-size:15px}
+  .detail{position:fixed;inset:0;z-index:40;border-left:0;overflow-y:auto;transform:translateX(100%);transition:transform .22s ease;visibility:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  body.sheet .detail{transform:none;visibility:visible}
+  body.sheet{overflow:hidden}
+  .back{display:inline-flex;align-items:center;gap:4px;border:0;background:transparent;color:var(--accent);font-weight:600;padding:6px 0;cursor:pointer;min-height:40px}
+  .dhead{position:sticky;top:0;z-index:2}
+  .dname{font-size:21px}
+  .card{border-radius:10px}
+  .seg{border-radius:10px}
+  .statusbar{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- Platform shell (Virtual Experiential Learning for Nurses) ---------- */
+body.pl-page{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);min-height:0}
+.pl-topbar{flex:none;background:var(--panel);border-bottom-color:var(--line)}
+.pl-brand-name{color:var(--ink)}
+:root:not([data-theme="dark"]) .pl-brand-name{color:var(--brand-deep)}
+.pl-brand-sub{color:var(--muted)}
+.pl-topbar .pl-btn{background:var(--panel);border-color:var(--line);color:var(--ink-2)}
+.pl-topbar .pl-btn:hover{border-color:var(--muted);color:var(--ink)}
+.pl-topbar .trainflag{font-family:var(--sans)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .pl-brand-name{color:var(--ink)} }
+.tf-short{display:none}
+@media (max-width:640px){ .tf-long{display:none} .tf-short{display:inline} .pl-topbar .trainflag{padding:4px 6px} }
+</style>
+</head>
+
+<body class="pl-page">
+<header class="pl-topbar">
+  <a class="pl-brand" href="index.html" aria-label="LabRef: normal lab values">
+    <span class="pl-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6.5L5.2 17a2 2 0 0 0 1.7 3h10.2a2 2 0 0 0 1.7-3L14 9.5V3"/><path d="M7.5 14h9"/></svg></span>
+    <span class="pl-brand-text"><span class="pl-brand-name">LabRef</span><span class="pl-brand-sub">Normal lab values · Clinical Judgment Lab companion</span></span>
+  </a>
+  <div class="pl-topbar-actions">
+    <span class="trainflag"><span class="tf-long">TRAINING · NOT FOR CLINICAL USE</span><span class="tf-short">TRAINING ONLY</span></span>
+    <button class="pl-btn pl-btn--sm" id="themeBtn" type="button" aria-label="Switch light or dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg><span class="pl-btn-label">Theme</span></button>
+    <a class="pl-btn pl-btn--sm" href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="pl-btn-label">Home</span></a>
+  </div>
+</header>
+
+<div class="toolbar"><div class="in gut">
+  <label class="search" for="q"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr">Search lab values</span><input id="q" type="search" autocomplete="off" placeholder="Search a test, abbreviation or unit (K, ABG, troponin, mmol/L)"><span class="kbd" aria-hidden="true">/</span></label>
+  <div class="facts">
+    <div class="fact"><div class="k">Reference set</div><div class="v">MCC normal lab values</div></div>
+    <div class="fact"><div class="k">Population</div><div class="v">Adults</div></div>
+    <div class="fact"><div class="k">Version</div><div class="v">December 2020</div></div>
+  </div>
+</div></div>
+
+<div class="work">
+  <nav class="pane nav" aria-label="Lab sections">
+    <div class="navhead"><span>Lab sections</span><button class="navtoggle" id="navToggle" type="button" aria-expanded="false" aria-controls="tree">Browse sections</button></div>
+    <div class="tree" id="tree" data-collapsed="false"></div>
+  </nav>
+  <section class="pane list" id="list" aria-label="Results"></section>
+  <aside class="pane detail" id="detail" aria-label="Component detail"></aside>
+</div>
+
+<footer class="statusbar"><div class="in gut"><span id="sbCount"></span><span id="sbSel"></span><span>Source: Medical Council of Canada, List of normal lab values</span><span>Learning use only</span><span>Built by Claude Code to the course instructor's design</span></div></footer>
+
+<script>
+const labData = [
+{cat:'Arterial blood gases',sub:'Arterial blood gases',test:'pH, arterial blood',ctx:'',val:'7.38–7.46',aliases:'ABG arterial blood gas pH acid base'},
+{cat:'Arterial blood gases',sub:'Arterial blood gases',test:'Pco₂, arterial blood',ctx:'',val:'32–45 mm Hg',aliases:'PCO2 carbon dioxide CO2 ABG'},
+{cat:'Arterial blood gases',sub:'Arterial blood gases',test:'Po₂, arterial blood',ctx:'',val:'83–116 mm Hg',aliases:'PO2 oxygen O2 ABG'},
+{cat:'Arterial blood gases',sub:'Arterial blood gases',test:'Bicarbonate (HCO₃), arterial blood',ctx:'',val:'22–27 mmol/L',aliases:'HCO3 bicarb bicarbonate ABG'},
+{cat:'Arterial blood gases',sub:'Arterial blood gases',test:'Base excess, arterial blood',ctx:'',val:'−2.5 to 2.5 mmol/L',aliases:'ABG base deficit'},
+{cat:'Blood',sub:'Hemogram',test:'Erythrocyte sedimentation rate (ESR), blood',ctx:'Female',val:'0–20 mm/h',aliases:'ESR sedimentation inflammation'},
+{cat:'Blood',sub:'Hemogram',test:'Erythrocyte sedimentation rate (ESR), blood',ctx:'Male',val:'0–10 mm/h',aliases:'ESR sedimentation inflammation'},
+{cat:'Blood',sub:'Hemogram',test:'Hematocrit (Hct), blood',ctx:'',val:'0.38–0.50 L/L',aliases:'HCT packed cell volume'},
+{cat:'Blood',sub:'Hemogram',test:'Hemoglobin (Hgb), blood',ctx:'Female',val:'115–155 g/L',aliases:'HGB hemoglobin haemoglobin anemia anaemia'},
+{cat:'Blood',sub:'Hemogram',test:'Hemoglobin (Hgb), blood',ctx:'Male',val:'125–170 g/L',aliases:'HGB hemoglobin haemoglobin anemia anaemia'},
+{cat:'Blood',sub:'Hemogram',test:'Mean corpuscular volume (MCV), blood',ctx:'',val:'80–100 fL',aliases:'MCV RBC size'},
+{cat:'Blood',sub:'Hemogram',test:'Mean corpuscular hemoglobin (MCH), blood',ctx:'Female',val:'25–34 pg',aliases:'MCH'},
+{cat:'Blood',sub:'Hemogram',test:'Mean corpuscular hemoglobin (MCH), blood',ctx:'Male',val:'27–34 pg',aliases:'MCH'},
+{cat:'Blood',sub:'Hemogram',test:'Mean corpuscular hemoglobin concentration (MCHC), blood',ctx:'',val:'315–355 g/L',aliases:'MCHC'},
+{cat:'Blood',sub:'Hemogram',test:'Mean platelet volume (MPV), blood',ctx:'',val:'9.0–14.0 fL',aliases:'MPV platelet'},
+{cat:'Blood',sub:'Hemogram',test:'Platelet count, blood',ctx:'',val:'130–380 × 10⁹/L',aliases:'platelets thrombocytes PLT'},
+{cat:'Blood',sub:'Hemogram',test:'Red blood cell (RBC) count, blood',ctx:'Female',val:'3.50–5.00 × 10¹²/L',aliases:'RBC erythrocyte'},
+{cat:'Blood',sub:'Hemogram',test:'Red blood cell (RBC) count, blood',ctx:'Male',val:'4.00–5.50 × 10¹²/L',aliases:'RBC erythrocyte'},
+{cat:'Blood',sub:'Hemogram',test:'Red cell distribution width (RDW), blood',ctx:'',val:'11.5%–15.5%',aliases:'RDW'},
+{cat:'Blood',sub:'Hemogram',test:'Reticulocyte count, absolute, blood',ctx:'',val:'23–90 × 10⁹/L',aliases:'retic reticulocytes'},
+{cat:'Blood',sub:'Hemogram',test:'Reticulocyte percentage, blood',ctx:'',val:'0.5%–1.5%',aliases:'retic reticulocytes'},
+{cat:'Blood',sub:'Coagulation (Hemostasis)',test:'Bleeding time (Ivy method), blood',ctx:'',val:'1–9 min',aliases:'hemostasis coagulation bleeding'},
+{cat:'Blood',sub:'Coagulation (Hemostasis)',test:'International normalized ratio (INR), nonanticoagulated, blood',ctx:'',val:'0.9–1.2',aliases:'INR PT warfarin coagulation'},
+{cat:'Blood',sub:'Coagulation (Hemostasis)',test:'Activated partial thromboplastin time (APTT), nonanticoagulated, blood',ctx:'',val:'22–30 s',aliases:'APTT aPTT PTT coagulation heparin'},
+{cat:'Blood',sub:'Coagulation (Hemostasis)',test:'Prothrombin time (PT), blood',ctx:'',val:'10–14 s',aliases:'PT INR coagulation'},
+{cat:'Blood',sub:'White blood cells and Differential',test:'White blood cell (WBC) count, blood',ctx:'',val:'3.5–10.5 × 10⁹/L',aliases:'WBC leukocyte leucocyte'},
+{cat:'Blood',sub:'White blood cells and Differential',test:'Neutrophils, absolute, blood',ctx:'',val:'2.0–7.5 × 10⁹/L',aliases:'ANC neutrophil absolute'},
+{cat:'Blood',sub:'White blood cells and Differential',test:'Basophils, blood',ctx:'',val:'0–0.1 × 10⁹/L',aliases:'baso'},
+{cat:'Blood',sub:'White blood cells and Differential',test:'Eosinophils, blood',ctx:'',val:'0–0.5 × 10⁹/L',aliases:'eos eosinophil'},
+{cat:'Blood',sub:'White blood cells and Differential',test:'Lymphocytes, blood',ctx:'Female',val:'0.8–3.3 × 10⁹/L',aliases:'lymph lymphocyte'},
+{cat:'Blood',sub:'White blood cells and Differential',test:'Lymphocytes, blood',ctx:'Male',val:'0.8–3.5 × 10⁹/L',aliases:'lymph lymphocyte'},
+{cat:'Blood',sub:'White blood cells and Differential',test:'Monocytes, blood',ctx:'',val:'0.1–1.0 × 10⁹/L',aliases:'mono monocyte'},
+{cat:'Blood',sub:'Iron studies',test:'Ferritin, blood',ctx:'Female',val:'11–307 µg/L',aliases:'iron stores'},
+{cat:'Blood',sub:'Iron studies',test:'Ferritin, blood',ctx:'Male',val:'24–336 µg/L',aliases:'iron stores'},
+{cat:'Blood',sub:'Iron studies',test:'Iron, blood',ctx:'Female',val:'9–30 µmol/L',aliases:'serum iron'},
+{cat:'Blood',sub:'Iron studies',test:'Iron, blood',ctx:'Male',val:'12–31 µmol/L',aliases:'serum iron'},
+{cat:'Blood',sub:'Iron studies',test:'Iron-binding capacity, total (TIBC), blood',ctx:'',val:'45–81 µmol/L',aliases:'TIBC total iron binding capacity'},
+{cat:'Blood',sub:'Iron studies',test:'Transferrin, blood',ctx:'',val:'2.0–3.6 g/L',aliases:'iron transport'},
+{cat:'Blood',sub:'Iron studies',test:'Transferrin saturation, blood',ctx:'',val:'0.20–0.50',aliases:'iron saturation'},
+{cat:'Blood',sub:'Thyroid',test:'Thyroid peroxidase antibody, blood',ctx:'',val:'< 35 IU/mL',aliases:'TPO anti TPO thyroid antibody'},
+{cat:'Blood',sub:'Thyroid',test:'Thyrotropin (thyroid-stimulating hormone), blood',ctx:'',val:'0.34–5.60 mIU/L',aliases:'TSH thyrotropin'},
+{cat:'Blood',sub:'Thyroid',test:'Thyroxine, free (FT₄), blood',ctx:'',val:'7.0–17.0 pmol/L',aliases:'FT4 free T4 thyroxine'},
+{cat:'Blood',sub:'Thyroid',test:'Triiodothyronine, free (FT₃), blood',ctx:'',val:'3.3–6.0 pmol/L',aliases:'FT3 free T3 triiodothyronine'},
+{cat:'Blood',sub:'Chemical constituents',test:'Adrenocorticotropic hormone (ACTH), blood',ctx:'At 8 a.m.',val:'2.2–13.3 pmol/L',aliases:'ACTH adrenal pituitary'},
+{cat:'Blood',sub:'Chemical constituents',test:'Adrenocorticotropic hormone (ACTH), blood',ctx:'At 4 p.m.',val:'< 4.5 pmol/L',aliases:'ACTH adrenal pituitary'},
+{cat:'Blood',sub:'Chemical constituents',test:'Albumin, blood',ctx:'',val:'34–50 g/L',aliases:'protein liver'},
+{cat:'Blood',sub:'Chemical constituents',test:'Aldosterone, blood',ctx:'',val:'61–978 pmol/L',aliases:'RAAS adrenal'},
+{cat:'Blood',sub:'Chemical constituents',test:'Alkaline phosphatase, blood',ctx:'',val:'50–136 IU/L',aliases:'ALP alk phos liver bone'},
+{cat:'Blood',sub:'Chemical constituents',test:'Alanine aminotransferase (ALT), blood',ctx:'',val:'17–63 IU/L',aliases:'ALT transaminase liver'},
+{cat:'Blood',sub:'Chemical constituents',test:'Aspartate aminotransferase (AST), blood',ctx:'',val:'15–37 IU/L',aliases:'AST transaminase liver'},
+{cat:'Blood',sub:'Chemical constituents',test:'γ-Glutamyltransferase (GGT), blood',ctx:'Female',val:'5.0–55.0 IU/L',aliases:'GGT gamma glutamyltransferase liver'},
+{cat:'Blood',sub:'Chemical constituents',test:'γ-Glutamyltransferase (GGT), blood',ctx:'Male',val:'15.0–85.0 IU/L',aliases:'GGT gamma glutamyltransferase liver'},
+{cat:'Blood',sub:'Chemical constituents',test:'Ammonia, blood',ctx:'',val:'≤ 35 µmol/L',aliases:'NH3 liver encephalopathy'},
+{cat:'Blood',sub:'Chemical constituents',test:'Amylase, blood',ctx:'',val:'25–115 IU/L',aliases:'pancreas'},
+{cat:'Blood',sub:'Chemical constituents',test:'Anion gap, blood',ctx:'',val:'5–12 mmol/L',aliases:'metabolic acidosis electrolytes'},
+{cat:'Blood',sub:'Chemical constituents',test:'Bicarbonate (HCO₃), blood',ctx:'',val:'21–32 mmol/L',aliases:'HCO3 bicarb CO2 electrolytes'},
+{cat:'Blood',sub:'Chemical constituents',test:'Bilirubin, blood',ctx:'Direct (conjugated)',val:'2–9 µmol/L',aliases:'liver jaundice conjugated'},
+{cat:'Blood',sub:'Chemical constituents',test:'Bilirubin, blood',ctx:'Total',val:'3–17 µmol/L',aliases:'liver jaundice total'},
+{cat:'Blood',sub:'Chemical constituents',test:'Brain-type natriuretic peptide (BNP), blood',ctx:'BNP',val:'≤ 50 pg/mL',aliases:'BNP heart failure'},
+{cat:'Blood',sub:'Chemical constituents',test:'N-terminal pro–brain-type natriuretic peptide (NT-proBNP), blood',ctx:'',val:'≤ 125 pg/mL',aliases:'NT pro BNP NT-proBNP heart failure'},
+{cat:'Blood',sub:'Chemical constituents',test:'CD4 T-cell count, blood',ctx:'',val:'500–2000 cells/μL',aliases:'CD4 HIV lymphocyte'},
+{cat:'Blood',sub:'Chemical constituents',test:'C-reactive protein, blood',ctx:'',val:'≤ 10 mg/L',aliases:'CRP inflammation'},
+{cat:'Blood',sub:'Chemical constituents',test:'Calcium (Ca), blood',ctx:'Total',val:'2.12–2.52 mmol/L',aliases:'Ca total calcium'},
+{cat:'Blood',sub:'Chemical constituents',test:'Calcium (Ca), blood',ctx:'Ionized',val:'1.14–1.28 mmol/L',aliases:'ionized calcium Ca'},
+{cat:'Blood',sub:'Chemical constituents',test:'Cancer antigen (CA) 125, blood',ctx:'',val:'< 35 kIU/L',aliases:'CA125 tumor marker ovarian'},
+{cat:'Blood',sub:'Chemical constituents',test:'Cancer antigen (CA) 19-9, blood',ctx:'',val:'< 35 kIU/L',aliases:'CA19-9 CA 19 9 tumor marker'},
+{cat:'Blood',sub:'Chemical constituents',test:'Carbamazepine, blood',ctx:'',val:'17–51 µmol/L',aliases:'tegretol anticonvulsant'},
+{cat:'Blood',sub:'Chemical constituents',test:'Carcinoembryonic antigen (CEA), blood',ctx:'',val:'< 3.0 µg/L',aliases:'CEA tumor marker'},
+{cat:'Blood',sub:'Chemical constituents',test:'Chloride (Cl), blood',ctx:'',val:'98–107 mmol/L',aliases:'Cl electrolytes'},
+{cat:'Blood',sub:'Chemical constituents',test:'Cortisol, blood',ctx:'a.m.',val:'185–624 nmol/L',aliases:'adrenal cortisol'},
+{cat:'Blood',sub:'Chemical constituents',test:'Cortisol, blood',ctx:'p.m.',val:'≤ 276 nmol/L',aliases:'adrenal cortisol'},
+{cat:'Blood',sub:'Chemical constituents',test:'Creatine kinase (CK), blood',ctx:'Female',val:'30–190 IU/L',aliases:'CK CPK muscle cardiac'},
+{cat:'Blood',sub:'Chemical constituents',test:'Creatine kinase (CK), blood',ctx:'Male',val:'30–250 IU/L',aliases:'CK CPK muscle cardiac'},
+{cat:'Blood',sub:'Chemical constituents',test:'Creatinine, blood',ctx:'Female',val:'22–75 µmol/L',aliases:'Cr kidney renal'},
+{cat:'Blood',sub:'Chemical constituents',test:'Creatinine, blood',ctx:'Male',val:'49–93 µmol/L',aliases:'Cr kidney renal'},
+{cat:'Blood',sub:'Chemical constituents',test:'D-dimer, blood',ctx:'',val:'< 600 µg/L',aliases:'D dimer clot PE DVT'},
+{cat:'Blood',sub:'Chemical constituents',test:'Estimated glomerular filtration rate (eGFR), blood',ctx:'',val:'≥ 60 mL/min/1.73 m²',aliases:'eGFR GFR kidney renal'},
+{cat:'Blood',sub:'Chemical constituents',test:'α₁-Fetoprotein, blood',ctx:'',val:'≤ 9.0 µg/L',aliases:'AFP alpha fetoprotein'},
+{cat:'Blood',sub:'Chemical constituents',test:'Folate (folic acid), blood',ctx:'',val:'≥ 10.0 nmol/L',aliases:'folic acid vitamin B9'},
+{cat:'Blood',sub:'Chemical constituents',test:'Glucose, blood',ctx:'Fasting',val:'4.0–6.0 mmol/L',aliases:'blood sugar fasting diabetes'},
+{cat:'Blood',sub:'Chemical constituents',test:'Glucose, blood',ctx:'Random',val:'4.0–11.0 mmol/L',aliases:'blood sugar random diabetes'},
+{cat:'Blood',sub:'Chemical constituents',test:'Hemoglobin A₁c (HbA₁c), blood',ctx:'',val:'4.8%–6.0%',aliases:'A1C HbA1c diabetes glycosylated'},
+{cat:'Blood',sub:'Chemical constituents',test:'Hepatitis B surface antibodies, blood',ctx:'Positive',val:'≥ 10 mIU/mL (Positive)',aliases:'anti HBs HBsAb hepatitis B immunity'},
+{cat:'Blood',sub:'Chemical constituents',test:'Hepatitis B surface antibodies, blood',ctx:'Negative',val:'< 10 mIU/mL (Negative)',aliases:'anti HBs HBsAb hepatitis B immunity'},
+{cat:'Blood',sub:'Chemical constituents',test:'Lactate, blood',ctx:'',val:'0.5–2.5 mmol/L',aliases:'lactic acid sepsis'},
+{cat:'Blood',sub:'Chemical constituents',test:'Lactate dehydrogenase (LDH), blood',ctx:'',val:'100–205 IU/L',aliases:'LDH'},
+{cat:'Blood',sub:'Chemical constituents',test:'Lipase, blood',ctx:'',val:'73–393 IU/L',aliases:'pancreas pancreatitis'},
+{cat:'Blood',sub:'Chemical constituents',test:'Lithium (Li), blood',ctx:'Age 18–65 y',val:'0.6–1.2 mmol/L',aliases:'Li therapeutic drug level'},
+{cat:'Blood',sub:'Chemical constituents',test:'Lithium (Li), blood',ctx:'Age > 65 y',val:'0.4–0.8 mmol/L',aliases:'Li therapeutic drug level elderly'},
+{cat:'Blood',sub:'Chemical constituents',test:'Magnesium (Mg), blood',ctx:'',val:'0.74–1.03 mmol/L',aliases:'Mg electrolytes'},
+{cat:'Blood',sub:'Chemical constituents',test:'Osmolality, blood',ctx:'',val:'275–295 mmol/kg',aliases:'osmolarity osmolality serum'},
+{cat:'Blood',sub:'Chemical constituents',test:'Parathyroid hormone (PTH), blood',ctx:'',val:'1.6–9.3 pmol/L',aliases:'PTH calcium parathyroid'},
+{cat:'Blood',sub:'Chemical constituents',test:'Phosphate (PO₄), blood',ctx:'',val:'0.81–1.58 mmol/L',aliases:'phosphorus PO4'},
+{cat:'Blood',sub:'Chemical constituents',test:'Potassium (K), blood',ctx:'',val:'3.5–5.1 mmol/L',aliases:'K potassium electrolytes'},
+{cat:'Blood',sub:'Chemical constituents',test:'Prostate-specific antigen (PSA), blood',ctx:'',val:'< 3.1 µg/L',aliases:'PSA prostate'},
+{cat:'Blood',sub:'Chemical constituents',test:'Protein, total, blood',ctx:'Age 18–<30 y',val:'65–83 g/L',aliases:'total protein'},
+{cat:'Blood',sub:'Chemical constituents',test:'Protein, total, blood',ctx:'Age ≥30 y',val:'65–78 g/L',aliases:'total protein'},
+{cat:'Blood',sub:'Chemical constituents',test:'Rheumatoid factor (RF), blood',ctx:'',val:'≤ 20 kIU/L',aliases:'RF rheumatoid arthritis'},
+{cat:'Blood',sub:'Chemical constituents',test:'Sodium (Na), blood',ctx:'',val:'136–146 mmol/L',aliases:'Na sodium electrolytes'},
+{cat:'Blood',sub:'Chemical constituents',test:'Troponin I, blood',ctx:'',val:'≤ 45 ng/L',aliases:'TnI cardiac MI myocardial infarction'},
+{cat:'Blood',sub:'Chemical constituents',test:'Troponin T (TnT), blood',ctx:'',val:'≤ 0.1 µg/L',aliases:'TnT cardiac MI myocardial infarction'},
+{cat:'Blood',sub:'Chemical constituents',test:'Uric acid, blood',ctx:'Female',val:'155–400 µmol/L',aliases:'urate gout'},
+{cat:'Blood',sub:'Chemical constituents',test:'Uric acid, blood',ctx:'Male',val:'208–400 µmol/L',aliases:'urate gout'},
+{cat:'Blood',sub:'Chemical constituents',test:'Urea, blood',ctx:'',val:'2.1–8.0 mmol/L',aliases:'BUN blood urea nitrogen renal kidney'},
+{cat:'Blood',sub:'Chemical constituents',test:'Valproic acid, blood',ctx:'',val:'350–700 µmol/L',aliases:'valproate therapeutic drug level'},
+{cat:'Blood',sub:'Chemical constituents',test:'Vitamin B₁₂, blood',ctx:'',val:'133–675 pmol/L',aliases:'B12 cobalamin'},
+{cat:'Blood',sub:'Chemical constituents',test:'Vitamin D (25-hydroxyvitamin D), blood',ctx:'',val:'75–250 nmol/L',aliases:'25 OH vitamin D'},
+{cat:'Lipids',sub:'Lipids',test:'Cholesterol, total, blood',ctx:'',val:'3.5–5.2 mmol/L',aliases:'lipids cholesterol total'},
+{cat:'Lipids',sub:'Lipids',test:'Cholesterol, high-density lipoprotein (HDL), blood',ctx:'Female',val:'> 1.3 mmol/L',aliases:'HDL good cholesterol'},
+{cat:'Lipids',sub:'Lipids',test:'Cholesterol, high-density lipoprotein (HDL), blood',ctx:'Male',val:'> 1.0 mmol/L',aliases:'HDL good cholesterol'},
+{cat:'Lipids',sub:'Lipids',test:'Cholesterol, low-density lipoprotein (LDL), blood',ctx:'',val:'See table below',aliases:'LDL bad cholesterol'},
+{cat:'Lipids',sub:'Lipids',test:'Non–high-density lipoprotein (non-HDL), blood',ctx:'',val:'≤ 4.5 mmol/L',aliases:'non HDL cholesterol'},
+{cat:'Lipids',sub:'Lipids',test:'Triglycerides, blood',ctx:'',val:'≤ 1.7 mmol/L',aliases:'TG triglyceride'},
+{cat:'Low-Density Lipoprotein (LDL) Analysis',sub:'LDL analysis',test:'High and intermediate cardiovascular disease risk',ctx:'When to consider initiating treatment',val:'LDL level of ≥ 3.5 mmol/L',aliases:'LDL cardiovascular risk treatment high intermediate'},
+{cat:'Low-Density Lipoprotein (LDL) Analysis',sub:'LDL analysis',test:'High and intermediate cardiovascular disease risk',ctx:'Treatment target',val:'LDL level of < 2.0 mmol/L or ≥ 50% reduction in pretherapy LDL level',aliases:'LDL cardiovascular risk target'},
+{cat:'Low-Density Lipoprotein (LDL) Analysis',sub:'LDL analysis',test:'Low cardiovascular disease risk',ctx:'When to consider initiating treatment',val:'LDL level of ≥ 5.0 mmol/L',aliases:'LDL cardiovascular risk treatment low'},
+{cat:'Low-Density Lipoprotein (LDL) Analysis',sub:'LDL analysis',test:'Low cardiovascular disease risk',ctx:'Treatment target',val:'≥ 50% reduction in pretherapy LDL level',aliases:'LDL cardiovascular risk target'},
+{cat:'Urine',sub:'Urinalysis (not dipstick)',test:'Specific gravity, urine',ctx:'',val:'1.005–1.030',aliases:'urine specific gravity'},
+{cat:'Urine',sub:'Urinalysis (not dipstick)',test:'pH, urine',ctx:'',val:'5.0–8.5',aliases:'urine pH'},
+{cat:'Urine',sub:'Urinalysis (not dipstick)',test:'Urobilinogen, urine',ctx:'',val:'≤ 16.0 µmol/L',aliases:'urinalysis urobilinogen'},
+{cat:'Urine',sub:'Urinalysis (not dipstick)',test:'Albumin to creatinine ratio, urine',ctx:'',val:'≤ 2.0 g/mol Cr',aliases:'ACR urine microalbumin'},
+{cat:'Urine',sub:'Urinalysis (not dipstick)',test:'Osmolality, urine',ctx:'',val:'38–1400 mOsm/kg H₂O',aliases:'urine osmolality osmolarity'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urine calcium (Ca), unrestricted diet, 24-h specimen',ctx:'',val:'2.5–7.5 mmol/24 h',aliases:'urine calcium 24 hour'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urine chloride (Cl), 24-h specimen',ctx:'',val:'110.0–250.0 mmol/24 h',aliases:'urine chloride 24 hour'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urine creatinine, weight-based, 24-h specimen',ctx:'Female',val:'5.3–15.9 mmol/24 h',aliases:'urine creatinine 24 hour'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urine creatinine, weight-based, 24-h specimen',ctx:'Male',val:'7.1–17.7 mmol/24 h',aliases:'urine creatinine 24 hour'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urine metanephrine, 24-h specimen',ctx:'Female',val:'0.2–1.3 µmol/24 h',aliases:'metanephrine urine pheochromocytoma'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urine metanephrine, 24-h specimen',ctx:'Male',val:'0.3–2.0 µmol/24 h',aliases:'metanephrine urine pheochromocytoma'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urine protein, 24-h specimen',ctx:'',val:'< 0.2 g/24 h',aliases:'proteinuria urine protein 24 hour'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urine potassium (K), 24-h specimen',ctx:'',val:'25.0–125.0 mmol/24 h',aliases:'urine potassium K 24 hour'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urinary free cortisol, 24-h specimen',ctx:'',val:'58.0–306.0 µg/24 h',aliases:'urine cortisol cushing 24 hour'},
+{cat:'Urine',sub:'24-H Specimen',test:'Urine sodium (Na), 24-h specimen',ctx:'',val:'40.0–220.0 mmol/24 h',aliases:'urine sodium Na 24 hour'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Female 18–20 y',val:'1.4–8.7 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Female 21–29 y',val:'0.5–10.6 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Female 30–39 y',val:'0.6–7.2 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Female 40–49 y',val:'0.5–6.3 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Female 50–59 y',val:'0.2–5.1 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Female 60–69 y',val:'0.3–3.6 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Female 70–118 y',val:'0.2–4.8 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Male 18–20 y',val:'0.7–14.6 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Male 21–29 y',val:'2.3–18.7 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Male 30–39 y',val:'2.9–12.6 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Male 40–49 y',val:'1.9–13.4 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Male 50–59 y',val:'1.0–8.5 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Male 60–69 y',val:'0.7–6.6 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Dehydroepiandrosterone sulfate (DHEA-S), blood',ctx:'Male 70–118 y',val:'0.1–6.9 µmol/L',aliases:'DHEAS DHEA-S'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Estrogens, total, blood',ctx:'',val:'60–400 ng/L',aliases:'estrogen oestrogen'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Estradiol (E₂) [report the phase of the menstrual cycle], blood',ctx:'Female follicular phase',val:'50–100 pmol/L',aliases:'E2 estrogen estradiol'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Estradiol (E₂) [report the phase of the menstrual cycle], blood',ctx:'Female midcycle peak',val:'50–200 pmol/L',aliases:'E2 estrogen estradiol'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Estradiol (E₂) [report the phase of the menstrual cycle], blood',ctx:'Female luteal phase',val:'70–150 pmol/L',aliases:'E2 estrogen estradiol'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Estradiol (E₂) [report the phase of the menstrual cycle], blood',ctx:'Male',val:'37–110 pmol/L',aliases:'E2 estrogen estradiol'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Follicle-stimulating hormone (FSH) [report the phase of the menstrual cycle], blood',ctx:'Female midfollicular phase',val:'3.9–8.8 IU/L',aliases:'FSH'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Follicle-stimulating hormone (FSH) [report the phase of the menstrual cycle], blood',ctx:'Female midcycle peak',val:'4.5–22.5 IU/L',aliases:'FSH'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Follicle-stimulating hormone (FSH) [report the phase of the menstrual cycle], blood',ctx:'Female midluteal phase',val:'1.8–5.1 IU/L',aliases:'FSH'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Follicle-stimulating hormone (FSH) [report the phase of the menstrual cycle], blood',ctx:'Female postmenopausal',val:'16.7–113.6 IU/L',aliases:'FSH menopause'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Follicle-stimulating hormone (FSH) [report the phase of the menstrual cycle], blood',ctx:'Male',val:'1.0–19.0 IU/L',aliases:'FSH'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Human chorionic gonadotropin (β-hCG), nonpregnant, blood',ctx:'',val:'< 5 IU/L',aliases:'beta hCG pregnancy'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Luteinizing hormone (LH) [report the phase of the menstrual cycle], blood',ctx:'Female midfollicular phase',val:'2.1–10.8 IU/L',aliases:'LH'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Luteinizing hormone (LH) [report the phase of the menstrual cycle], blood',ctx:'Female midcycle peak',val:'19.2–103.0 IU/L',aliases:'LH ovulation'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Luteinizing hormone (LH) [report the phase of the menstrual cycle], blood',ctx:'Female midluteal phase',val:'1.2–12.9 IU/L',aliases:'LH'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Luteinizing hormone (LH) [report the phase of the menstrual cycle], blood',ctx:'Female postmenopausal',val:'10.9–58.6 IU/L',aliases:'LH menopause'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Luteinizing hormone (LH) [report the phase of the menstrual cycle], blood',ctx:'Male',val:'1.0–9.0 IU/L',aliases:'LH'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Progesterone [report the phase of the menstrual cycle], blood',ctx:'Female midfollicular phase',val:'1.0–4.8 nmol/L',aliases:'progesterone'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Progesterone [report the phase of the menstrual cycle], blood',ctx:'Female midluteal phase',val:'16.4–59.0 nmol/L',aliases:'progesterone'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Progesterone [report the phase of the menstrual cycle], blood',ctx:'Male',val:'0.5–6.6 nmol/L',aliases:'progesterone'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Prolactin, blood',ctx:'Female premenopausal',val:'3–27 µg/L',aliases:'prolactin PRL'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Prolactin, blood',ctx:'Female postmenopausal',val:'3–20 µg/L',aliases:'prolactin PRL'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Prolactin, blood',ctx:'Male',val:'3–13 µg/L',aliases:'prolactin PRL'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Testosterone, blood',ctx:'Female',val:'≤ 2.6 nmol/L',aliases:'androgen testosterone'},
+{cat:'Reproductive hormones',sub:'Reproductive hormones',test:'Testosterone, blood',ctx:'Male',val:'6.1–27.1 nmol/L',aliases:'androgen testosterone'},
+{cat:'Semen analysis',sub:'Semen analysis',test:'Ejaculate volume, semen',ctx:'',val:'≥ 1.5 mL',aliases:'semen volume'},
+{cat:'Semen analysis',sub:'Semen analysis',test:'pH, semen',ctx:'',val:'≥ 7.2',aliases:'semen pH'},
+{cat:'Semen analysis',sub:'Semen analysis',test:'Sperm concentration, semen',ctx:'',val:'≥ 15 × 10⁶ spermatozoa/mL',aliases:'sperm count concentration'},
+{cat:'Semen analysis',sub:'Semen analysis',test:'Total sperm number, semen',ctx:'',val:'≥ 39 × 10⁶ spermatozoa/ejaculate',aliases:'sperm count total'},
+{cat:'Semen analysis',sub:'Semen analysis',test:'Motility, semen',ctx:'',val:'≥ 40%',aliases:'sperm motility'},
+{cat:'Semen analysis',sub:'Semen analysis',test:'Forward progression, semen',ctx:'',val:'≥ 32%',aliases:'sperm progression motility'},
+{cat:'Semen analysis',sub:'Semen analysis',test:'Normal morphology, semen',ctx:'',val:'≥ 4% normal',aliases:'sperm morphology'},
+{cat:'Semen analysis',sub:'Semen analysis',test:'Sperm agglutination, semen',ctx:'',val:'Absent',aliases:'sperm agglutination'},
+{cat:'Semen analysis',sub:'Semen analysis',test:'Viscosity, semen',ctx:'',val:'≤ 2-cm thread after liquefaction',aliases:'semen viscosity'},
+{cat:'Stool',sub:'Stool',test:'Fecal fat',ctx:'',val:'< 5 g/day in patients on a 100-g fat diet',aliases:'stool fecal faecal fat'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urine (not dipstick)',test:'Eosinophils, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'urine eosinophils'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urine (not dipstick)',test:'Sodium (Na), urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'urine sodium Na'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urine (not dipstick)',test:'Glucose, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'urine glucose'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urine (not dipstick)',test:'Bilirubin, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'urine bilirubin'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urine (not dipstick)',test:'Ketone, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'urine ketone ketones'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urine (not dipstick)',test:'Blood, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'urine blood'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urine (not dipstick)',test:'Protein, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'urine protein'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urine (not dipstick)',test:'Nitrite, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'urine nitrite'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urine (not dipstick)',test:'Leukocytes, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'urine leukocytes'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urinalysis, dipstick testing',test:'Bilirubin, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'dipstick urine bilirubin'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urinalysis, dipstick testing',test:'Blood, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'dipstick urine blood'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urinalysis, dipstick testing',test:'Glucose, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'dipstick urine glucose'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urinalysis, dipstick testing',test:'Ketones, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'dipstick urine ketones'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urinalysis, dipstick testing',test:'Leukocyte esterase, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'dipstick urine leukocyte esterase'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urinalysis, dipstick testing',test:'Nitrite, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'dipstick urine nitrite'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Urinalysis, dipstick testing',test:'Protein, urine',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'dipstick urine protein'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Chemical Constituents',test:'Ethanol (ethyl alcohol)',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'ethyl alcohol ethanol'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Chemical Constituents',test:'Hepatitis A IgM antibody',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'HAV IgM hepatitis A'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Chemical Constituents',test:'Hepatitis A IgG antibody',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'HAV IgG hepatitis A'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Chemical Constituents',test:'Hepatitis C antibody',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'HCV hepatitis C'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Chemical Constituents',test:'HIV viral load',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'HIV viral load'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Stool',test:'Stool culture',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'stool culture fecal faecal'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Analyses',test:'Pleural fluid',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'pleural fluid analysis'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Analyses',test:'Cerebrospinal fluid',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'CSF cerebrospinal fluid analysis'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Analyses',test:'Synovial fluid',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'synovial fluid analysis'},
+{cat:'Tests and analyses that do not require a normal value',sub:'Analyses',test:'Ascitic fluid',ctx:'',val:'No normal value required by MCC',noNormal:true,aliases:'ascitic fluid ascites analysis'}
+];
+
+/* ===== Interpretation layer (nursing focus; draft for faculty review) =====
+   Keyed by exact test name from labData. Never alters labData.
+   Each direction: s = what it suggests, dx = up to 3 likely causes,
+   n = nursing interventions, tx = [treatment, adverse effects / nursing watch-points].
+   na = direction not clinically meaningful. */
+const NA_LOW = {na:'A low value is not usually clinically significant.'};
+const NA_HIGH = {na:'A high value is not usually clinically significant.'};
+const TX = {
+  ironPO:['Oral iron (ferrous sulfate)','Constipation, nausea, black stools (expected). Give with vitamin C; separate from antacids, calcium, tea and dairy by 2 h. Liquid iron stains teeth: use a straw.'],
+  ironIV:['IV iron','Hypersensitivity reactions and hypotension. Monitor vital signs during and after the infusion.'],
+  transfusion:['RBC transfusion','Transfusion reaction (fever, chills, back pain, hives, dyspnea): stop the transfusion, keep the line open with NS, notify. Watch for fluid overload (TACO). Two-person verification; vital signs before, at 15 min and after.'],
+  plateletTx:['Platelet transfusion','Febrile and allergic reactions, infection risk. Infuse promptly per policy; monitor vital signs.'],
+  ivFluids:['IV fluids','Fluid overload: crackles, dyspnea, edema, rising BP. Monitor I&O and daily weight, especially in heart or kidney failure.'],
+  furosemide:['Furosemide','Hypokalemia, dehydration, hypotension, ototoxicity with rapid IV push. Monitor K, BP, I&O, weight.'],
+  insulin:['Insulin (high-alert)','Hypoglycemia and hypokalemia. Independent double-check; check glucose per protocol; have fast-acting carbohydrate ready.'],
+  naloxone:['Naloxone','Abrupt opioid withdrawal and pain; effect may wear off before the opioid, so re-sedation can occur. Monitor RR and LOC closely.'],
+  bicarb:['Sodium bicarbonate','Hypokalemia, fluid and sodium overload, metabolic alkalosis. Monitor ABGs and K.'],
+  oxygen:['Oxygen','In COPD, high-flow O₂ can raise CO₂ (target SpO₂ 88–92% as ordered). Dry mucosa; fire safety.'],
+  salbutamol:['Salbutamol','Tachycardia, tremor, nervousness, hypokalemia.'],
+  steroids:['Corticosteroids','Hyperglycemia, infection risk, mood changes, fluid retention, GI bleeding; bone loss long term. Do not stop long-term therapy abruptly.'],
+  hydrocortisone:['Hydrocortisone','Hyperglycemia, fluid retention, insomnia, infection risk. Never stop abruptly; teach sick-day dose increases.'],
+  fludro:['Fludrocortisone','Hypertension, hypokalemia, edema. Monitor BP, K and weight.'],
+  antibiotics:['Antibiotics','Allergy or anaphylaxis, rash, diarrhea including C. difficile. Obtain cultures before the first dose.'],
+  heparin:['Heparin','Bleeding; heparin-induced thrombocytopenia (monitor platelets). Antidote: protamine sulfate.'],
+  lmwh:['Enoxaparin (LMWH)','Bleeding, bruising. Give SC in abdomen; do not expel the air bubble or rub the site.'],
+  doac:['DOACs (apixaban, rivaroxaban)','Bleeding; no routine INR monitoring. Teach not to skip or double doses.'],
+  warfarin:['Warfarin','Bleeding; INR monitoring; many drug interactions; keep vitamin K intake consistent. Antidote: vitamin K.'],
+  vitK:['Vitamin K (phytonadione)','Anaphylaxis with IV use, so give IV slowly. Large doses can delay return to therapeutic warfarin.'],
+  protamine:['Protamine sulfate','Hypotension, bradycardia, anaphylaxis (higher risk with fish allergy). Give slowly.'],
+  kclIV:['IV potassium chloride','Never IV push or undiluted. Use an infusion pump at the ordered rate; burning and phlebitis at site; confirm urine output first; cardiac monitoring.'],
+  kclPO:['Oral potassium chloride','GI irritation: give with food and a full glass of water; do not crush extended-release tablets.'],
+  calciumIV:['IV calcium gluconate','Give slowly: bradycardia, arrhythmias; tissue necrosis if it extravasates. Use caution with digoxin.'],
+  calciumPO:['Calcium and vitamin D supplements','Constipation, kidney stones; separate calcium from iron, levothyroxine and some antibiotics.'],
+  magIV:['IV magnesium sulfate','Flushing, hypotension. Check deep tendon reflexes, RR and urine output; infusion pump. Antidote: calcium gluconate.'],
+  levo:['Levothyroxine','Signs of excess dose: tachycardia, palpitations, chest pain, insomnia, heat intolerance, weight loss. Take on an empty stomach 30–60 min before breakfast; lifelong.'],
+  antithyroid:['Methimazole or PTU','Agranulocytosis (report sore throat or fever at once), rash, liver injury (report jaundice). PTU preferred in first-trimester pregnancy.'],
+  betablocker:['Beta-blockers','Bradycardia, hypotension, fatigue; may mask hypoglycemia; caution in asthma. Check apical pulse and BP first.'],
+  statin:['Statins','Muscle pain or weakness (report; rare rhabdomyolysis: dark urine), raised liver enzymes. Avoid large amounts of grapefruit with some statins.'],
+  aceArb:['ACE inhibitors or ARBs','Hyperkalemia, first-dose hypotension, rise in creatinine; dry cough and angioedema with ACE inhibitors. Contraindicated in pregnancy.'],
+  dialysis:['Hemodialysis','Hypotension, cramps, disequilibrium. Protect the fistula arm: no BP or IV; check thrill and bruit.'],
+  opioid:['Opioid analgesics','Respiratory depression, sedation, constipation, hypotension. Monitor RR, sedation level and bowel function.'],
+  nsaid:['NSAIDs','GI bleeding, kidney injury, fluid retention, raised BP. Give with food; avoid in kidney disease.'],
+  b12:['Vitamin B₁₂ injections','Injection-site pain; hypokalemia early in treatment of severe anemia. Lifelong in pernicious anemia.'],
+  folic:['Folic acid','Generally well tolerated. Can mask B₁₂ deficiency, so B₁₂ should be checked.'],
+  epo:['Epoetin alfa','Hypertension, thrombosis, seizures. Monitor BP and hemoglobin; iron stores must be adequate.'],
+  filgrastim:['Filgrastim (G-CSF)','Bone pain (manage with analgesia); rare splenic rupture (report left upper quadrant or shoulder pain).'],
+  lactulose:['Lactulose','Diarrhea, bloating, dehydration, hypokalemia. Aim for 2–3 soft stools a day.'],
+  hypertonic:['Hypertonic saline (3%)','Too-rapid correction risks osmotic demyelination. Frequent Na checks; infusion pump; ICU-level monitoring.'],
+  d5w:['Hypotonic fluids (e.g., D5W)','Too-rapid correction causes cerebral edema (headache, confusion, seizures). Frequent Na checks.'],
+  desmo:['Desmopressin','Water retention and hyponatremia. Monitor Na, weight and I&O.'],
+  bisphos:['Bisphosphonates (e.g., zoledronic acid)','Hypocalcemia, flu-like symptoms, kidney toxicity, osteonecrosis of the jaw. Oral forms: take upright with water, 30 min before food.'],
+  allopurinol:['Allopurinol','Rash (stop and report: risk of SJS), may trigger a gout flare early on. Encourage 2–3 L fluid daily.'],
+  colchicine:['Colchicine','Diarrhea, nausea, vomiting; bone marrow suppression with toxicity.'],
+  ocp:['Combined oral contraceptives','Venous thromboembolism (higher in smokers over 35), raised BP, nausea, breast tenderness.'],
+  hrt:['Hormone therapy (estrogen)','Venous thromboembolism, stroke, breast cancer risk. Lowest effective dose for the shortest time.'],
+  testo:['Testosterone therapy','Polycythemia (monitor Hct), acne, edema, sleep apnea. Gel can transfer to women and children: wash hands, cover the site.'],
+  dopamineAg:['Cabergoline or bromocriptine','Nausea, dizziness, orthostatic hypotension; impulse-control changes.'],
+  ppi:null
+};
+
+const I = {};
+
+/* ---------- Arterial blood gases ---------- */
+I['pH, arterial blood'] = {
+  hi:{s:'Alkalemia: the blood is too alkaline (pH above 7.46).',
+    dx:['Respiratory alkalosis: hyperventilation from anxiety, pain or hypoxemia','Metabolic alkalosis: vomiting or NG suction','Metabolic alkalosis: diuretics and low potassium'],
+    n:['Check PaCO₂ and HCO₃ to tell respiratory from metabolic causes.','Assess RR, LOC, and tingling or muscle cramps (low ionized calcium).','Coach slow breathing for hyperventilation; treat pain and anxiety.','Monitor K and Ca; place on cardiac monitor if K is low.'],
+    tx:[TX.ivFluids,TX.kclIV]},
+  lo:{s:'Acidemia: the blood is too acidic (pH below 7.38).',
+    dx:['Respiratory acidosis: hypoventilation (COPD, opioid or sedative overdose)','Metabolic acidosis: diabetic ketoacidosis or lactic acidosis (sepsis, shock)','Metabolic acidosis: kidney failure or severe diarrhea'],
+    n:['Priority: airway and breathing. Assess RR, depth, SpO₂, LOC.','Check PaCO₂ and HCO₃ to identify the cause.','Cardiac monitor: acidosis shifts K out of cells (hyperkalemia).','Raise head of bed; give O₂ as ordered; prepare for ventilatory support.'],
+    tx:[TX.naloxone,TX.insulin,TX.bicarb]}
+};
+I['Pco₂, arterial blood'] = {
+  hi:{s:'Hypercapnia: CO₂ is being retained because breathing is inadequate (respiratory acidosis).',
+    dx:['COPD exacerbation','Opioid or sedative overdose','Neuromuscular weakness or fatigue (e.g., Guillain-Barré, severe asthma tiring out)'],
+    n:['Assess RR, depth, LOC (drowsiness and confusion are late signs), SpO₂.','High Fowler position; encourage cough and deep breathing.','In COPD, titrate O₂ to the ordered target (often SpO₂ 88–92%).','Hold sedatives and opioids and notify; prepare for BiPAP.'],
+    tx:[TX.oxygen,TX.salbutamol,TX.naloxone,['BiPAP (non-invasive ventilation)','Pressure injury from the mask, aspiration, gastric distension. Check skin and fit; keep NPO if drowsy.']]},
+  lo:{s:'Hypocapnia: the person is breathing off too much CO₂ (hyperventilation, respiratory alkalosis).',
+    dx:['Anxiety or pain','Hypoxemia (pulmonary embolism, pneumonia, early asthma attack)','Compensation for metabolic acidosis (e.g., DKA)'],
+    n:['Rule out hypoxemia first: check SpO₂ and PaO₂ before assuming anxiety.','Coach slow, controlled breathing; stay with the patient.','Assess for light-headedness, tingling, carpopedal spasm.','Treat pain; assess for PE signs (sudden dyspnea, chest pain, tachycardia).'],
+    tx:[['Anxiolytics (e.g., lorazepam)','Sedation, respiratory depression, falls. Monitor RR and sedation.'],TX.opioid]}
+};
+I['Po₂, arterial blood'] = {
+  hi:{s:'High PaO₂ usually means more supplemental oxygen than the person needs.',
+    dx:['Supplemental O₂ above what is needed'],
+    n:['Titrate O₂ down to the ordered SpO₂ target.','In COPD, watch for rising CO₂ (drowsiness, headache).'],
+    tx:[TX.oxygen]},
+  lo:{s:'Hypoxemia: not enough oxygen in arterial blood.',
+    dx:['Pneumonia or ARDS','COPD or asthma exacerbation','Pulmonary embolism or pulmonary edema (heart failure)'],
+    n:['Priority: give O₂ as ordered; high Fowler position.','Assess RR, work of breathing, SpO₂, LOC (restlessness is an early sign), skin color.','Encourage deep breathing and incentive spirometry; suction if needed.','Notify early and prepare for escalation of respiratory support.'],
+    tx:[TX.oxygen,TX.furosemide,TX.salbutamol]}
+};
+I['Bicarbonate (HCO₃), arterial blood'] = {
+  hi:{s:'High bicarbonate suggests metabolic alkalosis, or compensation for chronic CO₂ retention.',
+    dx:['Vomiting or NG suction','Diuretics with low potassium','Compensation for chronic respiratory acidosis (COPD)'],
+    n:['Check pH: high pH means primary metabolic alkalosis.','Measure NG output and vomiting; monitor K and Cl.','Assess for muscle weakness, cramps, arrhythmias.'],
+    tx:[TX.ivFluids,TX.kclIV]},
+  lo:{s:'Low bicarbonate suggests metabolic acidosis, or compensation for hyperventilation.',
+    dx:['Diabetic ketoacidosis or lactic acidosis','Kidney failure','Severe diarrhea'],
+    n:['Check pH and glucose; look for Kussmaul breathing and fruity breath.','Monitor K closely (hyperkalemia with acidosis; falls with treatment).','Monitor I&O and LOC; cardiac monitor.'],
+    tx:[TX.insulin,TX.ivFluids,TX.bicarb]}
+};
+I['Base excess, arterial blood'] = {
+  hi:{s:'A positive base excess above 2.5 points to metabolic alkalosis.',
+    dx:['Vomiting or NG suction','Diuretic use','Excess bicarbonate or antacid intake'],
+    n:['Interpret with pH and HCO₃.','Monitor K, Cl and fluid losses.'],
+    tx:[TX.ivFluids,TX.kclIV]},
+  lo:{s:'A base deficit (below −2.5) points to metabolic acidosis.',
+    dx:['Lactic acidosis (shock, sepsis)','Diabetic ketoacidosis','Kidney failure or diarrhea'],
+    n:['Interpret with pH and HCO₃; check lactate and glucose.','Monitor perfusion: BP, urine output, skin, LOC.'],
+    tx:[TX.ivFluids,TX.insulin]}
+};
+
+/* ---------- Hemogram ---------- */
+const anemia = {s:'Low hemoglobin means anemia: reduced oxygen-carrying capacity.',
+  dx:['Iron deficiency (often from blood loss: menstrual or GI)','Acute bleeding','Chronic disease or chronic kidney disease'],
+  n:['Assess fatigue, pallor, dyspnea, tachycardia, orthostatic BP.','Fall precautions; change position slowly; cluster care to save energy.','Look for bleeding: stool for occult blood, melena, heavy menses.','Teach iron-rich foods (red meat, legumes, leafy greens) with vitamin C.'],
+  tx:[TX.transfusion,TX.ironPO,TX.epo]};
+const polycythemia = {s:'High values suggest hemoconcentration or too many red cells.',
+  dx:['Dehydration (hemoconcentration)','Chronic hypoxia: COPD, smoking, high altitude','Polycythemia vera (rare)'],
+  n:['Assess hydration; encourage fluids unless restricted; monitor I&O.','Watch for clots: DVT, stroke and MI signs.','Encourage smoking cessation; early ambulation.'],
+  tx:[TX.ivFluids,['Therapeutic phlebotomy','Dizziness and hypotension. Have the patient lie down; give fluids after.']]};
+I['Erythrocyte sedimentation rate (ESR), blood'] = {
+  hi:{s:'High ESR is a non-specific sign of inflammation.',
+    dx:['Infection','Autoimmune disease (e.g., rheumatoid arthritis, giant cell arteritis)','Cancer (e.g., multiple myeloma)'],
+    n:['Assess for infection: temperature, vital signs, wounds.','Ask about headache, jaw pain or vision changes (giant cell arteritis is an emergency: risk of blindness).','Assess joints for pain, swelling, stiffness.'],
+    tx:[TX.steroids,TX.antibiotics]},
+  lo:NA_LOW
+};
+I['Hematocrit (Hct), blood'] = {hi:polycythemia, lo:{...anemia, s:'Low hematocrit means anemia or dilution of the blood (e.g., fluid overload).'}};
+I['Hemoglobin (Hgb), blood'] = {hi:polycythemia, lo:anemia};
+I['Red blood cell (RBC) count, blood'] = {hi:polycythemia, lo:{...anemia, s:'Low RBC count means anemia.'}};
+I['Mean corpuscular volume (MCV), blood'] = {
+  hi:{s:'Large red cells (macrocytic anemia).',
+    dx:['Vitamin B₁₂ deficiency','Folate deficiency','Alcohol use or liver disease'],
+    n:['Assess for numbness, tingling, poor balance, memory change (B₁₂).','Fall precautions if neuropathy is present.','Screen alcohol use and diet; teach folate and B₁₂ food sources.'],
+    tx:[TX.b12,TX.folic]},
+  lo:{s:'Small red cells (microcytic anemia).',
+    dx:['Iron deficiency anemia','Thalassemia trait','Anemia of chronic disease'],
+    n:['Assess anemia symptoms and bleeding sources.','Teach iron-rich diet with vitamin C.','Ask about family history and ethnicity (thalassemia).'],
+    tx:[TX.ironPO,TX.ironIV]}
+};
+I['Mean corpuscular hemoglobin (MCH), blood'] = {
+  hi:{s:'High MCH usually goes with large red cells (macrocytosis).',dx:['Vitamin B₁₂ or folate deficiency','Alcohol use or liver disease'],
+    n:['Interpret with MCV and Hgb.','Assess for neurologic symptoms of B₁₂ deficiency.'],tx:[TX.b12,TX.folic]},
+  lo:{s:'Low MCH means pale, small red cells (hypochromic).',dx:['Iron deficiency anemia','Thalassemia trait'],
+    n:['Interpret with MCV, Hgb and ferritin.','Assess bleeding sources and diet.'],tx:[TX.ironPO]}
+};
+I['Mean corpuscular hemoglobin concentration (MCHC), blood'] = {
+  hi:{s:'High MCHC is uncommon and often reflects spherocytes or hemolysis.',dx:['Hereditary spherocytosis','Hemolysis','Sample problem (lipemia, clumping)'],
+    n:['Assess for jaundice and dark urine (hemolysis).','A repeat sample may be needed.'],tx:[TX.folic]},
+  lo:{s:'Low MCHC means hypochromic red cells.',dx:['Iron deficiency anemia','Thalassemia trait'],
+    n:['Interpret with ferritin and MCV.','Teach iron-rich diet.'],tx:[TX.ironPO]}
+};
+I['Mean platelet volume (MPV), blood'] = {
+  hi:{s:'Large platelets suggest the bone marrow is making new platelets quickly.',dx:['Platelet destruction (e.g., immune thrombocytopenia)','Recovery after bleeding'],
+    n:['Interpret with the platelet count.','If platelets are low, start bleeding precautions.'],tx:[TX.steroids]},
+  lo:{s:'Small platelets can suggest reduced bone marrow production.',dx:['Bone marrow suppression (chemotherapy, aplastic anemia)'],
+    n:['Interpret with the platelet count.','Bleeding and infection precautions if counts are low.'],tx:[TX.plateletTx]}
+};
+I['Platelet count, blood'] = {
+  hi:{s:'Thrombocytosis: high platelets raise the risk of clotting.',
+    dx:['Reactive: infection, inflammation, iron deficiency, after splenectomy','Essential thrombocythemia (bone marrow disorder)'],
+    n:['Assess for DVT, stroke and MI signs.','Encourage hydration and mobility.'],
+    tx:[['Low-dose aspirin','Bleeding, GI upset or bleeding. Give with food.'],['Hydroxyurea','Bone marrow suppression, mouth ulcers. Monitor CBC.']]},
+  lo:{s:'Thrombocytopenia: low platelets raise the risk of bleeding.',
+    dx:['Immune thrombocytopenia (ITP)','Bone marrow suppression (chemotherapy) or heparin-induced thrombocytopenia','Sepsis/DIC or liver disease'],
+    n:['Bleeding precautions: soft toothbrush, electric razor, no IM injections, no rectal temps, avoid NSAIDs and aspirin.','Assess for petechiae, bruising, bleeding gums, blood in urine or stool, and headache or neuro change (brain bleed).','Fall precautions; apply pressure 5–10 min after venipuncture.','If on heparin, report at once (HIT): heparin is stopped.'],
+    tx:[TX.plateletTx,TX.steroids]}
+};
+I['Red cell distribution width (RDW), blood'] = {
+  hi:{s:'Red cells vary a lot in size, common in early or mixed anemias.',dx:['Early iron deficiency','B₁₂ or folate deficiency','Mixed anemia or recent transfusion'],
+    n:['Interpret with MCV and Hgb.','Assess diet and bleeding sources.'],tx:[TX.ironPO,TX.b12]},
+  lo:NA_LOW
+};
+const reticHi = {s:'The bone marrow is making more red cells, usually in response to loss or destruction.',
+  dx:['Hemolysis','Recovery from acute bleeding','Response to treatment of iron, B₁₂ or folate deficiency'],
+  n:['Assess for jaundice and dark urine (hemolysis) or bleeding.','A rising count after iron or B₁₂ treatment is a good sign: reinforce adherence.'],
+  tx:[TX.folic,TX.transfusion]};
+const reticLo = {s:'The bone marrow is not making enough red cells.',
+  dx:['Bone marrow suppression (chemotherapy, aplastic anemia)','Untreated iron, B₁₂ or folate deficiency','Chronic kidney disease (low erythropoietin)'],
+  n:['Assess anemia symptoms; fall precautions.','Infection precautions if WBC is also low.','Reinforce diet and supplement teaching.'],
+  tx:[TX.epo,TX.transfusion]};
+I['Reticulocyte count, absolute, blood'] = {hi:reticHi, lo:reticLo};
+I['Reticulocyte percentage, blood'] = {hi:reticHi, lo:reticLo};
+
+/* ---------- Coagulation ---------- */
+I['Bleeding time (Ivy method), blood'] = {
+  hi:{s:'Prolonged bleeding time suggests a platelet problem.',dx:['Aspirin or NSAID use','von Willebrand disease','Low platelet count'],
+    n:['Bleeding precautions; avoid aspirin and NSAIDs.','Ask about bruising, nosebleeds, heavy menses, and medications.'],
+    tx:[TX.desmo,TX.plateletTx]},
+  lo:NA_LOW
+};
+I['International normalized ratio (INR), nonanticoagulated, blood'] = {
+  hi:{s:'Blood takes longer to clot. On warfarin, the usual target is about 2.0–3.0; higher means bleeding risk.',
+    dx:['Warfarin effect (dose too high, drug interaction, low vitamin K intake)','Liver disease','Vitamin K deficiency or DIC'],
+    n:['Assess for bleeding: gums, urine, stool, bruising, headache or neuro change.','Hold warfarin and notify the prescriber per protocol.','Bleeding and fall precautions.','Teach consistent vitamin K intake and to report new medications.'],
+    tx:[TX.vitK,TX.warfarin,['Prothrombin complex concentrate','Rapid reversal; risk of thrombosis.']]},
+  lo:{s:'In someone on warfarin, a low INR means anticoagulation is not working well enough (clot risk).',
+    dx:['Missed warfarin doses','High vitamin K intake (sudden increase in leafy greens)','Drug interactions that speed warfarin breakdown'],
+    n:['Assess adherence and diet; review new medications.','Assess for DVT, PE and stroke signs.','Not on warfarin: a low INR is not clinically significant.'],
+    tx:[TX.warfarin,TX.lmwh]}
+};
+I['Activated partial thromboplastin time (APTT), nonanticoagulated, blood'] = {
+  hi:{s:'Blood takes longer to clot. On IV heparin, the target range is set by protocol; above it means bleeding risk.',
+    dx:['Heparin therapy above target','Hemophilia or von Willebrand disease','DIC or liver disease'],
+    n:['Assess for bleeding; neuro checks.','Adjust or hold the heparin infusion per protocol and notify.','Bleeding precautions; no IM injections.'],
+    tx:[TX.protamine,TX.heparin]},
+  lo:{s:'On heparin, a low aPTT means anticoagulation is below target.',dx:['Heparin dose below target','Infusion interruption'],
+    n:['Check the infusion pump and IV line; adjust per protocol.','Assess for clot signs.','Not on heparin: usually not clinically significant.'],tx:[TX.heparin]}
+};
+I['Prothrombin time (PT), blood'] = {
+  hi:{s:'Prolonged PT means slower clotting (reported with INR).',dx:['Warfarin effect','Liver disease','Vitamin K deficiency'],
+    n:['Assess for bleeding; bleeding precautions.','Hold warfarin and notify per protocol.'],tx:[TX.vitK,TX.warfarin]},
+  lo:NA_LOW
+};
+
+/* ---------- White cells ---------- */
+I['White blood cell (WBC) count, blood'] = {
+  hi:{s:'Leukocytosis: usually the body fighting infection or inflammation.',
+    dx:['Bacterial infection','Stress, inflammation or corticosteroid therapy','Leukemia (very high counts)'],
+    n:['Assess for infection: temperature, HR, RR, BP, wounds, urine, lungs (sepsis screen).','Obtain cultures before starting antibiotics.','Hand hygiene; monitor the trend.'],
+    tx:[TX.antibiotics]},
+  lo:{s:'Leukopenia: higher risk of infection.',
+    dx:['Chemotherapy or other bone marrow suppression','Viral infection','Drug effect or autoimmune disease'],
+    n:['Neutropenic precautions: strict hand hygiene, private room, avoid sick visitors, food safety per policy.','Monitor temperature: fever is a medical emergency.','Avoid rectal temperatures and invasive procedures where possible.'],
+    tx:[TX.filgrastim,TX.antibiotics]}
+};
+I['Neutrophils, absolute, blood'] = {
+  hi:{s:'Neutrophilia: usually acute bacterial infection or stress.',dx:['Bacterial infection','Corticosteroids or stress','Tissue injury or inflammation'],
+    n:['Sepsis screen; cultures before antibiotics.','Monitor temperature and vital signs.'],tx:[TX.antibiotics]},
+  lo:{s:'Neutropenia: high infection risk (severe below 0.5 × 10⁹/L).',dx:['Chemotherapy','Drugs (e.g., clozapine, methimazole)','Overwhelming infection'],
+    n:['Neutropenic precautions; strict hand hygiene.','Report a temperature of 38 °C or higher at once (febrile neutropenia).','Teach to avoid crowds and sick contacts.'],tx:[TX.filgrastim,TX.antibiotics]}
+};
+I['Basophils, blood'] = {
+  hi:{s:'High basophils are uncommon.',dx:['Allergic reactions','Chronic myeloid leukemia'],n:['Assess for allergy symptoms.','Interpret with the full CBC.'],tx:[['Antihistamines','Drowsiness, dry mouth; avoid driving if drowsy.']]},
+  lo:NA_LOW
+};
+I['Eosinophils, blood'] = {
+  hi:{s:'Eosinophilia: usually allergy, asthma or parasites.',dx:['Allergies or asthma','Drug reaction','Parasitic infection'],
+    n:['Assess for rash, wheeze and new medications (drug reaction).','Ask about travel and diet (parasites).'],
+    tx:[['Antihistamines','Drowsiness, dry mouth.'],TX.steroids]},
+  lo:NA_LOW
+};
+I['Lymphocytes, blood'] = {
+  hi:{s:'Lymphocytosis: often a viral infection.',dx:['Viral infection (e.g., mononucleosis)','Chronic lymphocytic leukemia (older adults)'],
+    n:['Assess for fever, sore throat, lymph nodes, enlarged spleen.','With mononucleosis, avoid contact sports (spleen rupture risk).'],tx:[['Supportive care (rest, fluids, antipyretics)','Avoid aspirin in children and teens (Reye syndrome).']]},
+  lo:{s:'Lymphopenia: weaker immune defence.',dx:['HIV infection','Corticosteroids or chemotherapy','Severe illness or stress'],
+    n:['Infection prevention and hand hygiene.','Monitor for opportunistic infections.'],tx:[TX.steroids]}
+};
+I['Monocytes, blood'] = {
+  hi:{s:'Monocytosis: often chronic infection or recovery from infection.',dx:['Chronic infection (e.g., tuberculosis)','Recovery phase of acute infection','Inflammatory disease or monocytic leukemia'],
+    n:['Assess for cough, night sweats, weight loss (TB): use airborne precautions if TB is suspected.'],tx:[['Anti-tuberculosis drugs','Hepatotoxicity; rifampin turns body fluids orange; isoniazid neuropathy (give pyridoxine).']]},
+  lo:{s:'Low monocytes reflect bone marrow suppression.',dx:['Chemotherapy or bone marrow suppression','Corticosteroids'],
+    n:['Infection precautions.'],tx:[TX.steroids]}
+};
+
+/* ---------- Iron studies ---------- */
+I['Ferritin, blood'] = {
+  hi:{s:'High ferritin means iron overload or inflammation (ferritin rises with inflammation).',
+    dx:['Inflammation, infection or liver disease','Hemochromatosis','Iron overload from repeated transfusions'],
+    n:['Assess for liver disease, joint pain, skin bronzing, diabetes signs.','Teach to avoid iron and vitamin C supplements and limit alcohol.'],
+    tx:[['Therapeutic phlebotomy','Dizziness and hypotension. Lie down during; give fluids after.'],['Deferoxamine (chelation)','Hypotension with fast infusion, red-orange urine, hearing and vision changes.']]},
+  lo:{s:'Low ferritin means depleted iron stores: the most specific test for iron deficiency.',
+    dx:['Blood loss (heavy menses, GI bleeding)','Low dietary iron','Malabsorption (celiac disease, bariatric surgery)'],
+    n:['Assess anemia symptoms and bleeding sources; stool for occult blood.','Teach iron-rich foods with vitamin C; avoid tea and coffee with meals.','Teach iron supplement use and expected black stools.'],
+    tx:[TX.ironPO,TX.ironIV]}
+};
+I['Iron, blood'] = {
+  hi:{s:'High serum iron suggests iron overload or recent iron intake.',dx:['Hemochromatosis or iron overload','Recent iron supplements','Hemolysis or liver injury'],
+    n:['Review supplements; interpret with ferritin and transferrin saturation.','Keep iron away from children (iron poisoning).'],tx:[['Therapeutic phlebotomy','Dizziness and hypotension.']]},
+  lo:{s:'Low serum iron suggests iron deficiency or chronic disease.',dx:['Iron deficiency (blood loss, low intake)','Anemia of chronic disease'],
+    n:['Interpret with ferritin.','Assess bleeding sources and diet.'],tx:[TX.ironPO]}
+};
+I['Iron-binding capacity, total (TIBC), blood'] = {
+  hi:{s:'High TIBC means the body is hungry for iron.',dx:['Iron deficiency anemia','Pregnancy or estrogen use'],
+    n:['Interpret with ferritin and serum iron.','Iron-rich diet teaching.'],tx:[TX.ironPO]},
+  lo:{s:'Low TIBC suggests chronic disease, malnutrition or iron overload.',dx:['Anemia of chronic disease or inflammation','Malnutrition or liver disease','Iron overload'],
+    n:['Nutrition assessment; dietitian referral.','Interpret with ferritin.'],tx:[['Nutrition support','Monitor tolerance, glucose and electrolytes (refeeding risk).']]}
+};
+I['Transferrin, blood'] = {
+  hi:{s:'High transferrin means the body is trying to absorb more iron.',dx:['Iron deficiency','Pregnancy or estrogen use'],
+    n:['Interpret with ferritin.','Iron-rich diet teaching.'],tx:[TX.ironPO]},
+  lo:{s:'Low transferrin suggests malnutrition, inflammation or protein loss.',dx:['Malnutrition','Chronic inflammation or liver disease','Nephrotic syndrome'],
+    n:['Nutrition assessment; daily weight.','Assess for edema.'],tx:[['Nutrition support','Monitor tolerance and electrolytes.']]}
+};
+I['Transferrin saturation, blood'] = {
+  hi:{s:'High saturation suggests iron overload.',dx:['Hemochromatosis','Repeated transfusions','Excess iron supplements'],
+    n:['Review supplements; assess liver and joints.','Family members may need screening (hemochromatosis is inherited).'],tx:[['Therapeutic phlebotomy','Dizziness and hypotension.']]},
+  lo:{s:'Low saturation suggests iron deficiency.',dx:['Iron deficiency anemia','Anemia of chronic disease'],
+    n:['Interpret with ferritin; assess bleeding.'],tx:[TX.ironPO]}
+};
+
+/* ---------- Thyroid ---------- */
+const hypoN = ['Assess for fatigue, cold intolerance, weight gain, constipation, bradycardia, dry skin.','Teach levothyroxine use: empty stomach, same time daily, lifelong; separate from calcium and iron by 4 h.','Start low, go slow in older adults and heart disease; report chest pain or palpitations.','Increased sensitivity to opioids and sedatives: monitor RR and sedation.'];
+const hyperN = ['Assess for tachycardia, palpitations, heat intolerance, weight loss, tremor, anxiety.','Quiet, cool environment; high-calorie diet; monitor weight.','Watch for thyroid storm: high fever, severe tachycardia, agitation. Emergency.','Protect the eyes in Graves disease (lubricant drops, sunglasses).'];
+I['Thyroid peroxidase antibody, blood'] = {
+  hi:{s:'Positive antibodies suggest autoimmune thyroid disease.',dx:['Hashimoto thyroiditis','Graves disease'],
+    n:['Interpret with TSH and FT₄.','Teach signs of hypothyroidism and the need for regular TSH checks.'],tx:[TX.levo]},
+  lo:{na:'A result below 35 IU/mL is the normal (negative) finding.'}
+};
+I['Thyrotropin (thyroid-stimulating hormone), blood'] = {
+  hi:{s:'High TSH suggests primary hypothyroidism. With a low FT₄, it is most likely Hashimoto thyroiditis.',
+    dx:['Hashimoto thyroiditis','After thyroid surgery or radioactive iodine','Medications (lithium, amiodarone) or too low a levothyroxine dose'],
+    n:hypoN, tx:[TX.levo]},
+  lo:{s:'Low TSH suggests hyperthyroidism. With a high FT₄, it is most likely Graves disease.',
+    dx:['Graves disease','Toxic nodular goiter','Too much levothyroxine'],
+    n:hyperN, tx:[TX.antithyroid,TX.betablocker,['Radioactive iodine','Hypothyroidism afterward (lifelong levothyroxine); avoid in pregnancy and breastfeeding; follow radiation safety teaching.']]}
+};
+I['Thyroxine, free (FT₄), blood'] = {
+  hi:{s:'High FT₄ means too much thyroid hormone (hyperthyroidism).',dx:['Graves disease','Toxic nodular goiter or thyroiditis','Too much levothyroxine'],
+    n:hyperN, tx:[TX.antithyroid,TX.betablocker]},
+  lo:{s:'Low FT₄ means too little thyroid hormone (hypothyroidism). With a high TSH, most likely Hashimoto thyroiditis.',dx:['Hashimoto thyroiditis','After thyroid surgery or radioactive iodine','Pituitary problem (TSH low or normal)'],
+    n:hypoN, tx:[TX.levo]}
+};
+I['Triiodothyronine, free (FT₃), blood'] = {
+  hi:{s:'High FT₃ indicates hyperthyroidism.',dx:['Graves disease','Toxic nodule (T₃ toxicosis)','Excess thyroid hormone intake'],
+    n:hyperN, tx:[TX.antithyroid,TX.betablocker]},
+  lo:{s:'Low FT₃ is common in serious illness and in hypothyroidism.',dx:['Acute or chronic illness (non-thyroidal illness)','Hypothyroidism'],
+    n:['Interpret with TSH and FT₄; often recovers as illness resolves.'],tx:[TX.levo]}
+};
+
+/* ---------- Chemical constituents ---------- */
+I['Adrenocorticotropic hormone (ACTH), blood'] = {
+  hi:{s:'High ACTH with low cortisol suggests primary adrenal insufficiency (Addison disease). With high cortisol it suggests a pituitary or ectopic source of Cushing syndrome.',
+    dx:['Addison disease','Cushing disease (pituitary tumour)','Ectopic ACTH from a tumour (e.g., lung)'],
+    n:['Addison: monitor BP, glucose, Na and K; watch for adrenal crisis (shock).','Teach lifelong steroid replacement, sick-day rules and a medical alert ID.','Cushing: monitor glucose, BP, skin, infection, falls.'],
+    tx:[TX.hydrocortisone,TX.fludro]},
+  lo:{s:'Low ACTH suggests the pituitary is not stimulating the adrenals, or an adrenal tumour making cortisol.',
+    dx:['Long-term corticosteroid use','Pituitary disorder (secondary adrenal insufficiency)','Adrenal tumour causing Cushing syndrome'],
+    n:['Never stop long-term steroids abruptly: taper as ordered.','Monitor for hypotension, hypoglycemia, fatigue.'],tx:[TX.hydrocortisone]}
+};
+I['Albumin, blood'] = {
+  hi:{s:'High albumin usually means dehydration.',dx:['Dehydration'],n:['Assess hydration; encourage fluids; monitor I&O.'],tx:[TX.ivFluids]},
+  lo:{s:'Low albumin suggests poor nutrition, liver disease or protein loss. Fluid shifts out of vessels (edema).',
+    dx:['Malnutrition','Liver disease (cirrhosis)','Nephrotic syndrome or severe inflammation'],
+    n:['Assess edema, ascites, daily weight, I&O.','Pressure injury prevention: turn and inspect skin.','Dietitian referral; high-protein diet unless restricted.','Total calcium reads low when albumin is low: check ionized calcium.'],
+    tx:[['IV albumin','Fluid overload, allergic reactions. Monitor BP and lung sounds.']]}
+};
+I['Aldosterone, blood'] = {
+  hi:{s:'High aldosterone causes sodium retention and potassium loss (hypertension, hypokalemia).',dx:['Primary hyperaldosteronism (Conn syndrome)','Heart failure or cirrhosis (secondary)','Renal artery stenosis'],
+    n:['Monitor BP and K; assess muscle weakness and arrhythmias.','Teach low-sodium diet.'],
+    tx:[['Spironolactone','Hyperkalemia, gynecomastia, menstrual changes. Avoid K supplements and salt substitutes.']]},
+  lo:{s:'Low aldosterone causes sodium loss and potassium retention.',dx:['Addison disease','ACE inhibitors or ARBs'],
+    n:['Monitor BP, Na and K (hyperkalemia).','Fall precautions for orthostatic hypotension.'],tx:[TX.fludro]}
+};
+I['Alkaline phosphatase, blood'] = {
+  hi:{s:'High ALP comes from the liver/bile ducts or from bone.',dx:['Bile duct obstruction (gallstones) or liver disease','Bone disease (Paget disease, healing fracture, bone metastases)','Pregnancy (from the placenta)'],
+    n:['Assess for jaundice, RUQ pain, pale stools, dark urine.','Assess for bone pain and fracture risk; fall precautions.'],tx:[TX.opioid]},
+  lo:{s:'Low ALP is uncommon.',dx:['Malnutrition or zinc deficiency'],n:['Nutrition assessment.'],tx:[]}
+};
+const liverHi = (s, dx) => ({s, dx,
+  n:['Assess for jaundice, dark urine, pale stools, fatigue, RUQ pain.','Review hepatotoxic drugs: acetaminophen dose (max daily dose per policy), statins, alcohol.','Bleeding precautions if INR is raised; monitor LOC for encephalopathy.','Teach to avoid alcohol and over-the-counter acetaminophen excess.'],
+  tx:[['Acetylcysteine (acetaminophen overdose)','Nausea, vomiting, rash, flushing (anaphylactoid reaction). Give on time per protocol.'],TX.lactulose]});
+I['Alanine aminotransferase (ALT), blood'] = {hi:liverHi('High ALT is a sensitive sign of liver cell injury.',['Fatty liver disease or alcohol use','Viral hepatitis','Drug-induced liver injury (e.g., acetaminophen)']), lo:NA_LOW};
+I['Aspartate aminotransferase (AST), blood'] = {hi:liverHi('High AST suggests liver or muscle injury.',['Alcohol-related liver disease (AST often higher than ALT)','Hepatitis or drug-induced liver injury','Muscle injury (rhabdomyolysis)']), lo:NA_LOW};
+I['γ-Glutamyltransferase (GGT), blood'] = {hi:liverHi('High GGT suggests liver or bile duct disease, often alcohol-related.',['Alcohol use','Bile duct obstruction','Enzyme-inducing drugs (e.g., phenytoin)']), lo:NA_LOW};
+I['Ammonia, blood'] = {
+  hi:{s:'High ammonia is toxic to the brain: hepatic encephalopathy.',dx:['Cirrhosis or liver failure','GI bleeding in liver disease','Constipation, infection or sedatives in liver disease'],
+    n:['Neuro checks: confusion, asterixis (flapping tremor), drowsiness.','Safety: fall, seizure and aspiration precautions.','Avoid sedatives; monitor stools (2–3 soft stools a day on lactulose).','Monitor for GI bleeding.'],
+    tx:[TX.lactulose,['Rifaximin','Nausea, dizziness; rarely C. difficile.']]},
+  lo:NA_LOW
+};
+const pancreatitis = {
+  dx:['Acute pancreatitis (gallstones or alcohol)','Bowel obstruction or perforation','Kidney failure (reduced clearance)'],
+  n:['Assess severe epigastric pain radiating to the back; position knees-to-chest or leaning forward.','NPO as ordered; NG tube if vomiting; IV fluids.','Monitor glucose, calcium (tetany) and respiratory status.','Teach alcohol cessation.'],
+  tx:[TX.ivFluids,TX.opioid]};
+I['Amylase, blood'] = {hi:{s:'High amylase suggests pancreatic inflammation.',...pancreatitis}, lo:NA_LOW};
+I['Lipase, blood'] = {hi:{s:'High lipase suggests acute pancreatitis (more specific than amylase).',...pancreatitis}, lo:NA_LOW};
+I['Anion gap, blood'] = {
+  hi:{s:'High anion gap means acids are building up (high anion gap metabolic acidosis).',dx:['Diabetic ketoacidosis','Lactic acidosis (sepsis, shock)','Kidney failure or toxic ingestion (methanol, ethylene glycol, salicylates)'],
+    n:['Check glucose, ketones, lactate and ABG.','Assess for Kussmaul breathing and LOC changes.','Ask about ingestions; poison control as needed.'],tx:[TX.insulin,TX.ivFluids]},
+  lo:{s:'Low anion gap is uncommon.',dx:['Low albumin','Lab error'],n:['Interpret with albumin.'],tx:[]}
+};
+I['Bicarbonate (HCO₃), blood'] = I['Bicarbonate (HCO₃), arterial blood'];
+I['Bilirubin, blood'] = {
+  hi:{s:'High bilirubin causes jaundice.',dx:['Liver disease (hepatitis, cirrhosis)','Bile duct obstruction (raises direct bilirubin)','Hemolysis or Gilbert syndrome (raises indirect bilirubin)'],
+    n:['Assess skin and sclera, urine and stool color.','Itch relief: cool baths, moisturize, short nails.','Assess bleeding risk and LOC.'],
+    tx:[['Cholestyramine (itch)','Constipation, bloating; binds other drugs: give other drugs 1 h before or 4–6 h after.']]},
+  lo:NA_LOW
+};
+const hf = {s:'High natriuretic peptide suggests the heart is under strain, most often heart failure.',
+  dx:['Heart failure','Kidney disease','Pulmonary embolism or older age'],
+  n:['Daily weight, same time and scale; report sudden gain (commonly over 1 kg in a day or 2 kg in a week).','Assess lung sounds, edema, dyspnea, orthopnea; high Fowler position.','Sodium and fluid restriction as ordered; strict I&O.'],
+  tx:[TX.furosemide,TX.aceArb,['Digoxin','Toxicity: nausea, vision changes, bradycardia. Check apical pulse for 1 min; hold if below 60 and notify; watch K.']]};
+I['Brain-type natriuretic peptide (BNP), blood'] = {hi:hf, lo:{na:'A low value helps rule out heart failure. Obesity can lower BNP.'}};
+I['N-terminal pro–brain-type natriuretic peptide (NT-proBNP), blood'] = {hi:hf, lo:{na:'A low value helps rule out heart failure.'}};
+I['CD4 T-cell count, blood'] = {
+  hi:NA_HIGH,
+  lo:{s:'Low CD4 means weakened immunity; below 200 cells/μL defines AIDS in HIV.',dx:['HIV infection','Corticosteroids or chemotherapy'],
+    n:['Infection prevention; monitor for opportunistic infections (fever, cough, diarrhea, thrush).','Reinforce antiretroviral adherence and prophylaxis.','Nonjudgmental, confidential care.'],
+    tx:[['Antiretroviral therapy','Nausea, liver toxicity, lipid changes, drug interactions. Adherence is essential.'],['Trimethoprim-sulfamethoxazole (prophylaxis)','Rash (stop if severe: SJS), hyperkalemia, bone marrow suppression. Encourage fluids.']]}
+};
+I['C-reactive protein, blood'] = {
+  hi:{s:'High CRP indicates inflammation or infection.',dx:['Bacterial infection or sepsis','Inflammatory disease (e.g., rheumatoid arthritis, IBD)','Tissue injury or recent surgery'],
+    n:['Sepsis screen: temperature, HR, RR, BP, LOC.','Cultures before antibiotics.','Trend values to judge response to treatment.'],tx:[TX.antibiotics,TX.steroids]},
+  lo:{na:'A low CRP is the normal finding.'}
+};
+I['Calcium (Ca), blood'] = {
+  hi:{s:'Hypercalcemia: muscles and nerves slow down ("stones, bones, groans, moans").',
+    dx:['Primary hyperparathyroidism','Cancer (bone metastases)','Excess calcium or vitamin D, immobility, thiazides'],
+    n:['Hydration (often 3–4 L a day unless contraindicated); mobilize.','Cardiac monitor (short QT); risk of digoxin toxicity.','Strain urine for stones; manage constipation; monitor LOC.'],
+    tx:[TX.ivFluids,TX.furosemide,TX.bisphos,['Calcitonin','Nausea, flushing; nasal irritation with spray.']]},
+  lo:{s:'Hypocalcemia: nerves and muscles become irritable (tetany). If albumin is low, check ionized calcium.',
+    dx:['After thyroid or parathyroid surgery (hypoparathyroidism)','Vitamin D deficiency or kidney disease','Low magnesium, pancreatitis or massive transfusion'],
+    n:['Assess Chvostek and Trousseau signs, tingling, muscle cramps.','Seizure precautions; cardiac monitor (long QT).','Watch for laryngospasm: keep emergency airway equipment nearby.'],
+    tx:[TX.calciumIV,TX.calciumPO]}
+};
+const tumour = (s, dx) => ({hi:{s, dx,
+  n:['Tumour markers monitor known cancer; they are not used alone to diagnose it.','Offer emotional support and clear information; refer questions about results to the provider.'],
+  tx:[['Chemotherapy (general)','Nausea, bone marrow suppression (infection, bleeding, anemia), mucositis, fatigue.']]}, lo:{na:'A low value is the normal finding.'}});
+I['Cancer antigen (CA) 125, blood'] = tumour('High CA 125 is used mainly to monitor ovarian cancer.',['Ovarian cancer','Endometriosis or pelvic inflammation','Pregnancy or menstruation']);
+I['Cancer antigen (CA) 19-9, blood'] = tumour('High CA 19-9 is used mainly to monitor pancreatic cancer.',['Pancreatic or biliary cancer','Bile duct obstruction','Pancreatitis']);
+I['Carcinoembryonic antigen (CEA), blood'] = tumour('High CEA is used mainly to monitor colorectal cancer.',['Colorectal cancer','Smoking','Inflammatory bowel disease or liver disease']);
+I['α₁-Fetoprotein, blood'] = tumour('High AFP is used to monitor liver cancer and some testicular cancers.',['Liver cancer (hepatocellular carcinoma)','Testicular germ cell tumour','Pregnancy or cirrhosis']);
+I['Prostate-specific antigen (PSA), blood'] = {
+  hi:{s:'High PSA suggests prostate enlargement, inflammation or cancer.',dx:['Benign prostatic hyperplasia','Prostate cancer','Prostatitis, recent ejaculation, catheter or DRE'],
+    n:['Assess urinary symptoms: frequency, nocturia, weak stream, retention.','Teach to avoid ejaculation for 48 h before the test.','Provide support while awaiting further tests.'],
+    tx:[['Tamsulosin','Orthostatic hypotension, dizziness: rise slowly.'],['Finasteride','Lowers PSA by about half; sexual side effects. Pregnant women should not handle crushed tablets.']]},
+  lo:{na:'A low PSA is the normal finding.'}
+};
+const drugLevel = (name, hiSigns, ae) => ({
+  hi:{s:'Level above the therapeutic range: risk of toxicity.',dx:['Dose too high','Drug interaction','Reduced clearance (liver or kidney impairment)'],
+    n:['Hold the next dose and notify the prescriber.','Assess for toxicity: ' + hiSigns + '.','Fall and seizure precautions; neuro checks.'],
+    tx:[[name, ae]]},
+  lo:{s:'Level below the therapeutic range: risk of breakthrough symptoms (e.g., seizures).',dx:['Missed doses','Drug interaction (enzyme inducers)','Dose too low'],
+    n:['Assess adherence and timing of the last dose (trough levels are drawn before the next dose).','Seizure precautions if used for epilepsy.'],
+    tx:[[name, ae]]}
+});
+I['Carbamazepine, blood'] = drugLevel('Carbamazepine','dizziness, ataxia, double vision, nystagmus, drowsiness, nausea','Serious rash (SJS/TEN: stop and report), agranulocytosis and aplastic anemia (report sore throat, fever, bruising), hyponatremia, birth defects. Avoid grapefruit.');
+I['Valproic acid, blood'] = drugLevel('Valproic acid','sedation, confusion, tremor, vomiting','Liver toxicity (report jaundice, abdominal pain), pancreatitis, low platelets (bleeding), high ammonia, birth defects (neural tube): contraception needed.');
+I['Lithium (Li), blood'] = {
+  hi:{s:'Lithium toxicity: the therapeutic range is narrow.',dx:['Dehydration or low sodium intake','NSAIDs, ACE inhibitors or diuretics reducing lithium clearance','Kidney impairment or dose too high'],
+    n:['Hold lithium and notify. Assess coarse tremor, vomiting, diarrhea, confusion, ataxia, seizures.','Seizure and fall precautions; IV fluids as ordered.','Teach 2–3 L fluid a day, consistent salt intake, avoid NSAIDs, report vomiting or diarrhea.','Levels are drawn 12 h after the last dose.'],
+    tx:[['Lithium','Fine tremor, thirst and polyuria, weight gain, hypothyroidism, kidney effects. Monitor TSH and kidney function.'],TX.ivFluids,TX.dialysis]},
+  lo:{s:'Below the therapeutic range: risk of relapse (mania or depression).',dx:['Missed doses','Increased sodium intake or fluid load','Dose too low'],
+    n:['Assess adherence and mood symptoms.','Confirm the sample was a 12-h trough level.'],
+    tx:[['Lithium','Fine tremor, polyuria, hypothyroidism; narrow therapeutic range.']]}
+};
+I['Chloride (Cl), blood'] = {
+  hi:{s:'High chloride usually goes with dehydration or excess saline.',dx:['Dehydration','Large volumes of normal saline','Diarrhea (non-anion-gap metabolic acidosis)'],
+    n:['Assess hydration; monitor I&O; review IV fluid type.','Interpret with Na and HCO₃.'],tx:[TX.ivFluids]},
+  lo:{s:'Low chloride usually goes with loss of stomach acid or diuretics.',dx:['Vomiting or NG suction','Diuretics','Hyponatremia (e.g., SIADH)'],
+    n:['Measure GI losses; monitor K and HCO₃ (metabolic alkalosis).'],tx:[TX.ivFluids,TX.kclIV]}
+};
+I['Cortisol, blood'] = {
+  hi:{s:'High cortisol suggests Cushing syndrome (or normal stress). A high p.m. level is more meaningful: cortisol should fall in the evening.',
+    dx:['Long-term corticosteroid use (most common)','Pituitary or adrenal tumour','Severe stress or illness'],
+    n:['Monitor glucose, BP, weight, skin integrity and infection signs.','Fall precautions (muscle weakness, osteoporosis).','Support body-image concerns.'],
+    tx:[TX.steroids]},
+  lo:{s:'Low cortisol (especially a.m.) suggests adrenal insufficiency.',dx:['Abrupt stop of long-term steroids','Addison disease','Pituitary disorder'],
+    n:['Monitor BP, glucose, Na and K; watch for adrenal crisis (hypotension, shock).','Teach never to stop steroids abruptly; sick-day rules; medical alert ID.'],
+    tx:[TX.hydrocortisone,TX.fludro]}
+};
+I['Creatine kinase (CK), blood'] = {
+  hi:{s:'High CK indicates muscle damage.',dx:['Rhabdomyolysis (crush injury, prolonged immobility, extreme exercise)','Statin-related myopathy','Myocardial infarction, seizures or IM injections'],
+    n:['Monitor urine color (tea-colored) and output; report low output.','Monitor K and creatinine (kidney injury risk).','Ask about statins and muscle pain; assess for chest pain.'],
+    tx:[TX.ivFluids,TX.statin]},
+  lo:NA_LOW
+};
+I['Creatinine, blood'] = {
+  hi:{s:'High creatinine means the kidneys are filtering less (acute or chronic kidney injury).',dx:['Dehydration or low blood flow to the kidneys','Nephrotoxic drugs (NSAIDs, aminoglycosides, IV contrast)','Chronic kidney disease or urinary obstruction'],
+    n:['Strict I&O; report urine output below 0.5 mL/kg/h.','Daily weight; monitor K.','Review nephrotoxic and renally-dosed drugs; hold metformin around contrast per policy.','Check for bladder retention (bladder scan).'],
+    tx:[TX.ivFluids,TX.dialysis,TX.aceArb]},
+  lo:{s:'Low creatinine usually reflects low muscle mass.',dx:['Low muscle mass (older or malnourished adults)','Pregnancy'],n:['Nutrition and mobility assessment.'],tx:[]}
+};
+I['D-dimer, blood'] = {
+  hi:{s:'High D-dimer means clots are forming and breaking down; it needs follow-up for VTE.',dx:['Deep vein thrombosis or pulmonary embolism','DIC or sepsis','Recent surgery, pregnancy, cancer or older age (non-specific)'],
+    n:['Assess DVT: unilateral leg swelling, pain, warmth. Do not massage the leg.','Assess PE: sudden dyspnea, chest pain, tachycardia, low SpO₂. Emergency.','Prevention: early mobility, compression devices, hydration.'],
+    tx:[TX.heparin,TX.lmwh,TX.doac,TX.warfarin]},
+  lo:{na:'A normal D-dimer helps rule out DVT or PE in low-risk patients.'}
+};
+I['Estimated glomerular filtration rate (eGFR), blood'] = {
+  hi:{na:'An eGFR of 60 or above is the normal finding.'},
+  lo:{s:'eGFR below 60 mL/min/1.73 m² means reduced kidney function.',dx:['Chronic kidney disease (diabetes, hypertension)','Acute kidney injury','Kidney damage from drugs'],
+    n:['Check drug doses for kidney function; avoid NSAIDs and other nephrotoxins.','Monitor BP, glucose, K, fluid status, daily weight.','Teach diet per stage (sodium, potassium, phosphate limits).'],
+    tx:[TX.aceArb,TX.dialysis,TX.epo]}
+};
+I['Folate (folic acid), blood'] = {
+  hi:{na:'A level of 10.0 nmol/L or above is the normal finding.'},
+  lo:{s:'Low folate can cause macrocytic anemia and, in pregnancy, neural tube defects.',dx:['Poor diet or alcohol use','Increased need (pregnancy)','Drugs (methotrexate, phenytoin) or malabsorption'],
+    n:['Teach folate-rich foods: leafy greens, legumes, fortified grains.','Screen alcohol use.','Folic acid before and during early pregnancy.'],
+    tx:[TX.folic]}
+};
+I['Glucose, blood'] = {
+  hi:{s:'Hyperglycemia. Diabetes is diagnosed at fasting 7.0 mmol/L or higher, or random 11.1 or higher with symptoms (Diabetes Canada).',
+    dx:['Diabetes mellitus (type 1 or 2)','Stress, illness, infection or corticosteroids','DKA or hyperosmolar hyperglycemic state (very high values)'],
+    n:['Assess polyuria, polydipsia, blurred vision, dehydration.','DKA signs: Kussmaul breathing, fruity breath, abdominal pain, confusion.','Give insulin as ordered; monitor glucose and K.','Teach diet, activity, glucose monitoring and foot care.'],
+    tx:[TX.insulin,['Metformin','GI upset, rare lactic acidosis. Hold around IV contrast per policy.'],['SGLT2 inhibitors','Genital infections, dehydration, euglycemic DKA.']]},
+  lo:{s:'Hypoglycemia (below 4.0 mmol/L). This is an emergency.',
+    dx:['Too much insulin or a sulfonylurea','Missed meal, extra exercise or alcohol','Liver failure or adrenal insufficiency'],
+    n:['Conscious: 15 g fast-acting carbohydrate, recheck in 15 min, repeat until 4.0 or higher, then a snack.','Unconscious: glucagon IM or IV dextrose as ordered; turn to the side.','Find the cause; teach recognition (shaky, sweaty, confused).'],
+    tx:[['Glucagon','Nausea and vomiting: position on the side.'],['IV dextrose 50%','Vein irritation and tissue damage if it extravasates.'],['Sulfonylureas (e.g., gliclazide)','Can cause prolonged hypoglycemia; monitor closely.']]}
+};
+I['Hemoglobin A₁c (HbA₁c), blood'] = {
+  hi:{s:'High A1C means average glucose has been high over 2–3 months. Diabetes is diagnosed at 6.5% or higher; 6.0–6.4% is prediabetes (Diabetes Canada).',
+    dx:['Diabetes mellitus','Prediabetes','Poor glycemic control on treatment'],
+    n:['Diabetes self-management teaching: diet, activity, medications, glucose monitoring.','Screen for complications: feet, eyes, kidneys.','Explore barriers to adherence.'],
+    tx:[TX.insulin,['Metformin','GI upset; rare lactic acidosis.']]},
+  lo:{s:'Low A1C may reflect frequent hypoglycemia or a shortened red cell life span.',dx:['Frequent hypoglycemia','Anemia, blood loss or hemolysis (falsely low)'],
+    n:['Ask about hypoglycemia episodes.','Interpret with Hgb.'],tx:[TX.insulin]}
+};
+I['Hepatitis B surface antibodies, blood'] = {
+  hi:{s:'A positive result (10 mIU/mL or higher) means immunity to hepatitis B, from vaccination or past infection.',dx:['Successful vaccination','Recovered infection'],
+    n:['Document immunity (important for health care workers).'],tx:[]},
+  lo:{s:'A negative result (below 10 mIU/mL) means no protective immunity to hepatitis B.',dx:['Not vaccinated','Vaccine non-responder or waning immunity'],
+    n:['Offer hepatitis B vaccination; recheck antibodies after the series if at occupational risk.','After an exposure, follow post-exposure protocol (may include HBIG).'],
+    tx:[['Hepatitis B vaccine','Injection-site soreness, low-grade fever.']]}
+};
+I['Lactate, blood'] = {
+  hi:{s:'High lactate means tissues are not getting enough oxygen: a key sepsis and shock marker.',dx:['Sepsis or septic shock','Hypovolemic or cardiogenic shock','Seizures, intense exercise or metformin'],
+    n:['Sepsis bundle per protocol: cultures, antibiotics promptly, fluid bolus as ordered.','Monitor MAP (target often 65 mmHg or higher), urine output, LOC, skin.','Repeat lactate as ordered to track response.'],
+    tx:[TX.ivFluids,TX.antibiotics,['Norepinephrine','Extravasation causes tissue necrosis (central line preferred); arrhythmias; continuous BP monitoring.']]},
+  lo:NA_LOW
+};
+I['Lactate dehydrogenase (LDH), blood'] = {
+  hi:{s:'High LDH is a non-specific sign of tissue damage.',dx:['Hemolysis','Liver or muscle damage','Cancer (e.g., lymphoma) or tumour lysis'],
+    n:['Interpret with other results.','Tumour lysis risk: monitor K, phosphate, uric acid, urine output.'],tx:[TX.allopurinol,TX.ivFluids]},
+  lo:NA_LOW
+};
+I['Magnesium (Mg), blood'] = {
+  hi:{s:'Hypermagnesemia depresses nerves and muscles.',dx:['Kidney failure','Excess magnesium (antacids, laxatives)','IV magnesium (e.g., for preeclampsia)'],
+    n:['Check deep tendon reflexes, RR, BP, heart rate, LOC.','Stop magnesium-containing drugs or infusion and notify.'],
+    tx:[TX.calciumIV,TX.dialysis]},
+  lo:{s:'Hypomagnesemia makes nerves and the heart irritable; often with low K and Ca.',dx:['Alcohol use disorder or malnutrition','Diuretics or PPIs','Diarrhea or malabsorption'],
+    n:['Cardiac monitor (torsades de pointes risk); seizure precautions.','Assess tremor, hyperreflexia, muscle cramps.','Low Mg must be corrected before low K will correct.'],
+    tx:[TX.magIV,['Oral magnesium','Diarrhea.']]}
+};
+I['Osmolality, blood'] = {
+  hi:{s:'High osmolality means the blood is concentrated.',dx:['Dehydration or hypernatremia','Hyperglycemia (hyperosmolar hyperglycemic state)','Diabetes insipidus or toxic alcohol ingestion'],
+    n:['Assess hydration, LOC, I&O; monitor Na and glucose.'],tx:[TX.ivFluids,TX.desmo]},
+  lo:{s:'Low osmolality means the blood is too dilute.',dx:['SIADH','Excess water intake','Hyponatremia from other causes'],
+    n:['Neuro checks; seizure precautions; fluid restriction as ordered; daily weight.'],tx:[TX.hypertonic]}
+};
+I['Parathyroid hormone (PTH), blood'] = {
+  hi:{s:'High PTH raises calcium. With high calcium it suggests hyperparathyroidism.',dx:['Primary hyperparathyroidism (adenoma)','Chronic kidney disease (secondary)','Vitamin D deficiency'],
+    n:['Monitor calcium and phosphate.','Hydration; kidney stone and bone fracture precautions.','After parathyroidectomy: watch for hypocalcemia (tingling, Chvostek, Trousseau) and airway.'],
+    tx:[['Cinacalcet','Hypocalcemia, nausea.'],TX.calciumPO]},
+  lo:{s:'Low PTH causes low calcium.',dx:['After thyroid or parathyroid surgery','Low magnesium','Autoimmune hypoparathyroidism'],
+    n:['Assess tetany signs; seizure precautions; airway equipment nearby.'],tx:[TX.calciumIV,TX.calciumPO]}
+};
+I['Phosphate (PO₄), blood'] = {
+  hi:{s:'High phosphate, usually from poor kidney excretion; calcium often falls.',dx:['Chronic kidney disease','Hypoparathyroidism','Cell breakdown (tumour lysis, rhabdomyolysis)'],
+    n:['Give phosphate binders with meals.','Teach to limit dairy, processed foods and colas.','Watch for low calcium (tetany).'],
+    tx:[['Calcium carbonate (binder)','Constipation, high calcium.'],['Sevelamer','GI upset, constipation.']]},
+  lo:{s:'Low phosphate causes muscle weakness, including breathing muscles.',dx:['Refeeding syndrome','Alcohol use disorder or malnutrition','Treatment of DKA'],
+    n:['Start feeding slowly in malnourished patients (refeeding risk).','Assess muscle strength and breathing.'],tx:[['IV phosphate','Low calcium, vein irritation. Give slowly.']]}
+};
+I['Potassium (K), blood'] = {
+  hi:{s:'Hyperkalemia: a risk of dangerous heart rhythms.',dx:['Kidney failure','Drugs: ACE inhibitors, ARBs, spironolactone, K supplements','Cell shifts (acidosis, burns, crush injury) or a hemolyzed sample'],
+    n:['Cardiac monitor: peaked T waves, wide QRS.','Repeat the sample if hemolysis is possible.','Hold K supplements and K-sparing drugs; low-K diet.','Prepare emergency treatment as ordered.'],
+    tx:[TX.calciumIV,['Insulin with dextrose','Hypoglycemia: check glucose per protocol.'],TX.salbutamol,['Potassium binders (e.g., patiromer)','Constipation, low K or Mg.'],TX.dialysis]},
+  lo:{s:'Hypokalemia: muscle weakness and heart rhythm risk.',dx:['Loop or thiazide diuretics','Vomiting, diarrhea or NG suction','Insulin therapy or low magnesium'],
+    n:['Cardiac monitor: flat T waves, U waves.','Assess muscle weakness, decreased bowel sounds (ileus).','Higher digoxin toxicity risk.','Teach K-rich foods (bananas, potatoes, oranges).'],
+    tx:[TX.kclIV,TX.kclPO]}
+};
+I['Protein, total, blood'] = {
+  hi:{s:'High total protein suggests dehydration or excess antibodies.',dx:['Dehydration','Multiple myeloma','Chronic inflammation or infection'],n:['Assess hydration.','Interpret with albumin.'],tx:[TX.ivFluids]},
+  lo:{s:'Low total protein suggests malnutrition, liver disease or protein loss.',dx:['Malnutrition','Liver disease','Nephrotic syndrome or burns'],
+    n:['Nutrition assessment; dietitian referral.','Edema and skin integrity care; daily weight.'],tx:[['Nutrition support','Monitor tolerance, glucose and electrolytes.']]}
+};
+I['Rheumatoid factor (RF), blood'] = {
+  hi:{s:'Positive RF supports rheumatoid arthritis, alongside symptoms.',dx:['Rheumatoid arthritis','Sjögren syndrome or other autoimmune disease','Older age or chronic infection'],
+    n:['Assess joints: pain, swelling, morning stiffness.','Heat for stiffness, cold for acute flares; range of motion; energy conservation.'],
+    tx:[['Methotrexate','Liver toxicity, bone marrow suppression, mouth ulcers, birth defects. Avoid alcohol; take folic acid.'],TX.nsaid,['Biologics (e.g., adalimumab)','Serious infections; TB screening first.']]},
+  lo:{na:'A low value is the normal (negative) finding.'}
+};
+I['Sodium (Na), blood'] = {
+  hi:{s:'Hypernatremia: water deficit relative to sodium; brain cells shrink.',dx:['Dehydration (fever, poor intake in older adults)','Diabetes insipidus','Hypertonic saline or high sodium intake'],
+    n:['Neuro checks: thirst, restlessness, confusion, seizures.','Seizure precautions; strict I&O and daily weight.','Correct slowly as ordered (cerebral edema risk).'],
+    tx:[TX.d5w,TX.desmo]},
+  lo:{s:'Hyponatremia: excess water relative to sodium; brain cells swell.',dx:['SIADH','Diuretics (especially thiazides)','Heart failure, cirrhosis, or vomiting and diarrhea replaced with water'],
+    n:['Neuro checks: headache, confusion, seizures.','Seizure and fall precautions; fluid restriction as ordered; daily weight.','Correct slowly as ordered (osmotic demyelination risk).'],
+    tx:[TX.hypertonic,['Fluid restriction','Thirst, dry mouth: offer mouth care.'],['Tolvaptan','Too-rapid sodium rise, thirst, liver injury.']]}
+};
+const acs = {s:'High troponin means heart muscle damage, most often myocardial infarction.',
+  dx:['Myocardial infarction (acute coronary syndrome)','Myocarditis or heart failure','Pulmonary embolism, sepsis or kidney disease'],
+  n:['12-lead ECG within 10 min of chest pain; continuous cardiac monitor.','Serial troponins as ordered; assess pain, vital signs, SpO₂.','Rest; O₂ only if SpO₂ is below 90%; prepare for PCI.'],
+  tx:[['Aspirin','Bleeding, GI upset. Chew the first dose.'],['Nitroglycerin','Hypotension, headache. Hold if SBP below 90 or PDE-5 inhibitor use.'],TX.heparin,TX.betablocker]};
+I['Troponin I, blood'] = {hi:acs, lo:{na:'A low value is the normal finding.'}};
+I['Troponin T (TnT), blood'] = {hi:acs, lo:{na:'A low value is the normal finding.'}};
+I['Uric acid, blood'] = {
+  hi:{s:'High uric acid can cause gout and kidney stones.',dx:['Gout','Kidney disease or thiazide diuretics','Tumour lysis syndrome (after chemotherapy)'],
+    n:['Acute gout: rest, elevate and ice the joint; bed cradle.','Encourage 2–3 L fluid a day.','Teach to limit alcohol, organ meats, shellfish and sugary drinks.'],
+    tx:[TX.colchicine,TX.allopurinol,TX.nsaid]},
+  lo:NA_LOW
+};
+I['Urea, blood'] = {
+  hi:{s:'High urea suggests dehydration, reduced kidney function or extra protein breakdown.',dx:['Dehydration','Kidney failure','GI bleeding or high protein breakdown'],
+    n:['Assess hydration, I&O and daily weight.','Interpret with creatinine; assess for GI bleeding (melena).'],tx:[TX.ivFluids,TX.dialysis]},
+  lo:{s:'Low urea is uncommon.',dx:['Liver failure','Malnutrition or overhydration'],n:['Nutrition and fluid assessment.'],tx:[]}
+};
+I['Vitamin B₁₂, blood'] = {
+  hi:NA_HIGH,
+  lo:{s:'Low B₁₂ causes macrocytic anemia and nerve damage.',dx:['Pernicious anemia (no intrinsic factor)','Malabsorption (gastric surgery, Crohn disease, metformin, PPIs)','Vegan diet'],
+    n:['Assess numbness, tingling, balance, memory; fall precautions.','Teach that injections are lifelong in pernicious anemia.'],
+    tx:[TX.b12]}
+};
+I['Vitamin D (25-hydroxyvitamin D), blood'] = {
+  hi:{s:'High vitamin D is usually from excess supplements and can raise calcium.',dx:['Excess supplements'],
+    n:['Review supplements; check calcium.'],tx:[]},
+  lo:{s:'Low vitamin D weakens bones and muscles.',dx:['Low sun exposure or intake','Malabsorption','Kidney or liver disease'],
+    n:['Teach dietary sources and supplement use.','Fall prevention and bone health teaching.'],
+    tx:[['Vitamin D₃ supplements','Excess dose causes high calcium (nausea, constipation, confusion).']]}
+};
+
+/* ---------- Lipids ---------- */
+const lipidHi = (s) => ({s, dx:['Diet and inactivity','Genetics (familial hypercholesterolemia)','Hypothyroidism, diabetes or kidney disease'],
+  n:['Teach heart-healthy diet, regular activity, weight management, smoking cessation.','Assess other cardiovascular risk factors (BP, glucose).'],
+  tx:[TX.statin,['Ezetimibe','Diarrhea, muscle pain (rare).']]});
+I['Cholesterol, total, blood'] = {hi:lipidHi('High total cholesterol raises cardiovascular risk.'), lo:{s:'Low cholesterol is uncommon.',dx:['Malnutrition','Hyperthyroidism or liver disease'],n:['Nutrition assessment.'],tx:[]}};
+I['Cholesterol, high-density lipoprotein (HDL), blood'] = {
+  hi:{na:'Higher HDL is protective.'},
+  lo:{s:'Low HDL ("good" cholesterol) raises cardiovascular risk.',dx:['Inactivity and smoking','Obesity or type 2 diabetes','High triglycerides'],
+    n:['Teach regular aerobic activity, weight loss, smoking cessation.'],tx:[TX.statin]}
+};
+I['Cholesterol, low-density lipoprotein (LDL), blood'] = {special:'LDL targets depend on cardiovascular risk. See the Low-Density Lipoprotein (LDL) Analysis section for when to start treatment and the treatment targets.',
+  hi:lipidHi('High LDL raises cardiovascular risk.'), lo:{na:'Lower LDL is generally the treatment goal.'}};
+I['Non–high-density lipoprotein (non-HDL), blood'] = {hi:lipidHi('High non-HDL cholesterol raises cardiovascular risk.'), lo:{na:'A low value is the desired finding.'}};
+I['Triglycerides, blood'] = {
+  hi:{s:'High triglycerides raise cardiovascular risk; very high levels can cause pancreatitis.',dx:['Obesity, diabetes or high sugar and alcohol intake','Non-fasting sample','Hypothyroidism or medications'],
+    n:['Teach reduced sugar, refined carbohydrates and alcohol; regular activity.','Assess abdominal pain if very high (pancreatitis).'],
+    tx:[['Fibrates (e.g., fenofibrate)','Muscle pain (higher risk with statins), gallstones.'],['Omega-3 fatty acids','Fishy taste, GI upset.']]},
+  lo:NA_LOW
+};
+const ldlNote = {special:'These are LDL treatment thresholds and targets, not normal values. Nursing focus: teach lifestyle change and statin adherence, and monitor for statin adverse effects.',
+  hi:{s:'Above the threshold means statin therapy may be considered for this risk group.',dx:['Diet, inactivity, genetics'],
+    n:['Teach lifestyle change and statin adherence.'],tx:[TX.statin]}, lo:{na:'Reaching the target is the goal of treatment.'}};
+I['High and intermediate cardiovascular disease risk'] = ldlNote;
+I['Low cardiovascular disease risk'] = ldlNote;
+
+/* ---------- Urine ---------- */
+I['Specific gravity, urine'] = {
+  hi:{s:'Concentrated urine.',dx:['Dehydration','SIADH','Glucose, protein or contrast in the urine'],n:['Assess hydration; encourage fluids unless restricted; I&O.'],tx:[TX.ivFluids]},
+  lo:{s:'Dilute urine.',dx:['High fluid intake','Diabetes insipidus','Kidney disease (cannot concentrate)'],n:['Monitor I&O and Na; assess thirst.'],tx:[TX.desmo]}
+};
+I['pH, urine'] = {
+  hi:{s:'Alkaline urine.',dx:['UTI with urea-splitting bacteria (e.g., Proteus)','Vegetarian diet','Metabolic alkalosis'],n:['Assess UTI symptoms; encourage fluids.'],tx:[TX.antibiotics]},
+  lo:{s:'Acidic urine.',dx:['Metabolic acidosis (e.g., DKA)','High-protein diet','Uric acid stone risk'],n:['Assess for DKA if diabetic; encourage fluids.'],tx:[]}
+};
+I['Urobilinogen, urine'] = {
+  hi:{s:'High urobilinogen suggests increased bilirubin breakdown.',dx:['Hemolysis','Liver disease'],n:['Assess jaundice and urine color.'],tx:[]},
+  lo:{s:'Low or absent urobilinogen suggests bile is not reaching the gut.',dx:['Bile duct obstruction','Broad-spectrum antibiotics'],n:['Assess for pale stools, jaundice, RUQ pain.'],tx:[]}
+};
+I['Albumin to creatinine ratio, urine'] = {
+  hi:{s:'Albumin in the urine is an early sign of kidney damage.',dx:['Diabetic kidney disease','Hypertensive kidney disease','Other kidney disease'],
+    n:['Reinforce glucose and BP control.','Teach to avoid NSAIDs; annual kidney screening.'],tx:[TX.aceArb]},
+  lo:{na:'A low value is the normal finding.'}
+};
+I['Osmolality, urine'] = {
+  hi:{s:'Concentrated urine.',dx:['Dehydration','SIADH'],n:['Assess hydration; interpret with serum Na and osmolality.'],tx:[TX.ivFluids]},
+  lo:{s:'Dilute urine.',dx:['Diabetes insipidus','High water intake'],n:['Monitor I&O, Na and thirst.'],tx:[TX.desmo]}
+};
+const coll = 'Collection: discard the first void, then collect all urine for 24 h, keep it cold, and finish with a final void at the same time.';
+I['Urine calcium (Ca), unrestricted diet, 24-h specimen'] = {
+  hi:{s:'High urine calcium raises kidney stone risk.',dx:['Idiopathic hypercalciuria','Hyperparathyroidism','High calcium or vitamin D intake'],
+    n:['Encourage 2–3 L fluid a day; strain urine for stones.',coll],tx:[['Thiazide diuretics','Low K, high glucose and uric acid, dizziness.']]},
+  lo:{s:'Low urine calcium.',dx:['Hypoparathyroidism','Vitamin D deficiency','Thiazide diuretics'],n:['Interpret with blood calcium.',coll],tx:[TX.calciumPO]}
+};
+I['Urine chloride (Cl), 24-h specimen'] = {
+  hi:{s:'High urine chloride.',dx:['High salt intake','Diuretics'],n:['Review diet and medications.',coll],tx:[]},
+  lo:{s:'Low urine chloride suggests the kidneys are conserving chloride.',dx:['Vomiting or NG suction','Low intake'],n:['Measure GI losses.',coll],tx:[TX.ivFluids]}
+};
+I['Urine creatinine, weight-based, 24-h specimen'] = {
+  hi:{s:'High urine creatinine may mean over-collection or high muscle mass.',dx:['Collection longer than 24 h','High muscle mass or meat intake'],n:['Check collection times.',coll],tx:[]},
+  lo:{s:'Low urine creatinine often means an incomplete collection.',dx:['Incomplete collection','Low muscle mass or reduced kidney function'],n:['Reinforce collection technique; repeat if incomplete.',coll],tx:[]}
+};
+I['Urine metanephrine, 24-h specimen'] = {
+  hi:{s:'High metanephrines suggest pheochromocytoma (adrenal tumour making adrenaline).',dx:['Pheochromocytoma','Severe stress','Drugs (e.g., tricyclic antidepressants, decongestants)'],
+    n:['Monitor BP closely (sudden severe hypertension, headache, sweating, palpitations).','Avoid palpating the abdomen.',coll],
+    tx:[['Alpha-blocker (e.g., phenoxybenzamine) before surgery','Orthostatic hypotension, nasal congestion: rise slowly.']]},
+  lo:{na:'A low value is the normal finding.'}
+};
+I['Urine protein, 24-h specimen'] = {
+  hi:{s:'Proteinuria indicates kidney damage.',dx:['Diabetic or hypertensive kidney disease','Nephrotic syndrome','Preeclampsia in pregnancy'],
+    n:['Assess edema, BP, daily weight.','In pregnancy, assess headache, visual changes, epigastric pain (preeclampsia).',coll],
+    tx:[TX.aceArb,TX.magIV]},
+  lo:{na:'A low value is the normal finding.'}
+};
+I['Urine potassium (K), 24-h specimen'] = {
+  hi:{s:'High urine K means the kidneys are losing potassium.',dx:['Diuretics','Hyperaldosteronism'],n:['Interpret with blood K; monitor for hypokalemia.',coll],tx:[TX.kclPO]},
+  lo:{s:'Low urine K with low blood K suggests losses outside the kidney.',dx:['Diarrhea or vomiting','Low intake'],n:['Assess GI losses and diet.',coll],tx:[TX.kclPO]}
+};
+I['Urinary free cortisol, 24-h specimen'] = {
+  hi:{s:'High urinary cortisol suggests Cushing syndrome.',dx:['Long-term corticosteroids','Pituitary or adrenal tumour','Severe stress'],n:['Monitor glucose, BP, skin and infection.',coll],tx:[TX.steroids]},
+  lo:{s:'Low urinary cortisol may suggest adrenal insufficiency.',dx:['Adrenal insufficiency','Incomplete collection'],n:['Monitor BP and glucose.',coll],tx:[TX.hydrocortisone]}
+};
+I['Urine sodium (Na), 24-h specimen'] = {
+  hi:{s:'High urine sodium means the kidneys are losing sodium.',dx:['Diuretics','SIADH or adrenal insufficiency','High salt intake'],n:['Interpret with blood Na.',coll],tx:[]},
+  lo:{s:'Low urine sodium means the kidneys are holding on to sodium.',dx:['Dehydration','Heart failure or cirrhosis'],n:['Assess fluid status and weight.',coll],tx:[TX.ivFluids]}
+};
+
+/* ---------- Reproductive hormones ---------- */
+I['Dehydroepiandrosterone sulfate (DHEA-S), blood'] = {
+  hi:{s:'High DHEA-S indicates excess adrenal androgens.',dx:['Polycystic ovary syndrome (PCOS)','Congenital adrenal hyperplasia','Adrenal tumour'],
+    n:['Assess hirsutism, acne, menstrual irregularity.','Support body-image concerns.'],tx:[TX.ocp,['Spironolactone','Hyperkalemia; birth defects: contraception needed.']]},
+  lo:{s:'Low DHEA-S is common with age.',dx:['Normal aging','Adrenal insufficiency','Corticosteroid use'],n:['Interpret with cortisol if adrenal disease is suspected.'],tx:[]}
+};
+const sexHormoneLo = {dx:['Menopause or ovarian failure','Pituitary problem','Low body weight or excessive exercise'],
+  n:['Assess hot flashes, vaginal dryness, amenorrhea; bone health teaching.'],tx:[TX.hrt]};
+I['Estrogens, total, blood'] = {
+  hi:{s:'High estrogen.',dx:['Pregnancy','Estrogen therapy','Estrogen-producing tumour or obesity'],n:['Confirm pregnancy status; review medications.'],tx:[TX.hrt]},
+  lo:{s:'Low estrogen.',...sexHormoneLo}
+};
+I['Estradiol (E₂) [report the phase of the menstrual cycle], blood'] = {
+  hi:{s:'High estradiol for the cycle phase.',dx:['Pregnancy or fertility treatment','Estrogen-producing tumour','In males: liver disease or obesity (gynecomastia)'],n:['Interpret with cycle phase; confirm pregnancy status.'],tx:[]},
+  lo:{s:'Low estradiol for the cycle phase.',...sexHormoneLo}
+};
+I['Follicle-stimulating hormone (FSH) [report the phase of the menstrual cycle], blood'] = {
+  hi:{s:'High FSH means the gonads are not responding (primary failure).',dx:['Menopause or primary ovarian insufficiency','Testicular failure'],
+    n:['Assess menopausal symptoms; bone health teaching.','Fertility counselling and emotional support.'],tx:[TX.hrt,TX.testo]},
+  lo:{s:'Low FSH suggests a pituitary or hypothalamic problem.',dx:['Pituitary or hypothalamic disorder','Low body weight, excess exercise or stress','Pregnancy'],
+    n:['Assess nutrition and exercise habits; confirm pregnancy status.'],tx:[]}
+};
+I['Human chorionic gonadotropin (β-hCG), nonpregnant, blood'] = {
+  hi:{s:'A positive β-hCG most often means pregnancy.',dx:['Intrauterine pregnancy','Ectopic pregnancy','Molar pregnancy or germ cell tumour'],
+    n:['Confirm pregnancy before teratogenic drugs or radiation.','Ectopic red flags: one-sided pelvic pain, vaginal bleeding, shoulder pain, shock. Emergency.'],
+    tx:[['Methotrexate (ectopic pregnancy)','Abdominal pain, nausea, mouth sores. Avoid folic acid, alcohol and NSAIDs; birth defects.']]},
+  lo:{na:'Below 5 IU/L is the normal non-pregnant finding.'}
+};
+I['Luteinizing hormone (LH) [report the phase of the menstrual cycle], blood'] = {
+  hi:{s:'High LH outside the midcycle surge.',dx:['Menopause or gonadal failure','Polycystic ovary syndrome (PCOS)'],n:['Interpret with cycle phase and FSH.','Assess menstrual history.'],tx:[TX.ocp,TX.hrt]},
+  lo:{s:'Low LH suggests a pituitary or hypothalamic problem.',dx:['Pituitary or hypothalamic disorder','Low body weight or excess exercise'],n:['Assess nutrition and exercise.'],tx:[]}
+};
+I['Progesterone [report the phase of the menstrual cycle], blood'] = {
+  hi:{s:'High progesterone.',dx:['Luteal phase or pregnancy','Congenital adrenal hyperplasia'],n:['Interpret with cycle phase; confirm pregnancy status.'],tx:[]},
+  lo:{s:'Low midluteal progesterone suggests ovulation did not occur.',dx:['Anovulation (e.g., PCOS)','Luteal phase defect','Threatened miscarriage in early pregnancy'],
+    n:['Fertility support and teaching about cycle timing.','In pregnancy: assess bleeding and cramping.'],tx:[['Progesterone supplements','Drowsiness, breast tenderness, mood change.']]}
+};
+I['Prolactin, blood'] = {
+  hi:{s:'High prolactin.',dx:['Prolactinoma (pituitary tumour)','Pregnancy or breastfeeding','Drugs (antipsychotics such as risperidone, metoclopramide) or hypothyroidism'],
+    n:['Assess galactorrhea, amenorrhea, erectile dysfunction, headache and vision changes.','Review medications.'],tx:[TX.dopamineAg]},
+  lo:{s:'Low prolactin is uncommon.',dx:['Pituitary damage (e.g., Sheehan syndrome after postpartum hemorrhage)'],n:['Assess ability to breastfeed and other pituitary symptoms.'],tx:[]}
+};
+I['Testosterone, blood'] = {
+  hi:{s:'High testosterone.',dx:['Females: PCOS or an adrenal or ovarian tumour','Males: anabolic steroid or testosterone use'],
+    n:['Assess hirsutism, acne, menstrual change; ask about steroid use nonjudgmentally.'],tx:[TX.ocp]},
+  lo:{s:'Low testosterone in males (hypogonadism).',dx:['Testicular failure','Pituitary problem','Aging, obesity or opioid use'],
+    n:['Assess fatigue, low libido, erectile dysfunction, mood; bone health.'],tx:[TX.testo]}
+};
+
+/* ---------- Semen analysis ---------- */
+const semenLo = (s) => ({hi:{na:'Values at or above the threshold are normal.'}, lo:{s,
+  dx:['Varicocele or genital infection','Hormonal problem (low testosterone, pituitary)','Heat, smoking, alcohol, drugs or anabolic steroids'],
+  n:['Sensitive, nonjudgmental approach; offer counselling.','Collection: abstain 2–5 days; deliver within 1 h kept at body temperature.','Teach to avoid heat (hot tubs), smoking, alcohol and steroids.'],
+  tx:[TX.antibiotics]}});
+I['Ejaculate volume, semen'] = semenLo('Low volume may reduce fertility.');
+I['pH, semen'] = semenLo('Low semen pH may suggest a blocked ejaculatory duct.');
+I['Sperm concentration, semen'] = semenLo('Low sperm concentration (oligospermia) reduces fertility.');
+I['Total sperm number, semen'] = semenLo('Low total sperm number reduces fertility.');
+I['Motility, semen'] = semenLo('Low motility reduces fertility.');
+I['Forward progression, semen'] = semenLo('Poor forward progression reduces fertility.');
+I['Normal morphology, semen'] = semenLo('Few normally shaped sperm can reduce fertility.');
+I['Sperm agglutination, semen'] = {hi:{s:'Agglutination present suggests antisperm antibodies.',dx:['Antisperm antibodies (after vasectomy reversal, injury or infection)','Genital infection'],
+  n:['Sensitive counselling; refer to fertility services.'],tx:[TX.antibiotics]}, lo:{na:'Absent agglutination is the normal finding.'}};
+I['Viscosity, semen'] = {hi:{s:'High viscosity can trap sperm.',dx:['Genital tract infection or prostate problem'],n:['Repeat sample per instructions; assess for infection symptoms.'],tx:[TX.antibiotics]}, lo:{na:'Normal viscosity is the expected finding.'}};
+
+/* ---------- Stool ---------- */
+I['Fecal fat'] = {
+  hi:{s:'High fecal fat means fat malabsorption (steatorrhea).',dx:['Pancreatic insufficiency (chronic pancreatitis, cystic fibrosis)','Celiac disease','Bile duct obstruction'],
+    n:['Assess pale, bulky, foul, greasy stools; perianal skin care.','Monitor weight and nutrition.','Collection: 72-h stool on a 100-g fat diet.'],
+    tx:[['Pancreatic enzymes (pancrelipase)','Give with every meal and snack; swallow whole; mouth irritation; high uric acid.'],['Fat-soluble vitamins (A, D, E, K)','Toxicity with excess doses.']]},
+  lo:{na:'A low value is the normal finding.'}
+};
+
+
+(function(){
+/* ---------- search helpers (carried over from the original app) ---------- */
+const normal = s => (s||'').toString().toLowerCase().normalize('NFKD').replace(/[₂₃₄₁₀⁰¹²³⁴⁵⁶⁷⁸⁹]/g,'').replace(/[αβγµμ–—−]/g, m=>({'α':'alpha','β':'beta','γ':'gamma','µ':'u','μ':'u','–':'-','—':'-','−':'-'})[m]||m).replace(/[^a-z0-9<>=%\.\-]+/g,' ').replace(/\s+/g,' ').trim();
+const levenshtein=(a,b)=>{const m=[];for(let i=0;i<=b.length;i++)m[i]=[i];for(let j=0;j<=a.length;j++)m[0][j]=j;for(let i=1;i<=b.length;i++){for(let j=1;j<=a.length;j++){m[i][j]=b.charAt(i-1)==a.charAt(j-1)?m[i-1][j-1]:Math.min(m[i-1][j-1]+1,Math.min(m[i][j-1]+1,m[i-1][j]+1));}}return m[b.length][a.length];};
+const enriched = labData.map((d,i)=>({...d,id:i,haystack:normal([d.cat,d.sub,d.test,d.ctx,d.val,d.aliases].join(' '))}));
+function scoreItem(item,q){if(!q)return 1; const query=normal(q); const tokens=query.split(' ').filter(Boolean); let score=0; for(const t of tokens){if(item.haystack.includes(t)) score += 10; if(normal(item.test).startsWith(t)) score+=8; if(normal(item.ctx).includes(t)) score+=3; if(normal(item.val).includes(t)) score+=3; const words=item.haystack.split(' '); if(t.length>3 && words.some(w=>Math.abs(w.length-t.length)<=2 && levenshtein(w,t)<=1)) score+=5;} return score;}
+const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+function hl(text, q){
+  const e = esc(text); if(!q) return e;
+  const terms = normal(q).split(' ').filter(t => t.length > 1).slice(0,5);
+  if(!terms.length) return e;
+  const re = new RegExp('(' + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|') + ')','ig');
+  return e.split(/(&[a-z]+;)/).map(part => part.startsWith('&') && part.endsWith(';') ? part : part.replace(re,'<mark>$1</mark>')).join('');
+}
+
+/* ---------- merged tests (display only; labData untouched) ---------- */
+const tests = []; const tIndex = new Map();
+enriched.forEach(d => {
+  const k = d.cat + '|' + d.sub + '|' + d.test;
+  if(!tIndex.has(k)){ const t = {id:tests.length, cat:d.cat, sub:d.sub, test:d.test, noNormal:!!d.noNormal, rows:[]}; tIndex.set(k, t); tests.push(t); }
+  tIndex.get(k).rows.push(d);
+});
+const cats = [];
+tests.forEach(t => {
+  let c = cats.find(x => x.name === t.cat); if(!c){ c = {name:t.cat, subs:[], n:0}; cats.push(c); }
+  c.n++; let s = c.subs.find(x => x.name === t.sub); if(!s){ s = {name:t.sub, n:0}; c.subs.push(s); } s.n++;
+});
+
+/* ---------- range parsing for the value checker ---------- */
+function parseRange(val){
+  const v = val.replace(/−/g,'-');
+  let m = v.match(/^\s*(-?\d+(?:\.\d+)?)\s*%?\s*(?:–|to)\s*(-?\d+(?:\.\d+)?)/);
+  if(m) return {lo:+m[1], hi:+m[2]};
+  m = v.match(/^\s*(≤|<)\s*(\d+(?:\.\d+)?)/); if(m) return {hi:+m[2], strict:m[1]==='<'};
+  m = v.match(/^\s*(≥|>)\s*(\d+(?:\.\d+)?)/); if(m) return {lo:+m[2], strict:m[1]==='>', loOnly:true};
+  return null;
+}
+function unitOf(val){ return val.replace(/−/g,'-').replace(/^\s*[≤≥<>]?\s*-?\d+(?:\.\d+)?\s*%?\s*(?:(?:–|to)\s*-?\d+(?:\.\d+)?\s*%?)?\s*/,'').trim(); }
+function classify(r, x){
+  if(r.lo !== undefined && r.hi !== undefined) return x < r.lo ? 'L' : x > r.hi ? 'H' : 'N';
+  if(r.hi !== undefined) return (r.strict ? x >= r.hi : x > r.hi) ? 'H' : 'N';
+  if(r.lo !== undefined) return (r.strict ? x <= r.lo : x < r.lo) ? 'L' : 'N';
+  return null;
+}
+function checkable(t){ return !t.noNormal && !t.rows.some(r => /\((Positive|Negative)\)/.test(r.val)) && t.cat !== 'Low-Density Lipoprotein (LDL) Analysis' && t.rows.some(r => parseRange(r.val)); }
+
+/* ---------- state ---------- */
+const S = {cat:null, sub:null, q:'', sel:null, tab:'interp', dir:'hi', check:{val:'', row:0}};
+const $ = id => document.getElementById(id);
+const mobile = () => matchMedia('(max-width:900px)').matches;
+const COPY = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+
+/* ---------- nav ---------- */
+const open = new Set(['Blood']);
+function renderNav(){
+  let h = '<button class="t-all' + (!S.cat && !S.q ? ' on' : '') + '" data-all="1" type="button"><span class="lbl">All sections</span><span class="cnt">' + tests.length + '</span></button>';
+  cats.forEach((c, ci) => {
+    const multi = c.subs.length > 1 || c.subs[0].name !== c.name;
+    const on = S.cat === c.name && !S.sub;
+    const ex = open.has(c.name);
+    h += '<button class="t-cat' + (on ? ' on' : '') + '" type="button" data-cat="' + ci + '"' + (multi ? ' aria-expanded="' + ex + '"' : '') + '>';
+    h += multi ? '<svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>' : '<span style="width:14px" aria-hidden="true"></span>';
+    h += '<span class="lbl">' + esc(c.name) + '</span><span class="cnt">' + c.n + '</span></button>';
+    if(multi){
+      h += '<div class="subs"' + (ex ? '' : ' hidden') + '>';
+      c.subs.forEach((s, si) => { h += '<button class="t-sub' + (S.cat === c.name && S.sub === s.name ? ' on' : '') + '" type="button" data-cat="' + ci + '" data-sub="' + si + '"><span class="lbl">' + esc(s.name) + '</span><span class="cnt">' + s.n + '</span></button>'; });
+      h += '</div>';
+    }
+  });
+  $('tree').innerHTML = h;
+}
+$('tree').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  if(b.dataset.all){ S.cat = null; S.sub = null; }
+  else {
+    const c = cats[+b.dataset.cat];
+    if(b.dataset.sub !== undefined){ S.cat = c.name; S.sub = c.subs[+b.dataset.sub].name; }
+    else {
+      const multi = c.subs.length > 1 || c.subs[0].name !== c.name;
+      if(multi){ if(open.has(c.name) && S.cat === c.name && !S.sub){ open.delete(c.name); } else { open.add(c.name); } }
+      S.cat = c.name; S.sub = null;
+    }
+  }
+  S.q = ''; $('q').value = '';
+  renderNav(); renderList();
+  if(mobile() && (b.dataset.sub !== undefined || b.dataset.all || !(cats[+b.dataset.cat] && (cats[+b.dataset.cat].subs.length > 1 || cats[+b.dataset.cat].subs[0].name !== cats[+b.dataset.cat].name)))) collapseNav(true);
+});
+function collapseNav(c){ $('tree').dataset.collapsed = String(c); $('navToggle').setAttribute('aria-expanded', String(!c)); $('navToggle').textContent = c ? 'Browse sections' : 'Hide sections'; }
+$('navToggle').addEventListener('click', () => collapseNav($('tree').dataset.collapsed !== 'true'));
+
+/* ---------- list ---------- */
+function visible(){
+  if(S.q){
+    const scored = enriched.map(d => ({d, s:scoreItem(d, S.q)})).filter(x => x.s > 0);
+    const best = new Map();
+    scored.forEach(x => { const t = tIndex.get(x.d.cat + '|' + x.d.sub + '|' + x.d.test); best.set(t, Math.max(best.get(t) || 0, x.s)); });
+    return [...best.entries()].sort((a,b) => b[1]-a[1] || a[0].id-b[0].id).map(x => x[0]);
+  }
+  return tests.filter(t => (!S.cat || t.cat === S.cat) && (!S.sub || t.sub === S.sub));
+}
+function valsHTML(t, q){
+  if(t.noNormal) return '<span class="nn">No normal value required by MCC</span>';
+  return t.rows.map(r => '<span>' + hl(r.val, q) + (r.ctx ? ' <span class="c">(' + hl(r.ctx, q) + ')</span>' : '') + '</span>').join('');
+}
+function renderList(){
+  const arr = visible();
+  const title = S.q ? 'Search results' : S.sub ? S.sub : S.cat ? S.cat : 'All sections';
+  let h = '<div class="listhead"><h1>' + esc(title) + '</h1><span class="meta">' + arr.length + ' test' + (arr.length === 1 ? '' : 's') + (S.q ? ' for “' + esc(S.q) + '”' : '') + '</span></div>';
+  if(!arr.length){
+    h += '<div class="empty"><b>No matching tests</b>Try an abbreviation, unit or body system, such as K, ABG, mmol/L or renal.</div>';
+  } else {
+    h += '<div class="colhead"><span>Component</span><span>Reference range</span></div>';
+    let lastGrp = '';
+    arr.forEach(t => {
+      const g = S.q ? t.cat : (t.cat === t.sub ? t.cat : t.cat + ' › ' + t.sub);
+      if(g !== lastGrp && (S.q || !S.sub)){ h += '<div class="grp">' + esc(g) + '</div>'; lastGrp = g; }
+      h += '<button type="button" class="row' + (S.sel === t.id ? ' on' : '') + '" data-id="' + t.id + '"><span class="tn">' + hl(t.test, S.q) + '</span><span class="vals">' + valsHTML(t, S.q) + '</span></button>';
+    });
+  }
+  $('list').innerHTML = h;
+  $('sbCount').textContent = arr.length + ' of ' + tests.length + ' tests shown';
+}
+$('list').addEventListener('click', e => { const r = e.target.closest('.row'); if(r) select(+r.dataset.id, true); });
+
+/* ---------- detail ---------- */
+function select(id, user){
+  S.sel = id; S.check = {val:'', row:0}; S.dir = 'hi';
+  const t = tests[id];
+  const ip = I[t.test];
+  if(ip && ip.hi && ip.hi.na && ip.lo && !ip.lo.na) S.dir = 'lo';
+  document.querySelectorAll('.row.on').forEach(r => r.classList.remove('on'));
+  const row = document.querySelector('.row[data-id="' + id + '"]'); if(row) row.classList.add('on');
+  renderDetail();
+  if(user){ try{ history.replaceState(null, '', '#t' + id); }catch(e){} }
+  if(mobile() && user){ document.body.classList.add('sheet'); $('detail').scrollTop = 0; }
+  $('sbSel').textContent = 'Selected: ' + t.test;
+}
+function panel(p, dir){
+  if(!p) return '<p class="na">No interpretation is available for this direction.</p>';
+  if(p.na) return '<p class="na">' + esc(p.na) + '</p>';
+  let h = '<p class="suggest">' + esc(p.s) + '</p>';
+  h += '<div class="sect"><h3>Possible causes</h3><ol class="dx">' + p.dx.map(x => '<li><span>' + esc(x) + '</span></li>').join('') + '</ol></div>';
+  h += '<div class="sect"><h3>Nursing interventions</h3><ul class="ul">' + p.n.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>';
+  if(p.tx && p.tx.length) h += '<div class="sect"><h3>Treatments: watch for adverse effects</h3><div class="tx">' + p.tx.map(x => '<div><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>').join('') + '</div></div>';
+  return h;
+}
+function renderDetail(){
+  const d = $('detail');
+  if(S.sel === null){ d.innerHTML = '<div class="dbody"><div class="empty"><b>Select a test</b>Choose a test from the list to see its reference range and interpretation.</div></div>'; return; }
+  const t = tests[S.sel]; const ip = I[t.test];
+  let h = '<div class="dhead"><button class="back" type="button" id="backBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Back to list</button>';
+  h += '<div class="crumb">' + esc(t.cat === t.sub ? t.cat : t.cat + ' › ' + t.sub) + '</div><h2 class="dname">' + esc(t.test) + '</h2>';
+  h += '<div class="tabs" role="tablist"><button class="tab" role="tab" type="button" data-tab="ref" aria-selected="' + (S.tab === 'ref') + '">Reference range</button><button class="tab" role="tab" type="button" data-tab="interp" aria-selected="' + (S.tab === 'interp') + '">Interpretation</button></div></div>';
+  h += '<div class="dbody">';
+  if(S.tab === 'ref'){
+    h += '<div class="card"><div class="ch">MCC adult reference range</div>';
+    if(t.noNormal) h += '<div class="refline"><span class="nn">No normal value required by MCC</span></div>';
+    else t.rows.forEach(r => {
+      const txt = t.test + (r.ctx ? ' — ' + r.ctx : '') + ': ' + r.val;
+      h += '<div class="refline"><span class="ctx">' + (r.ctx ? esc(r.ctx) : 'All adults') + '</span><span class="v">' + esc(r.val) + '</span><button class="copy" type="button" aria-label="Copy value" data-copy="' + esc(txt) + '">' + COPY + '</button></div>';
+    });
+    h += '</div>';
+    h += '<div class="card"><div class="cb"><dl class="kv"><dt>Section</dt><dd>' + esc(t.cat) + '</dd><dt>Subsection</dt><dd>' + esc(t.sub) + '</dd><dt>Population</dt><dd>Adults</dd></dl></div></div>';
+    h += '<p class="note">Reference ranges vary by lab, analyzer, age, pregnancy status and local policy. Source: Medical Council of Canada, List of normal lab values (December 2020).</p>';
+  } else {
+    if(t.noNormal){
+      h += '<div class="card"><div class="cb"><p class="na">The MCC does not set a normal value for this test. Results are reported as findings (for example present or absent, or a culture result) and interpreted in the clinical context.</p></div></div>';
+    } else if(!ip){
+      h += '<div class="card"><div class="cb"><p class="na">Interpretation is not yet available for this test.</p></div></div>';
+    } else {
+      if(ip.special) h += '<div class="special">' + esc(ip.special) + '</div>';
+      if(checkable(t)){
+        const rowsC = t.rows.filter(r => parseRange(r.val));
+        const r = rowsC[Math.min(S.check.row, rowsC.length-1)];
+        h += '<div class="card"><div class="ch">Check a value</div><div class="cb"><div class="check">';
+        h += '<label class="sr" for="chkVal">Result value</label><input id="chkVal" inputmode="decimal" placeholder="Enter result" value="' + esc(S.check.val) + '"><span class="u">' + esc(unitOf(r.val)) + '</span>';
+        if(rowsC.length > 1) h += '<label class="sr" for="chkRow">Reference group</label><select id="chkRow">' + rowsC.map((x,i) => '<option value="' + i + '"' + (i === S.check.row ? ' selected' : '') + '>' + esc(x.ctx || 'All adults') + ' · ' + esc(x.val) + '</option>').join('') + '</select>';
+        h += '</div><div class="verdict" id="verdict" aria-live="polite"></div></div></div>';
+      }
+      const hiNA = ip.hi && ip.hi.na, loNA = ip.lo && ip.lo.na;
+      h += '<div class="seg" role="group" aria-label="Show interpretation for"><button type="button" class="hi" data-dir="hi" aria-pressed="' + (S.dir === 'hi') + '"><span class="chip H">H</span>High' + (hiNA ? ' <span style="font-weight:400;font-size:12px">(n/a)</span>' : '') + '</button><button type="button" class="lo" data-dir="lo" aria-pressed="' + (S.dir === 'lo') + '"><span class="chip L">L</span>Low' + (loNA ? ' <span style="font-weight:400;font-size:12px">(n/a)</span>' : '') + '</button></div>';
+      h += '<div class="card"><div class="cb" style="display:flex;flex-direction:column;gap:14px">' + panel(ip[S.dir], S.dir) + '</div></div>';
+      const p = ip[S.dir];
+      if(p && !p.na) h += '<div class="actions"><button class="btn pri" type="button" id="copyInterp">Copy interpretation</button><span class="status" id="copyStatus" role="status"></span></div>';
+      h += '<p class="review">Interpretations are simplified for baccalaureate nursing education and are pending faculty review. They are not for clinical decision-making.</p>';
+    }
+  }
+  h += '</div>';
+  d.innerHTML = h;
+  if(S.tab === 'interp' && $('chkVal')) updateVerdict();
+}
+function updateVerdict(){
+  const t = tests[S.sel]; const rowsC = t.rows.filter(r => parseRange(r.val));
+  const r = rowsC[Math.min(S.check.row, rowsC.length-1)];
+  const v = $('verdict'); const raw = S.check.val.trim().replace(',', '.');
+  if(!raw){ v.innerHTML = '<span style="color:var(--muted)">Enter a result to see whether it is high, low or normal.</span>'; return; }
+  const x = parseFloat(raw);
+  if(isNaN(x)){ v.innerHTML = '<span style="color:var(--hi)">Enter a number, for example 4.2.</span>'; return; }
+  const c = classify(parseRange(r.val), x);
+  const word = {H:'High', L:'Low', N:'Within the reference range'}[c];
+  v.innerHTML = '<span class="chip ' + c + '">' + c + '</span><span><b>' + word + '</b> · reference ' + esc(r.val) + (r.ctx ? ' (' + esc(r.ctx) + ')' : '') + '</span>';
+  const want = c === 'H' ? 'hi' : c === 'L' ? 'lo' : null;
+  if(want && want !== S.dir){ S.dir = want; const keep = S.check.val; renderDetail(); const inp = $('chkVal'); if(inp){ inp.focus(); inp.setSelectionRange(keep.length, keep.length); } }
+}
+$('detail').addEventListener('click', async e => {
+  const b = e.target.closest('button'); if(!b) return;
+  if(b.id === 'backBtn'){ document.body.classList.remove('sheet'); try{ history.replaceState(null,'',location.pathname + location.search); }catch(err){} return; }
+  if(b.dataset.tab){ S.tab = b.dataset.tab; renderDetail(); return; }
+  if(b.dataset.dir){ S.dir = b.dataset.dir; renderDetail(); return; }
+  if(b.dataset.copy !== undefined){ copyText(b.dataset.copy, () => { b.classList.add('done'); setTimeout(() => b.classList.remove('done'), 900); }, () => {}); return; }
+  if(b.id === 'copyInterp'){
+    const t = tests[S.sel]; const p = I[t.test][S.dir];
+    const txt = t.test + ' — ' + (S.dir === 'hi' ? 'HIGH' : 'LOW') + '\n' + p.s + '\nPossible causes: ' + p.dx.join('; ') + '\nNursing interventions:\n- ' + p.n.join('\n- ') + (p.tx && p.tx.length ? '\nTreatments and adverse effects:\n- ' + p.tx.map(x => x[0] + ': ' + x[1]).join('\n- ') : '');
+    copyText(txt, () => { $('copyStatus').textContent = 'Copied'; }, () => { $('copyStatus').textContent = 'Copy is blocked here; select the text to copy it.'; });
+  }
+});
+$('detail').addEventListener('input', e => { if(e.target.id === 'chkVal'){ S.check.val = e.target.value; updateVerdict(); } });
+$('detail').addEventListener('change', e => { if(e.target.id === 'chkRow'){ S.check.row = +e.target.value; renderDetail(); } });
+function copyText(txt, ok, fail){
+  try{ navigator.clipboard.writeText(txt).then(ok, fail); }catch(e){ fail(); }
+}
+
+/* ---------- search, keys, theme ---------- */
+$('q').addEventListener('input', e => { S.q = e.target.value.trim(); if(S.q){ S.cat = null; S.sub = null; } renderNav(); renderList(); });
+window.addEventListener('keydown', e => {
+  if(e.key === '/' && !['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)){ e.preventDefault(); $('q').focus(); }
+  if(e.key === 'Escape'){ if(document.body.classList.contains('sheet')) document.body.classList.remove('sheet'); else if(document.activeElement === $('q')){ $('q').value = ''; S.q = ''; renderNav(); renderList(); } }
+});
+$('themeBtn').addEventListener('click', () => {
+  const r = document.documentElement;
+  const cur = r.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const next = cur === 'dark' ? 'light' : 'dark'; r.setAttribute('data-theme', next);
+  try{ localStorage.setItem('labref-theme', next); }catch(e){}
+});
+try{ const th = localStorage.getItem('labref-theme'); if(th) document.documentElement.setAttribute('data-theme', th); }catch(e){}
+
+/* ---------- start ---------- */
+S.cat = 'Blood'; S.sub = 'Chemical constituents';
+renderNav(); renderList();
+const fromHash = /^#t(\d+)$/.exec(location.hash);
+if(fromHash && tests[+fromHash[1]]){ const t = tests[+fromHash[1]]; S.cat = t.cat; S.sub = t.sub; open.add(t.cat); renderNav(); renderList(); select(+fromHash[1], false); if(mobile()) document.body.classList.add('sheet'); }
+else if(new URLSearchParams(location.search).get('q')){
+  // ?q=potassium (from the platform home page): run that search and open the best match
+  const qp = new URLSearchParams(location.search).get('q').trim();
+  $('q').value = qp; S.q = qp; S.cat = null; S.sub = null; renderNav(); renderList();
+  const best = visible()[0];
+  if(best){ select(best.id, false); if(mobile()) document.body.classList.add('sheet'); }
+}
+else { const k = tests.find(t => t.test === 'Potassium (K), blood'); select(k.id, false); }
+if(mobile()) collapseNav(true);
+})();
+</script>
+</body>
+</html>

@@ -33,6 +33,10 @@
         Case studies
         <span class="pl-badge pl-badge--tag">NCLEX</span>
       </a>
+      <a class="pl-nav-item" href="lab-values/index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/></svg>
+        Lab values
+      </a>
       <p class="pl-sidebar-foot">Free for nursing students. Nothing to install.</p>
     </nav>
 
@@ -90,6 +94,36 @@
           </form>
           <div class="pl-section-foot">
             <a class="pl-btn pl-btn--outline" href="https://thadaniavinash.github.io/NCLEX_Claude/">Go to case studies</a>
+          </div>
+        </section>
+
+        <section class="pl-card pl-section-card pl-section-card--wide" aria-labelledby="values-title">
+          <div class="pl-section-head">
+            <span class="pl-icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/></svg></span>
+            <div>
+              <p class="pl-eyebrow">LabRef · Case study companion</p>
+              <h2 class="pl-section-title" id="values-title">Lab values</h2>
+            </div>
+          </div>
+          <p class="pl-section-desc">Medical Council of Canada normal adult lab values, with what high and low results can mean and the nursing care that follows. Training use only.</p>
+          <form class="pl-form" action="lab-values/index.html" method="get" role="search">
+            <label class="pl-label" for="lab-q">Look up a lab value</label>
+            <div class="pl-input-row">
+              <input class="pl-input" id="lab-q" name="q" type="search" placeholder="Potassium, INR, troponin…" autocomplete="off">
+              <button class="pl-btn pl-btn--primary" type="submit">Look up</button>
+            </div>
+          </form>
+          <div class="pl-chips" aria-label="Common lab values">
+            <a class="pl-chip pl-chip--link" href="lab-values/index.html?q=potassium">Potassium</a>
+            <a class="pl-chip pl-chip--link" href="lab-values/index.html?q=sodium">Sodium</a>
+            <a class="pl-chip pl-chip--link" href="lab-values/index.html?q=hemoglobin">Hemoglobin</a>
+            <a class="pl-chip pl-chip--link" href="lab-values/index.html?q=INR">INR</a>
+            <a class="pl-chip pl-chip--link" href="lab-values/index.html?q=troponin">Troponin</a>
+            <a class="pl-chip pl-chip--link" href="lab-values/index.html?q=arterial%20pH">ABG pH</a>
+            <a class="pl-chip pl-chip--link" href="lab-values/index.html?q=glucose">Glucose</a>
+          </div>
+          <div class="pl-section-foot">
+            <a class="pl-btn pl-btn--outline" href="lab-values/index.html">Open LabRef</a>
           </div>
         </section>
       </div>
