@@ -1256,6 +1256,17 @@ enriched.forEach(d => {
   if(!tIndex.has(k)){ const t = {id:tests.length, cat:d.cat, sub:d.sub, test:d.test, noNormal:!!d.noNormal, rows:[]}; tIndex.set(k, t); tests.push(t); }
   tIndex.get(k).rows.push(d);
 });
+/* Fixed address for each test: ?test=<slug>, e.g. ?test=potassium-k-blood. The slug comes from the
+   test name (bracketed notes dropped, subscripts as digits, Greek letters spelled out), so it stays
+   the same when tests are added or reordered. The NCLEX case-study player links lab rows here. */
+const SUBS = {'₀':'0','₁':'1','₂':'2','₃':'3','₄':'4','₅':'5','₆':'6','₇':'7','₈':'8','₉':'9'};
+function testSlug(t){
+  let s = t.test.replace(/\[[^\]]*\]/g, '').replace(/[₀-₉]/g, c => SUBS[c]).normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/α/g, 'alpha').replace(/β/g, 'beta').replace(/γ/g, 'gamma').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  if(t.cat.startsWith('Tests and analyses')) s += '-' + t.sub.toLowerCase().replace(/[^a-z0-9]+/g, '-').split('-')[0];
+  return s;
+}
+const bySlug = new Map(); tests.forEach(t => { t.slug = testSlug(t); bySlug.set(t.slug, t); });
 const cats = [];
 tests.forEach(t => {
   let c = cats.find(x => x.name === t.cat); if(!c){ c = {name:t.cat, subs:[], n:0}; cats.push(c); }
@@ -1473,7 +1484,8 @@ try{ const th = localStorage.getItem('labref-theme'); if(th) document.documentEl
 /* ---------- start ---------- */
 S.cat = 'Blood'; S.sub = 'Chemical constituents';
 renderNav(); renderList();
-const fromHash = /^#t(\d+)$/.exec(location.hash);
+const fromParam = bySlug.get(new URLSearchParams(location.search).get('test') || '');
+const fromHash = fromParam ? [null, String(fromParam.id)] : /^#t(\d+)$/.exec(location.hash);
 if(fromHash && tests[+fromHash[1]]){ const t = tests[+fromHash[1]]; S.cat = t.cat; S.sub = t.sub; open.add(t.cat); renderNav(); renderList(); select(+fromHash[1], false); if(mobile()) document.body.classList.add('sheet'); }
 else if(new URLSearchParams(location.search).get('q')){
   // ?q=potassium (from the platform home page): run that search and open the best match
