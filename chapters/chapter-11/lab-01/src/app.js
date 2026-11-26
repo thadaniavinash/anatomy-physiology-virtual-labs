@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { createRegionSystem } from "./regions.js";
 
 // Instructor gate. Author mode stays hidden from students until this passcode
 // is entered via the lock button in the top bar. Change it to whatever you like.
@@ -92,7 +93,9 @@ let hasUnsavedChanges = false;
 let toastTimer = 0;
 let isSidebarCollapsed = false;
 let isEditModalOpen = false;
-let pendingPlacement = null; // { field: "anchor" | "region", side: "left" | "right" }
+let pendingPlacement = null; // { field: "anchor" | "region" | "paint", side: "left" | "right", tool?, size? }
+let regions = null; // painted muscle regions (src/regions.js); null until the model has loaded
+let isPainting = false;
 let studentView = "setup";
 let quizLength = 10;
 let answerMode = "free";
@@ -181,6 +184,7 @@ quizSetup.addEventListener("input", handleQuizSetupInput);
 scoreScreen.addEventListener("click", handleScoreScreenClick);
 canvas.addEventListener("pointerdown", handlePointerDown);
 canvas.addEventListener("pointerup", handlePointerUp);
+canvas.addEventListener("pointermove", handlePointerMove);
 editModal.addEventListener("input", handleModalInput);
 editModal.addEventListener("click", handleModalClick);
 modalBackdrop.addEventListener("click", closeEditModal);
@@ -290,6 +294,7 @@ async function loadModel() {
     prepareLoadedModel(model);
     modelRoot.add(model);
     collectModelMeshes();
+    await initRegions();
     modelReady = true;
     modelStatus = describeModel(model);
     updateModeStatus();
@@ -427,21 +432,72 @@ function addLimb(name, position, radius, length, tilt, material) {
 
 function render() {
   controls.update();
+  if (regions) {
+    const painting = pendingPlacement && pendingPlacement.field === "paint";
+    const showing = (mode === "study" || mode === "quiz") && activeQuestion && activeQuestion.side;
+    const key = painting ? `${activeQuestion.id}|${pendingPlacement.side}` : showing ? `${activeQuestion.id}|${activeQuestion.side}` : null;
+    regions.show(key, painting ? "paint" : "show");
+  }
   updateFloatingLabel();
   renderer.render(scene, camera);
 }
 
 function handlePointerDown(event) {
   pointerStart.set(event.clientX, event.clientY);
+  if (isPaintTool("brush") || isPaintTool("erase")) {
+    const hit = event.button === 0 ? getModelHit(event) : null;
+    if (hit) {
+      isPainting = true;
+      controls.enabled = false;
+      canvas.setPointerCapture(event.pointerId);
+      paintStroke(hit);
+    }
+  }
+}
+
+function isPaintTool(tool) {
+  return mode === "author" && pendingPlacement && pendingPlacement.field === "paint" && pendingPlacement.tool === tool;
+}
+
+let lastPaintMove = 0;
+function handlePointerMove(event) {
+  if (!isPainting) return;
+  const now = performance.now();
+  if (now - lastPaintMove < 30) return; // keep strokes responsive on a large model
+  lastPaintMove = now;
+  const hit = getModelHit(event);
+  if (hit) paintStroke(hit);
+}
+
+function paintStroke(hit) {
+  const key = `${activeQuestion.id}|${pendingPlacement.side}`;
+  const changed = regions.paintAt(hit, key, pendingPlacement.size, pendingPlacement.tool === "erase");
+  if (changed) {
+    regions.refresh();
+    markUnsaved(`${formatSide(pendingPlacement.side)} outline edited.`);
+  }
 }
 
 function handlePointerUp(event) {
   if (!modelReady) return;
 
+  if (isPainting) {
+    isPainting = false;
+    controls.enabled = true;
+    renderPlacementBanner();
+    return;
+  }
+
   const movement = pointerStart.distanceTo(new THREE.Vector2(event.clientX, event.clientY));
   if (movement > 5) return;
 
   if (mode === "study") {
+    // A painted outline identifies the muscle from any angle; otherwise fall back to the old click polygon.
+    const painted = regions ? regions.keyAt(getModelHit(event)) : null;
+    if (painted && questions.some((question) => question.id === painted.id)) {
+      openLabelForStudy(painted.id, painted.side);
+      return;
+    }
     const hitResult = findQuestionByRegionClick(event.clientX, event.clientY);
     if (hitResult) openLabelForStudy(hitResult.question.id, hitResult.side);
     return;
@@ -458,6 +514,17 @@ function handlePointerUp(event) {
 
   if (pendingPlacement.field === "region") {
     addClickRegionPoint(hit);
+    return;
+  }
+
+  if (pendingPlacement.field === "paint") {
+    if (pendingPlacement.tool === "fill") {
+      const key = `${activeQuestion.id}|${pendingPlacement.side}`;
+      const added = regions.fillFrom(hit, key);
+      regions.refresh();
+      markUnsaved(added ? `Filled ${added.toLocaleString()} triangles of the ${formatSide(pendingPlacement.side)} outline.` : "Nothing to fill there: click inside the red muscle surface.");
+      renderPlacementBanner();
+    }
     return;
   }
 
@@ -503,6 +570,13 @@ function handleModalClick(event) {
     activeQuestion[side].view = null;
     markUnsaved(`${formatSide(side)} point cleared.`);
     renderEditModal();
+  } else if (action === "paint-region") {
+    beginPlacement("paint", side);
+  } else if (action === "clear-paint") {
+    regions.clear(`${activeQuestion.id}|${side}`);
+    regions.refresh();
+    markUnsaved(`${formatSide(side)} outline cleared.`);
+    renderEditModal();
   } else if (action === "place-region") {
     beginPlacement("region", side);
   } else if (action === "clear-region") {
@@ -516,7 +590,7 @@ function handleModalClick(event) {
 function beginPlacement(field, side) {
   if (!side) return;
   if (!activeQuestion[side]) activeQuestion[side] = emptySide();
-  pendingPlacement = { field, side };
+  pendingPlacement = field === "paint" ? { field, side, tool: "fill", size: 0.03 } : { field, side };
   renderEditModal();
   renderPlacementBanner();
 }
@@ -525,6 +599,20 @@ function handlePlacementBannerClick(event) {
   const action = event.target.closest("[data-placement-action]")?.dataset.placementAction;
   if (!action || !pendingPlacement) return;
 
+  if (action.startsWith("tool-")) {
+    pendingPlacement.tool = action.slice(5);
+    renderPlacementBanner();
+    return;
+  }
+  if (action === "mirror") {
+    const side = pendingPlacement.side;
+    const other = side === "left" ? "right" : "left";
+    const n = regions.mirror(`${activeQuestion.id}|${side}`, `${activeQuestion.id}|${other}`);
+    regions.refresh();
+    markUnsaved(n ? `Copied the outline to the ${other} side (${n.toLocaleString()} triangles).` : "Paint this side first.");
+    renderPlacementBanner();
+    return;
+  }
   if (action === "cancel" || action === "done") {
     pendingPlacement = null;
   } else if (action === "reset") {
@@ -662,7 +750,17 @@ function renderSidePanel(side, sideData) {
       </div>
       <div class="side-row">
         <div class="side-row-copy">
-          <strong>Click region</strong>
+          <strong>Muscle outline</strong>
+          <span>${regions ? (regions.has(`${activeQuestion.id}|${side}`) ? `${regions.count(`${activeQuestion.id}|${side}`).toLocaleString()} triangles painted` : "Not painted") : "Model loading"}</span>
+        </div>
+        <div class="side-row-actions">
+          <button class="secondary" type="button" data-action="paint-region" data-side="${side}" ${regions ? "" : "disabled"}>${regions && regions.has(`${activeQuestion.id}|${side}`) ? "Edit outline" : "Paint outline"}</button>
+          ${regions && regions.has(`${activeQuestion.id}|${side}`) ? `<button class="ghost" type="button" data-action="clear-paint" data-side="${side}">Clear</button>` : ""}
+        </div>
+      </div>
+      <div class="side-row">
+        <div class="side-row-copy">
+          <strong>Click region (older method)</strong>
           <span>${pointCount ? `${pointCount} of 6 points` : "Not set"}</span>
         </div>
         <div class="side-row-actions">
@@ -683,6 +781,28 @@ function renderPlacementBanner() {
   placementBanner.classList.remove("is-hidden");
   const sideLabel = formatSide(pendingPlacement.side);
   const name = getQuestionName(activeQuestion) || "this muscle";
+
+  if (pendingPlacement.field === "paint") {
+    const key = `${activeQuestion.id}|${pendingPlacement.side}`;
+    const other = pendingPlacement.side === "left" ? "right" : "left";
+    const tools = [["fill", "Fill"], ["brush", "Brush"], ["erase", "Erase"]];
+    const hint = pendingPlacement.tool === "fill"
+      ? "Click inside the muscle: the outline spreads until it meets tendon or fascia."
+      : pendingPlacement.tool === "brush" ? "Drag over the muscle to paint. Drag off the model to rotate." : "Drag to erase. Drag off the model to rotate.";
+    placementBanner.innerHTML = `
+      <span class="placement-dot" aria-hidden="true"></span>
+      <span><strong>${escapeHtml(formatSide(pendingPlacement.side))} ${escapeHtml(name)}</strong>: ${regions.count(key).toLocaleString()} triangles. ${hint}</span>
+      <span class="paint-tools" role="group" aria-label="Outline tool">
+        ${tools.map(([t, l]) => `<button type="button" class="${pendingPlacement.tool === t ? "is-active" : "secondary"}" data-placement-action="tool-${t}" aria-pressed="${pendingPlacement.tool === t}">${l}</button>`).join("")}
+      </span>
+      ${pendingPlacement.tool === "fill" ? "" : `<label class="paint-size">Size <input type="range" min="0.01" max="0.08" step="0.005" value="${pendingPlacement.size}" data-placement-size></label>`}
+      <button class="secondary" type="button" data-placement-action="mirror">Copy to ${other} side</button>
+      <button type="button" data-placement-action="done">Done</button>
+    `;
+    const slider = placementBanner.querySelector("[data-placement-size]");
+    if (slider) slider.addEventListener("input", () => { pendingPlacement.size = Number(slider.value); });
+    return;
+  }
 
   if (pendingPlacement.field === "anchor") {
     placementBanner.innerHTML = `
@@ -1528,7 +1648,8 @@ function flattenForDisplay(question, side) {
     acceptedAnswers: question.acceptedAnswers,
     feedback: question.feedback,
     side,
-    anchor: sideData.anchor,
+    // A painted outline aims the label at its own side; otherwise the stored labelling point is used.
+    anchor: (regions && regions.centerOf(`${question.id}|${side}`)) || sideData.anchor,
     view: sideData.view,
     clickRegion: sideData.clickRegion,
   };
@@ -1612,6 +1733,20 @@ function getProjectedModelRect() {
     top: Math.min(...screenPoints.map((point) => point.y)),
     bottom: Math.max(...screenPoints.map((point) => point.y)),
   };
+}
+
+async function initRegions() {
+  try {
+    regions = createRegionSystem({ modelRoot, meshes: modelMeshes });
+    const response = await fetch("./data/muscle-regions.json", { cache: "no-cache" });
+    if (response.ok) regions.load(await response.json());
+    // Developer hook for scripted drafting and tests: local server with ?dev only, never on the published site.
+    if (["localhost", "127.0.0.1"].includes(location.hostname) && new URLSearchParams(location.search).has("dev")) {
+      window.__muscleDev = { regions, camera, modelRoot, modelMeshes, raycaster, THREE, controls };
+    }
+  } catch (error) {
+    console.warn("Muscle outlines unavailable:", error);
+  }
 }
 
 function collectModelMeshes() {
@@ -1717,7 +1852,11 @@ async function saveActiveQuestion() {
     });
 
     if (!response.ok) throw new Error(`Server returned ${response.status}.`);
-    updateSaveStatus("Saved to data/muscle-labels.json.");
+    if (regions) {
+      const saved = await fetch("./api/regions", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(regions.toJSON()) });
+      if (!saved.ok) throw new Error(`Outline save returned ${saved.status}.`);
+    }
+    updateSaveStatus("Saved to data/muscle-labels.json and data/muscle-regions.json.");
     hasUnsavedChanges = false;
     renderLabelList();
     renderEditModal();

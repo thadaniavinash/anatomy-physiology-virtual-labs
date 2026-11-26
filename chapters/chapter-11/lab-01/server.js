@@ -9,6 +9,7 @@ const root = __dirname;
 const siteRoot = path.resolve(__dirname, "..", "..", "..");
 const APP_PATH = "/chapters/chapter-11/lab-01/";
 const labelsPath = path.join(root, "data", "muscle-labels.json");
+const regionsPath = path.join(root, "data", "muscle-regions.json");
 const crashLogPath = path.join(root, "server-crash.log");
 
 process.on("uncaughtException", (error) => {
@@ -40,6 +41,28 @@ const server = http.createServer((request, response) => {
   // The app asks for "./api/labels", i.e. /chapters/chapter-11/lab-01/api/labels.
   if (requestUrl.pathname === "/api/labels" || requestUrl.pathname === `${APP_PATH}api/labels`) {
     handleLabelsApi(request, response);
+    return;
+  }
+
+  // Painted muscle outlines (Author mode): the whole file is replaced on save.
+  if (requestUrl.pathname === `${APP_PATH}api/regions` && request.method === "POST") {
+    let body = "";
+    request.on("data", (chunk) => {
+      body += chunk;
+      if (body.length > 20_000_000) request.destroy();
+    });
+    request.on("end", () => {
+      try {
+        const data = JSON.parse(body || "{}");
+        if (!data || typeof data.regions !== "object") throw new Error("Regions payload must have a regions object.");
+        fs.writeFile(regionsPath, `${JSON.stringify(data, null, 1)}\n`, "utf8", (error) => {
+          if (error) return sendJson(response, 500, { error: "Could not save regions file." });
+          sendJson(response, 200, { ok: true, count: Object.keys(data.regions).length });
+        });
+      } catch (error) {
+        sendJson(response, 400, { error: error.message });
+      }
+    });
     return;
   }
 

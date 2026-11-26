@@ -1627,3 +1627,15 @@ body:not([data-mode="author"]) .label-list small {
 /* Keep the credit in the open area between the muscle list and the study panel */
 @media (min-width: 1101px) { .credit { left: 300px; right: 380px; } }
 @media (max-width: 1100px) { .credit-line { display: none; } }
+
+/* Paint-outline toolbar (Author mode, src/regions.js): wider than the point-placing banner and wraps */
+.placement-banner:has(.paint-tools) {
+  max-width: min(980px, calc(100vw - 32px));
+  flex-wrap: wrap;
+  border-radius: var(--radius);
+  row-gap: 8px;
+}
+.paint-tools { display: inline-flex; gap: 4px; }
+.paint-tools button.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.paint-size { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); }
+.paint-size input { width: 110px; accent-color: var(--accent); }
