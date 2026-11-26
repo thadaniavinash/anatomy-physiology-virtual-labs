@@ -25,6 +25,10 @@ A growing collection of free, browser-based anatomy and physiology learning acti
   - 14 synthesized rhythms: sinus, atrial, ventricular, AV blocks, PVCs
   - Adjustable sinus rate, 25/50 mm/s sweep, ECG-paper or monitor display
   - Two-strip side-by-side comparison
+- Chapter 19, Lab 2: **Cardiac Cycle Simulator**
+  - Seven phases of one heartbeat with valve states and blood flow
+  - Live Wiggers diagram (pressures, ventricular volume, ECG, heart sounds)
+  - Adjustable speed, phase jumping and heart sounds
 
 ## Project structure
 

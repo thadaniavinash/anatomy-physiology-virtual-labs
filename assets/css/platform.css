@@ -189,6 +189,10 @@ body.pl-page {
 }
 .pl-chapter:last-child { border-bottom: 0; }
 .pl-chapter[hidden] { display: none; }
+.pl-chapter--multi { grid-template-columns: 170px minmax(0, 1fr); }
+.pl-chapter-labs { display: flex; flex-direction: column; min-width: 0; }
+.pl-labrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 24px; align-items: center; }
+.pl-labrow + .pl-labrow { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border-subtle); }
 .pl-chapter-id { display: flex; flex-direction: column; gap: 4px; align-self: start; }
 .pl-chapter-num { font: 300 44px/1 var(--font-title); color: var(--brand); }
 .pl-chapter-name { font-size: 13px; font-weight: 600; line-height: 1.35; color: var(--text-secondary); }
@@ -331,6 +335,7 @@ body.pl-page {
   .pl-chapter-id { flex-direction: row; align-items: baseline; gap: 10px; }
   .pl-chapter-num { font-size: 32px; }
   .pl-chapter .pl-btn { justify-self: start; }
+  .pl-chapter--multi, .pl-labrow { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 640px) {
   .pl-topbar { padding: 8px 12px; }
