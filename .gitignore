@@ -2,3 +2,5 @@
 Thumbs.db
 *.tmp
 *.source
+*.log
+node_modules/

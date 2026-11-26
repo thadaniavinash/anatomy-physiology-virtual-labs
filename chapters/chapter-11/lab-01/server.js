@@ -4,6 +4,10 @@ const path = require("path");
 
 const port = Number(process.env.PORT || 8010);
 const root = __dirname;
+// Serve the whole site (three folders up) so the shared platform stylesheet and
+// the lab library links work locally too; the app itself lives at APP_PATH.
+const siteRoot = path.resolve(__dirname, "..", "..", "..");
+const APP_PATH = "/chapters/chapter-11/lab-01/";
 const labelsPath = path.join(root, "data", "muscle-labels.json");
 const crashLogPath = path.join(root, "server-crash.log");
 
@@ -27,23 +31,33 @@ const mimeTypes = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".webp": "image/webp",
+  ".svg": "image/svg+xml",
 };
 
 const server = http.createServer((request, response) => {
   const requestUrl = new URL(request.url, `http://${request.headers.host}`);
 
-  if (requestUrl.pathname === "/api/labels") {
+  // The app asks for "./api/labels", i.e. /chapters/chapter-11/lab-01/api/labels.
+  if (requestUrl.pathname === "/api/labels" || requestUrl.pathname === `${APP_PATH}api/labels`) {
     handleLabelsApi(request, response);
     return;
   }
 
-  const safePath = path
+  // Opening the server's address goes straight to the muscle app.
+  if (requestUrl.pathname === "/" || requestUrl.pathname === APP_PATH.slice(0, -1)) {
+    response.writeHead(302, { Location: APP_PATH });
+    response.end();
+    return;
+  }
+
+  let safePath = path
     .normalize(decodeURIComponent(requestUrl.pathname))
     .replace(/^[/\\]+/, "")
     .replace(/^(\.\.[/\\])+/, "");
-  const filePath = path.join(root, safePath === "" ? "index.html" : safePath);
+  if (safePath === "" || /[/\\]$/.test(safePath)) safePath = path.join(safePath, "index.html");
+  const filePath = path.join(siteRoot, safePath);
 
-  if (!filePath.startsWith(root)) {
+  if (!filePath.startsWith(siteRoot + path.sep)) {
     response.writeHead(403);
     response.end("Forbidden");
     return;
@@ -124,5 +138,5 @@ function sendJson(response, statusCode, data) {
 }
 
 server.listen(port, "127.0.0.1", () => {
-  fs.writeFileSync(path.join(root, "server-current.log"), `3D Muscle Labelling prototype: http://127.0.0.1:${port}/\n`);
+  fs.writeFileSync(path.join(root, "server-current.log"), `3D Muscle Labelling (Author mode): http://127.0.0.1:${port}${APP_PATH}\n`);
 });
