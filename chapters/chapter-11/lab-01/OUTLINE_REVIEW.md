@@ -29,6 +29,7 @@ Copy to other side; see README).
 | Vastus medialis | Inner bulge above the knee | |
 | Sartorius, Gracilis, Adductor longus | Straps on the front/inner thigh | Adductor longus is small |
 | Semitendinosus, Biceps femoris | Back of thigh | Biceps femoris: long head |
-| **Semimembranosus** | **Not outlined** | Barely visible on this model (deep to semitendinosus, tendinous where it shows). Keeps the old labelling point; paint it by hand if wanted |
 | Tibialis anterior | Front of shin | |
 | Gastrocnemius | Both heads | |
+
+**Semimembranosus was removed from the lab (November 2026, instructor decision): on this model it is almost entirely hidden under semitendinosus and gracilis, so it cannot be outlined or identified reliably.**

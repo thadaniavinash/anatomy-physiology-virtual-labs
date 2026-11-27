@@ -4,7 +4,7 @@ An interactive 3D study and quiz tool for the superficial muscles of the human b
 
 - **Study mode:** rotate the model, pick a muscle from the menu (or search for it), or click a labelled region.
 - **Quiz mode:** answer by typing the muscle name or by multiple choice, then review your score.
-- 36 muscle labels grouped by body region.
+- 35 muscle labels grouped by body region.
 - Works in a modern desktop or mobile browser. No account, no data collected.
 
 ## Editing the labels (Author mode)

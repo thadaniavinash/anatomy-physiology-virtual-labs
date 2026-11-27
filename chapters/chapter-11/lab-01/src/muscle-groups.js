@@ -31,11 +31,11 @@ export const muscleGroups = [
   },
   {
     title: "Muscles acting on the Hip Joint",
-    muscles: ["adductor longus", "gracilis", "gluteus maximus", "sartorius", "biceps femoris", "semimembranosus", "semitendinosus"],
+    muscles: ["adductor longus", "gracilis", "gluteus maximus", "sartorius", "biceps femoris", "semitendinosus"],
   },
   {
     title: "Muscles acting on the Knee Joint",
-    muscles: ["rectus femoris", "vastus lateralis", "vastus medialis", "semitendinosus", "semimembranosus", "biceps femoris"],
+    muscles: ["rectus femoris", "vastus lateralis", "vastus medialis", "semitendinosus", "biceps femoris"],
   },
   {
     title: "Muscles acting on the Ankle Joint",
