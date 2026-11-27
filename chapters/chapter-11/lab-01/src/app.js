@@ -38,6 +38,12 @@ const themeToggle = document.querySelector("#theme-toggle");
 const instructorLock = document.querySelector("#instructor-lock");
 const labelSearch = document.querySelector("#label-search");
 
+// The 3D view sits in a card on the page (not the whole window): every screen position below is measured
+// in the viewer's own pixels, which is also where the label, arrow and banners are drawn.
+const viewer = document.querySelector("#viewer");
+const viewW = () => canvas.clientWidth || 1;
+const viewH = () => canvas.clientHeight || 1;
+
 const scene = new THREE.Scene();
 scene.background = null;
 
@@ -128,9 +134,9 @@ studyModeButton.addEventListener("click", () => setMode("study"));
 authorModeButton.addEventListener("click", () => setMode("author"));
 previewModeButton.addEventListener("click", () => setMode("quiz"));
 newLabelButton.addEventListener("click", createNewLabel);
-toggleSidebarButton.addEventListener("click", () => setSidebarCollapsed(true));
+toggleSidebarButton.addEventListener("click", () => setSidebarCollapsed(!isSidebarCollapsed));
 expandSidebarButton.addEventListener("click", () => setSidebarCollapsed(false));
-themeToggle.addEventListener("click", () => setTheme(currentTheme === "dark" ? "light" : "dark", true));
+themeToggle?.addEventListener("click", () => setTheme(currentTheme === "dark" ? "light" : "dark", true));
 instructorLock.addEventListener("click", handleInstructorLockClick);
 labelSearch.addEventListener("input", (event) => {
   labelFilter = event.target.value;
@@ -156,26 +162,21 @@ initialize();
 resize();
 renderer.setAnimationLoop(render);
 window.addEventListener("resize", resize);
+if ("ResizeObserver" in window) new ResizeObserver(resize).observe(viewer);
+
+// View buttons under the model: look from the front, back or either side, keeping the zoom.
+document.querySelectorAll("[data-view-dir]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const direction = { front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0] }[button.dataset.viewDir];
+    const distance = camera.position.distanceTo(controls.target);
+    camera.position.copy(controls.target).add(new THREE.Vector3(...direction).multiplyScalar(distance));
+    controls.update();
+  });
+});
 
 function initTheme() {
-  let stored = null;
-  try {
-    stored = localStorage.getItem("muscle-app-theme");
-  } catch {
-    stored = null;
-  }
-  const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-  setTheme(stored || (prefersDark ? "dark" : "light"));
-
-  window.matchMedia?.("(prefers-color-scheme: dark)").addEventListener?.("change", (event) => {
-    let hasStored = false;
-    try {
-      hasStored = Boolean(localStorage.getItem("muscle-app-theme"));
-    } catch {
-      hasStored = false;
-    }
-    if (!hasStored) setTheme(event.matches ? "dark" : "light");
-  });
+  // Every A&P Virtual Lab uses the same light platform look (no dark theme).
+  setTheme("light");
 }
 
 function setTheme(theme, persist = false) {
@@ -256,6 +257,7 @@ async function loadModel() {
     collectModelMeshes();
     await initRegions();
     modelReady = true;
+    document.querySelector("#model-loading")?.remove();
     modelStatus = describeModel(model);
     updateModeStatus();
   } catch (error) {
@@ -468,7 +470,8 @@ function handlePointerUp(event) {
       openLabelForStudy(painted.id, painted.side);
       return;
     }
-    const hitResult = findQuestionByRegionClick(event.clientX, event.clientY);
+    const viewRect = canvas.getBoundingClientRect();
+    const hitResult = findQuestionByRegionClick(event.clientX - viewRect.left, event.clientY - viewRect.top);
     if (hitResult) openLabelForStudy(hitResult.question.id, hitResult.side);
     return;
   }
@@ -834,8 +837,8 @@ function updateStudentCallout() {
     return;
   }
 
-  const x = (projectedAnchor.x * 0.5 + 0.5) * window.innerWidth;
-  const y = (-projectedAnchor.y * 0.5 + 0.5) * window.innerHeight;
+  const x = (projectedAnchor.x * 0.5 + 0.5) * viewW();
+  const y = (-projectedAnchor.y * 0.5 + 0.5) * viewH();
   const calloutRect = studentCallout.getBoundingClientRect();
   const viewerBounds = getStudentViewerBounds();
   const placement = placeStudentCallout(x, y, calloutRect.width, calloutRect.height, viewerBounds);
@@ -880,15 +883,10 @@ function updateStudyCallout() {
     return;
   }
 
-  const x = (projectedAnchor.x * 0.5 + 0.5) * window.innerWidth;
-  const y = (-projectedAnchor.y * 0.5 + 0.5) * window.innerHeight;
+  const x = (projectedAnchor.x * 0.5 + 0.5) * viewW();
+  const y = (-projectedAnchor.y * 0.5 + 0.5) * viewH();
   const calloutRect = studentCallout.getBoundingClientRect();
-  const bounds = {
-    left: 296,
-    top: 92,
-    right: window.innerWidth - 372,
-    bottom: window.innerHeight - 38,
-  };
+  const bounds = getStudentViewerBounds();
   const placement = placeStudentCallout(x, y, calloutRect.width, calloutRect.height, bounds);
 
   studentCallout.innerHTML = `<span></span>${escapeHtml(getDisplayQuestionName(activeQuestion))}`;
@@ -971,8 +969,8 @@ function getProjectedClickRegion(question, side) {
       const projected = modelRoot.localToWorld(new THREE.Vector3().fromArray(point.localPosition)).project(camera);
       if (projected.z < -1 || projected.z > 1) return null;
       return {
-        x: (projected.x * 0.5 + 0.5) * window.innerWidth,
-        y: (-projected.y * 0.5 + 0.5) * window.innerHeight,
+        x: (projected.x * 0.5 + 0.5) * viewW(),
+        y: (-projected.y * 0.5 + 0.5) * viewH(),
       };
     })
     .filter(Boolean);
@@ -1034,11 +1032,11 @@ function renderStudyPanel() {
             <p class="study-kicker">Selected muscle</p>
             <h2>${escapeHtml(getQuestionName(activeQuestion))}</h2>
             ${getQuestionSide(activeQuestion) ? `<p class="side-pill">${escapeHtml(formatSide(getQuestionSide(activeQuestion)))} side</p>` : ""}
-            <section class="answer-feedback is-correct">
+            <section class="study-actions">
               <strong>Actions</strong>
               <p>${escapeHtml(activeQuestion.feedback?.trim() || "No action notes have been added yet.")}</p>
             </section>
-            <p class="study-note">Rotate or zoom the model as needed. Use the arrows below or the menu to move between muscles.</p>
+            <p class="study-note">Rotate or zoom the model as needed. Use Previous and Next, or the muscle list, to move between muscles.</p>
           `
           : `
             <p class="study-kicker">Study mode</p>
@@ -1097,13 +1095,7 @@ function stepStudyMuscle(delta) {
 }
 
 function getStudentViewerBounds() {
-  const panelWidth = studentPanel.classList.contains("is-hidden") ? 0 : studentPanel.getBoundingClientRect().width;
-  return {
-    left: 18,
-    top: 92,
-    right: window.innerWidth - panelWidth - 34,
-    bottom: window.innerHeight - 38,
-  };
+  return { left: 12, top: 12, right: viewW() - 12, bottom: viewH() - 12 };
 }
 
 function placeCalloutInBounds(anchorX, anchorY, width, height, bounds) {
@@ -1695,8 +1687,8 @@ function getProjectedModelRect() {
   if (!points.length) return null;
 
   const screenPoints = points.map((point) => ({
-    x: (point.x * 0.5 + 0.5) * window.innerWidth,
-    y: (-point.y * 0.5 + 0.5) * window.innerHeight,
+    x: (point.x * 0.5 + 0.5) * viewW(),
+    y: (-point.y * 0.5 + 0.5) * viewH(),
   }));
 
   return {
@@ -1983,8 +1975,7 @@ function applyView(view, viewOffset = 0) {
 }
 
 function getStudentViewOffset() {
-  const panelWidth = studentPanel.classList.contains("is-hidden") ? 0 : studentPanel.getBoundingClientRect().width;
-  return panelWidth ? 0.4 * (panelWidth / 340) : 0;
+  return 0; // the study panel sits beside the 3D view, not over it
 }
 
 function closeEditModal() {
@@ -2146,7 +2137,7 @@ function normalizeQuestionRecord(question) {
 function setSidebarCollapsed(collapsed) {
   isSidebarCollapsed = collapsed;
   sidebar.classList.toggle("is-collapsed", isSidebarCollapsed);
-  expandSidebarButton.classList.toggle("is-visible", isSidebarCollapsed);
+  toggleSidebarButton.setAttribute("aria-expanded", String(!isSidebarCollapsed));
 }
 
 function markUnsaved(message) {
@@ -2193,8 +2184,8 @@ function escapeAttribute(value) {
 }
 
 function resize() {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  const width = viewW();
+  const height = viewH();
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
   renderer.setSize(width, height, false);

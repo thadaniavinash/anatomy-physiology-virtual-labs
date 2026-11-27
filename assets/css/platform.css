@@ -118,6 +118,17 @@ body.pl-page {
 .pl-btn--outline:hover { background: var(--surface-selected); border-color: var(--brand); color: var(--brand-deep); }
 .pl-btn--sm { min-height: 36px; padding: 0 12px; font-size: 13px; }
 
+/* Segmented control (a row of joined buttons; the selected one is filled), as in the ECG and 3D muscle labs */
+.pl-seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: var(--surface); }
+.pl-seg button {
+  min-height: 36px; padding: 0 14px; border: 0; border-radius: 0; background: transparent;
+  color: var(--text-muted); font: 600 13px/1 var(--font-body); cursor: pointer;
+}
+.pl-seg button + button { border-left: 1px solid var(--border); }
+.pl-seg button:hover:not(.is-active):not(.on) { background: var(--surface-sunken); color: var(--text); }
+.pl-seg button.is-active, .pl-seg button.on, .pl-seg button[aria-selected="true"] { background: var(--brand); color: #fff; }
+.pl-seg button[hidden] { display: none; }
+
 /* ---------- Cards and chips ---------- */
 .pl-card {
   background: var(--surface); border: 1px solid var(--border-subtle);

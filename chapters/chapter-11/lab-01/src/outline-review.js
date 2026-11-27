@@ -515,11 +515,6 @@ function bindUI() {
   $("#undo").addEventListener("click", () => undo(false));
   $("#redo").addEventListener("click", () => undo(true));
   $("#save").addEventListener("click", save);
-  $("#theme-toggle").addEventListener("click", () => {
-    const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    try { localStorage.setItem("muscle-app-theme", next); } catch (e) { /* private window */ }
-  });
   document.querySelector(".or-filter").addEventListener("click", (e) => {
     const b = e.target.closest("[data-filter]"); if (!b) return;
     state.filter = b.dataset.filter; renderList();
