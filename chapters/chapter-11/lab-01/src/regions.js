@@ -200,6 +200,7 @@ export function createRegionSystem({ modelRoot, meshes }) {
     const name = hit.object.name; const m = info.get(name); if (!m) return 0;
     const nb = ensureNeighbors(m); const kid = keyId(key);
     const seed = hit.faceIndex; const p = hitToModel(hit);
+    if (isBoundary(m, seed, o)) return 0; // clicked on tendon, fascia or bone: nothing to fill
     const seen = new Uint8Array(m.triCount); const queue = [seed]; seen[seed] = 1;
     let n = 0;
     while (queue.length && n < o.maxTriangles) {
@@ -252,6 +253,27 @@ export function createRegionSystem({ modelRoot, meshes }) {
     return n;
   }
 
+  // Keep only the triangles of `key` whose centroid (modelRoot space) passes keep(x, y, z); returns how many were removed.
+  function trim(key, keep) {
+    const kid = keyIndex.get(key); if (kid === undefined) return 0;
+    let n = 0;
+    for (const m of info.values()) for (let t = 0; t < m.triCount; t++) {
+      if (m.owner[t] === kid && !keep(m.centroids[t * 3], m.centroids[t * 3 + 1], m.centroids[t * 3 + 2])) { m.owner[t] = -1; n++; }
+    }
+    return n;
+  }
+
+  // Drop the triangles of `key` that sit on pale texture (eyeball, teeth, tendon), e.g. after mirroring.
+  function trimPale(key, opts = {}) {
+    const o = { minSaturation: 0.38, minRedness: 40, ...opts };
+    const kid = keyIndex.get(key); if (kid === undefined) return 0;
+    let n = 0;
+    for (const m of info.values()) for (let t = 0; t < m.triCount; t++) {
+      if (m.owner[t] === kid && isBoundary(m, t, o)) { m.owner[t] = -1; n++; }
+    }
+    return n;
+  }
+
   function clear(key) {
     const kid = keyIndex.get(key); if (kid === undefined) return;
     for (const m of info.values()) for (let t = 0; t < m.triCount; t++) if (m.owner[t] === kid) m.owner[t] = -1;
@@ -300,7 +322,8 @@ export function createRegionSystem({ modelRoot, meshes }) {
     return arr;
   }
 
-  function outlineFor(m, kid) {
+  function outlineFor(m, kidSet) {
+    const has = (o) => kidSet.has(o);
     const nb = ensureNeighbors(m);
     const pos = m.mesh.geometry.attributes.position;
     const nor = m.mesh.geometry.attributes.normal;
@@ -308,12 +331,12 @@ export function createRegionSystem({ modelRoot, meshes }) {
     const pts = [];
     const vtx = (t, k) => (m.index ? m.index[t * 3 + k] : t * 3 + k);
     for (let t = 0; t < m.triCount; t++) {
-      if (m.owner[t] !== kid) continue;
+      if (!has(m.owner[t])) continue;
       for (let k = 0; k < 3; k++) {
         const a = vtx(t, k), b = vtx(t, (k + 1) % 3);
         // an edge is on the boundary if no neighbour in the region shares both of its positions
         const shared = nb[t].some((u) => {
-          if (m.owner[u] !== kid) return false;
+          if (!has(m.owner[u])) return false;
           let hits = 0;
           for (let q = 0; q < 3; q++) {
             const w = vtx(u, q);
@@ -343,18 +366,20 @@ export function createRegionSystem({ modelRoot, meshes }) {
 
   // mode: "show" (student highlight) or "paint" (authoring: current region amber, others grey)
   function show(key, mode = "show", force = false) {
-    const tag = `${key}|${mode}`;
+    const list = Array.isArray(key) ? key : [key];
+    const tag = `${list.join('+')}|${mode}`;
     if (!force && tag === shown) return;
     shown = tag;
-    const kid = key ? keyIndex.get(key) : undefined;
+    const kids = new Set(list.map((k) => (k ? keyIndex.get(k) : undefined)).filter((k) => k !== undefined));
+    const kid = kids.size ? [...kids][0] : undefined;
     for (const m of info.values()) {
       const main = overlayFor(m, "overlay", mode === "paint" ? PAINT : HIGHLIGHT, mode === "paint" ? 0.55 : 0.35);
-      const idx = kid === undefined ? [] : triIndices(m, (o) => o === kid);
+      const idx = kid === undefined ? [] : triIndices(m, (o) => kids.has(o));
       main.geometry.setIndex(idx); main.visible = idx.length > 0;
       const other = overlayFor(m, "otherOverlay", OTHER, 0.3);
-      const oidx = mode === "paint" ? triIndices(m, (o) => o >= 0 && o !== kid) : [];
+      const oidx = mode === "paint" ? triIndices(m, (o) => o >= 0 && !kids.has(o)) : [];
       other.geometry.setIndex(oidx); other.visible = oidx.length > 0;
-      if (kid !== undefined && idx.length) outlineFor(m, kid);
+      if (kid !== undefined && idx.length) outlineFor(m, kids);
       else if (m.outline) m.outline.visible = false;
     }
   }
@@ -391,6 +416,23 @@ export function createRegionSystem({ modelRoot, meshes }) {
 
   function has(key) { return count(key) > 0; }
 
+  // Centre and radius of an outline in modelRoot space (for framing a review camera).
+  function boundsOf(key) {
+    const kid = keyIndex.get(key); if (kid === undefined) return null;
+    let sx = 0, sy = 0, sz = 0, n = 0;
+    for (const m of info.values()) for (let t = 0; t < m.triCount; t++) if (m.owner[t] === kid) {
+      sx += m.centroids[t * 3]; sy += m.centroids[t * 3 + 1]; sz += m.centroids[t * 3 + 2]; n++;
+    }
+    if (!n) return null;
+    sx /= n; sy /= n; sz /= n;
+    let r = 0;
+    for (const m of info.values()) for (let t = 0; t < m.triCount; t++) if (m.owner[t] === kid) {
+      const dx = m.centroids[t * 3] - sx, dy = m.centroids[t * 3 + 1] - sy, dz = m.centroids[t * 3 + 2] - sz;
+      r = Math.max(r, Math.sqrt(dx * dx + dy * dy + dz * dz));
+    }
+    return { center: [sx, sy, sz], radius: r, triangles: n };
+  }
+
   // A point on the outline's surface near its middle (the painted triangle closest to the mean of all of
   // them), in modelRoot space, with the mesh it lies on: used to aim the label arrow at the painted side.
   function centerOf(key) {
@@ -410,5 +452,5 @@ export function createRegionSystem({ modelRoot, meshes }) {
     return best;
   }
 
-  return { keyAt, show, paintAt, fillFrom, mirror, clear, count, has, centerOf, load, toJSON, refresh: () => { shown = null; } };
+  return { keyAt, show, paintAt, fillFrom, mirror, trim, trimPale, clear, count, has, centerOf, boundsOf, load, toJSON, refresh: () => { shown = null; } };
 }

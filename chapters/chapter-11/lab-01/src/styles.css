@@ -1639,3 +1639,6 @@ body:not([data-mode="author"]) .label-list small {
 .paint-tools button.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
 .paint-size { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); }
 .paint-size input { width: 110px; accent-color: var(--accent); }
+
+/* The label box is information only: clicks pass through to the model, so a muscle behind it can still be picked */
+.student-callout { pointer-events: none; }

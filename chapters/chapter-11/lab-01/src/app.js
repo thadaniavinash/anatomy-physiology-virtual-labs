@@ -96,6 +96,7 @@ let isEditModalOpen = false;
 let pendingPlacement = null; // { field: "anchor" | "region" | "paint", side: "left" | "right", tool?, size? }
 let regions = null; // painted muscle regions (src/regions.js); null until the model has loaded
 let isPainting = false;
+let midlineCache = { key: null, shown: null };
 let studentView = "setup";
 let quizLength = 10;
 let answerMode = "free";
@@ -432,11 +433,21 @@ function addLimb(name, position, radius, length, tilt, material) {
 
 function render() {
   controls.update();
-  if (regions) {
+  if (regions && !window.__regionsFrozen) {
     const painting = pendingPlacement && pendingPlacement.field === "paint";
     const showing = (mode === "study" || mode === "quiz") && activeQuestion && activeQuestion.side;
     const key = painting ? `${activeQuestion.id}|${pendingPlacement.side}` : showing ? `${activeQuestion.id}|${activeQuestion.side}` : null;
-    regions.show(key, painting ? "paint" : "show");
+    let shown = key;
+    if (key && !painting && key === midlineCache.key) shown = midlineCache.shown;
+    else if (key && !painting) {
+      // a midline muscle (orbicularis oris, occipitofrontalis) is drawn as two mirrored halves: show both
+      const [id, side] = key.split("|");
+      const otherKey = `${id}|${side === "left" ? "right" : "left"}`;
+      const c = regions.centerOf(key);
+      if (c && Math.abs(c.localPosition[0]) < 0.04 && regions.has(otherKey)) shown = [key, otherKey];
+      midlineCache = { key, shown }; // recomputed only when the selection changes
+    }
+    regions.show(shown, painting ? "paint" : "show");
   }
   updateFloatingLabel();
   renderer.render(scene, camera);
@@ -1742,7 +1753,7 @@ async function initRegions() {
     if (response.ok) regions.load(await response.json());
     // Developer hook for scripted drafting and tests: local server with ?dev only, never on the published site.
     if (["localhost", "127.0.0.1"].includes(location.hostname) && new URLSearchParams(location.search).has("dev")) {
-      window.__muscleDev = { regions, camera, modelRoot, modelMeshes, raycaster, THREE, controls };
+      window.__muscleDev = { regions, camera, modelRoot, modelMeshes, raycaster, THREE, controls, openForReview: (id, side) => openLabelForStudy(id, side) };
     }
   } catch (error) {
     console.warn("Muscle outlines unavailable:", error);
