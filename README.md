@@ -10,7 +10,7 @@ A growing collection of free, browser-based anatomy and physiology learning acti
   - Anatomical planes
   - Abdominal quadrants
 - Chapter 11, Lab 1: **3D Muscle Labelling**
-  - Interactive 3D model with 36 superficial muscle labels
+  - Interactive 3D model with 35 superficial muscle labels
   - Study mode and quiz mode (typed or multiple choice)
 - Chapter 12, Lab 1: **Nerve Impulses: From Synapse to Axon** (multi-part)
   - Part 1 · Synaptic transmission and neurotransmitter guide
