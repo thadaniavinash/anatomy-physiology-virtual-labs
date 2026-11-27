@@ -60,18 +60,22 @@ export function createRegionSystem({ modelRoot, meshes }) {
     const index = g.index ? g.index.array : null;
     const triCount = index ? index.length / 3 : pos.count / 3;
     const centroids = new Float32Array(triCount * 3);
+    const radii = new Float32Array(triCount); // largest centroid-to-corner distance, modelRoot units
+    const corner = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
     toModel.copy(modelRoot.matrixWorld).invert().multiply(mesh.matrixWorld);
     for (let t = 0; t < triCount; t++) {
       tmp.set(0, 0, 0);
       for (let k = 0; k < 3; k++) {
         const v = index ? index[t * 3 + k] : t * 3 + k;
-        tmp.x += pos.getX(v); tmp.y += pos.getY(v); tmp.z += pos.getZ(v);
+        corner[k].fromBufferAttribute(pos, v).applyMatrix4(toModel);
+        tmp.add(corner[k]);
       }
-      tmp.multiplyScalar(1 / 3).applyMatrix4(toModel);
+      tmp.multiplyScalar(1 / 3);
       centroids[t * 3] = tmp.x; centroids[t * 3 + 1] = tmp.y; centroids[t * 3 + 2] = tmp.z;
+      radii[t] = Math.max(tmp.distanceTo(corner[0]), tmp.distanceTo(corner[1]), tmp.distanceTo(corner[2]));
     }
     info.set(mesh.name, {
-      mesh, triCount, index, centroids,
+      mesh, triCount, index, centroids, radii,
       owner: new Int32Array(triCount).fill(-1),
       neighbors: null, texel: null,
       overlay: null, otherOverlay: null, outline: null,
@@ -182,13 +186,14 @@ export function createRegionSystem({ modelRoot, meshes }) {
   function hitToModel(hit) { return modelRoot.worldToLocal(hit.point.clone()); }
 
   // Brush: every triangle whose centroid lies within `radius` (model units) of the hit point.
-  function paintAt(hit, key, radius, erase = false) {
+  // Without `overwrite`, triangles of other muscles are left alone.
+  function paintAt(hit, key, radius, erase = false, overwrite = true) {
     const p = hitToModel(hit); const kid = erase ? null : keyId(key);
     let n = 0;
     nearby(p.x, p.y, p.z, radius, (name, t) => {
       const m = info.get(name);
       if (erase) { if (m.owner[t] === keyIndex.get(key)) { m.owner[t] = -1; n++; } }
-      else if (m.owner[t] !== kid) { m.owner[t] = kid; n++; }
+      else if (m.owner[t] !== kid && (overwrite || m.owner[t] === -1)) { m.owner[t] = kid; n++; }
     });
     return n;
   }
@@ -364,6 +369,36 @@ export function createRegionSystem({ modelRoot, meshes }) {
     m.outline.visible = pts.length > 0;
   }
 
+  // Authoring view (outline review screen): the side being edited in amber with its outline, the other
+  // side of the same muscle in sky blue, every other outlined muscle in grey (optional).
+  function showEdit(key, partnerKey, showOthers = true, force = false) {
+    const tag = `edit|${key}|${partnerKey}|${showOthers}`;
+    if (!force && tag === shown) return;
+    shown = tag;
+    const kid = keyIndex.get(key); const pid = partnerKey ? keyIndex.get(partnerKey) : undefined;
+    for (const m of info.values()) {
+      const main = overlayFor(m, "overlay", PAINT, 0.5);
+      const idx = kid === undefined ? [] : triIndices(m, (o) => o === kid);
+      main.geometry.setIndex(idx); main.visible = idx.length > 0;
+      const partner = overlayFor(m, "partnerOverlay", HIGHLIGHT, 0.4);
+      const pidx = pid === undefined ? [] : triIndices(m, (o) => o === pid);
+      partner.geometry.setIndex(pidx); partner.visible = pidx.length > 0;
+      const other = overlayFor(m, "otherOverlay", 0x64748b, 0.55);
+      const oidx = showOthers ? triIndices(m, (o) => o >= 0 && o !== kid && o !== pid) : [];
+      other.geometry.setIndex(oidx); other.visible = oidx.length > 0;
+      if (idx.length) outlineFor(m, new Set([kid])); else if (m.outline) m.outline.visible = false;
+    }
+  }
+
+  // See-through: painted overlays and the outline are drawn over the model, so hidden parts show.
+  function setXRay(on) {
+    for (const m of info.values()) for (const slot of ["overlay", "partnerOverlay", "otherOverlay", "outline"]) {
+      if (!m[slot]) continue;
+      m[slot].material.depthTest = !on; m[slot].material.needsUpdate = true;
+      m[slot].renderOrder = on ? 20 : (slot === "outline" ? 6 : 5);
+    }
+  }
+
   // mode: "show" (student highlight) or "paint" (authoring: current region amber, others grey)
   function show(key, mode = "show", force = false) {
     const list = Array.isArray(key) ? key : [key];
@@ -379,6 +414,7 @@ export function createRegionSystem({ modelRoot, meshes }) {
       const other = overlayFor(m, "otherOverlay", OTHER, 0.3);
       const oidx = mode === "paint" ? triIndices(m, (o) => o >= 0 && !kids.has(o)) : [];
       other.geometry.setIndex(oidx); other.visible = oidx.length > 0;
+      if (m.partnerOverlay) m.partnerOverlay.visible = false;
       if (kid !== undefined && idx.length) outlineFor(m, kids);
       else if (m.outline) m.outline.visible = false;
     }
@@ -387,6 +423,7 @@ export function createRegionSystem({ modelRoot, meshes }) {
   // ---------- load / save ----------
   function load(data) {
     if (!data || !data.regions) return 0;
+    if (data.review && typeof data.review === "object") review = { ...data.review };
     let n = 0;
     for (const [key, perMesh] of Object.entries(data.regions)) {
       for (const [name, ranges] of Object.entries(perMesh)) {
@@ -411,7 +448,9 @@ export function createRegionSystem({ modelRoot, meshes }) {
       }
       for (const [o, l] of lists) (regions[keys[o]] ||= {})[name] = encodeRanges(l);
     }
-    return { version: 1, model: "assets/male-full-body-ecorche.glb", meshes: meshesOut, regions };
+    const out = { version: 1, model: "assets/male-full-body-ecorche.glb", meshes: meshesOut, regions };
+    if (Object.keys(review).length) out.review = review;
+    return out;
   }
 
   function has(key) { return count(key) > 0; }
@@ -452,5 +491,131 @@ export function createRegionSystem({ modelRoot, meshes }) {
     return best;
   }
 
-  return { keyAt, show, paintAt, fillFrom, mirror, trim, trimPale, clear, count, has, centerOf, boundsOf, load, toJSON, refresh: () => { shown = null; } };
+  // ---------- review screen: notes, undo, mirrored edits, trace selection ----------
+  let review = {}; // labelId -> { status: "ok", date }
+  const getReview = (id) => review[id] || null;
+  function setReview(id, value) { if (value) review[id] = value; else delete review[id]; }
+
+  // Copy of every triangle owner, taken before an edit; diffSince() turns it into an undo step.
+  function snapshot() { const s = new Map(); for (const [n, m] of info) s.set(n, m.owner.slice()); return s; }
+  function diffSince(snap) {
+    const d = [];
+    for (const [name, m] of info) {
+      const before = snap.get(name); const idx = []; const b = []; const a = [];
+      for (let t = 0; t < m.triCount; t++) if (before[t] !== m.owner[t]) { idx.push(t); b.push(before[t]); a.push(m.owner[t]); }
+      if (idx.length) d.push({ name, idx: Int32Array.from(idx), before: Int32Array.from(b), after: Int32Array.from(a) });
+    }
+    return d;
+  }
+  function applyDiff(d, undo) {
+    for (const e of d) { const m = info.get(e.name); for (let i = 0; i < e.idx.length; i++) m.owner[e.idx[i]] = undo ? e.before[i] : e.after[i]; }
+    shown = null;
+  }
+
+  // Assign (or erase) a set of triangles: list = Map(meshName -> iterable of triangle indices).
+  // Without `overwrite`, triangles that belong to another muscle are left alone and counted in `blocked`.
+  function assign(list, key, { erase = false, overwrite = false } = {}) {
+    const kid = keyId(key); let changed = 0; const blocked = new Map();
+    for (const [name, tris] of list) {
+      const m = info.get(name); if (!m) continue;
+      for (const t of tris) {
+        const o = m.owner[t];
+        if (erase) { if (o === kid) { m.owner[t] = -1; changed++; } continue; }
+        if (o === kid) continue;
+        if (o === -1 || overwrite) { m.owner[t] = kid; changed++; } else blocked.set(keys[o], (blocked.get(keys[o]) || 0) + 1);
+      }
+    }
+    shown = null;
+    return { changed, blocked };
+  }
+
+  // Close the small gaps a selection leaves (triangles smaller than a pixel, sliver triangles): a triangle
+  // next to the changed ones that passes accept(name, t) follows when at least two neighbours changed.
+  function closeGaps(changedList, key, accept, erase = false) {
+    const kid = keyId(key); let n = 0;
+    for (const [name, tris] of changedList) {
+      const m = info.get(name); if (!m || !m.index) continue;
+      const nb = ensureNeighbors(m);
+      let frontier = new Set(tris);
+      for (let pass = 0; pass < 3 && frontier.size; pass++) {
+        const next = new Set();
+        const cand = new Set(); for (const t of frontier) for (const u of nb[t]) cand.add(u);
+        for (const u of cand) {
+          const o = m.owner[u];
+          if (erase ? o !== kid : o !== -1) continue;
+          if (!accept(name, u)) continue;
+          let c = 0; for (const w of nb[u]) if (erase ? m.owner[w] !== kid : m.owner[w] === kid) c++;
+          if (c >= 2) { m.owner[u] = erase ? -1 : kid; n++; next.add(u); }
+        }
+        frontier = next;
+      }
+    }
+    shown = null;
+    return n;
+  }
+
+  // Repeat on the other side the change made to `fromKey` since `snap`: each added or removed triangle is
+  // reflected across x = 0 and the triangles around its reflection follow. The rest of the other side's
+  // outline is kept.
+  function replicate(snap, fromKey, toKey, { overwrite = false } = {}) {
+    const from = keyIndex.get(fromKey); if (from === undefined) return 0;
+    const to = keyId(toKey); let n = 0; const added = new Map();
+    for (const [name, m] of info) {
+      const before = snap.get(name);
+      for (let t = 0; t < m.triCount; t++) {
+        const was = before[t] === from, now = m.owner[t] === from;
+        if (was === now) continue;
+        const x = -m.centroids[t * 3], y = m.centroids[t * 3 + 1], z = m.centroids[t * 3 + 2];
+        // the triangle nearest the reflection, plus any others whose centre is well inside it
+        const r = m.radii[t];
+        let best = null, bestD = Infinity; const close = [];
+        nearby(x, y, z, Math.max(r, 0.004), (nm, u, d2) => {
+          if (d2 < bestD) { bestD = d2; best = [nm, u]; }
+          if (d2 <= 0.36 * r * r) close.push([nm, u]);
+        });
+        if (best) close.push(best);
+        for (const [nm, u] of close) {
+          const mm = info.get(nm); const o = mm.owner[u];
+          if (o === from) continue;
+          if (now) {
+            if (o === to || (o !== -1 && !overwrite)) continue;
+            mm.owner[u] = to; n++;
+            if (!added.has(nm)) added.set(nm, []); added.get(nm).push(u);
+          } else if (o === to) { mm.owner[u] = -1; n++; }
+        }
+      }
+    }
+    n += closeGaps(added, toKey, () => true);
+    shown = null;
+    return n;
+  }
+
+  // Put back the saved outline of these keys (data = the last saved JSON).
+  function loadKeys(data, keyList) {
+    for (const k of keyList) clear(k);
+    for (const key of keyList) {
+      const perMesh = data && data.regions && data.regions[key]; if (!perMesh) continue;
+      const kid = keyId(key);
+      for (const [name, ranges] of Object.entries(perMesh)) {
+        const m = info.get(name); if (!m) continue;
+        for (const t of decodeRanges(ranges)) if (t < m.triCount && m.owner[t] === -1) m.owner[t] = kid;
+      }
+    }
+    shown = null;
+  }
+
+  // Mesh data for the trace picker (read-only use).
+  const meshData = () => [...info.entries()].map(([name, m]) => ({ name, mesh: m.mesh, triCount: m.triCount, index: m.index, centroids: m.centroids, owner: m.owner }));
+  function countsByKey() {
+    const c = new Map();
+    for (const m of info.values()) for (let t = 0; t < m.triCount; t++) { const o = m.owner[t]; if (o >= 0) c.set(o, (c.get(o) || 0) + 1); }
+    return new Map([...c].map(([o, n]) => [keys[o], n]));
+  }
+  const ownerKey = (name, t) => { const o = info.get(name)?.owner[t]; return o >= 0 ? keys[o] : null; };
+
+  return {
+    keyAt, show, showEdit, setXRay, paintAt, fillFrom, mirror, trim, trimPale, clear, count, has, centerOf, boundsOf, load, toJSON,
+    getReview, setReview, snapshot, diffSince, applyDiff, assign, closeGaps, replicate, loadKeys, meshData, ownerKey, countsByKey,
+    refresh: () => { shown = null; },
+  };
 }

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { createRegionSystem } from "./regions.js";
+import { muscleGroups } from "./muscle-groups.js";
 
 // Instructor gate. Author mode stays hidden from students until this passcode
 // is entered via the lock button in the top bar. Change it to whatever you like.
@@ -21,6 +22,7 @@ const authorModeButton = document.querySelector("#author-mode");
 const previewModeButton = document.querySelector("#preview-mode");
 const studyModeButton = document.querySelector("#study-mode");
 const newLabelButton = document.querySelector("#new-label");
+const outlineReviewLink = document.querySelector("#outline-review-link");
 const quizProgress = document.querySelector("#quiz-progress");
 const sidebar = document.querySelector("#label-sidebar");
 const toggleSidebarButton = document.querySelector("#toggle-sidebar");
@@ -113,49 +115,6 @@ const defaultView = {
   cameraPosition: [0, 0.32, 4.2],
   target: [0, 0.12, 0],
 };
-const muscleGroups = [
-  {
-    title: "Muscles of the Face and Neck",
-    muscles: [
-      "occipitofrontalis",
-      "orbicularis oculi",
-      "zygomaticus major",
-      "orbicularis oris",
-      "buccinator",
-      "masseter",
-      "temporalis",
-      "sternocleidomastoid",
-    ],
-  },
-  {
-    title: "Muscles of the Abdominal Wall",
-    muscles: ["rectus abdominus", "rectus abdominis", "external oblique"],
-  },
-  {
-    title: "Muscles of the Shoulder Joint and Girdle",
-    muscles: ["infraspinatus", "trapezius", "serratus anterior", "latissimus dorsi", "pectoralis major", "deltoid"],
-  },
-  {
-    title: "Muscles of the Arm",
-    muscles: ["biceps brachii", "brachialis", "triceps brachii", "brachioradialis"],
-  },
-  {
-    title: "Muscles of the Forearm",
-    muscles: ["pronator teres", "flexor carpi radialis", "flexor carpi ulnaris", "palmaris longus"],
-  },
-  {
-    title: "Muscles acting on the Hip Joint",
-    muscles: ["adductor longus", "gracilis", "gluteus maximus", "sartorius", "biceps femoris", "semimembranosus", "semitendinosus"],
-  },
-  {
-    title: "Muscles acting on the Knee Joint",
-    muscles: ["rectus femoris", "vastus lateralis", "vastus medialis", "semitendinosus", "semimembranosus", "biceps femoris"],
-  },
-  {
-    title: "Muscles acting on the Ankle Joint",
-    muscles: ["tibialis anterior", "gastrocnemius"],
-  },
-];
 
 resetButton.addEventListener("click", () => {
   if ((mode === "quiz" && studentView === "quiz") || mode === "study") {
@@ -660,6 +619,7 @@ function setMode(nextMode) {
   authorModeButton.setAttribute("aria-selected", String(mode === "author"));
   previewModeButton.setAttribute("aria-selected", String(mode === "quiz"));
   newLabelButton.hidden = !authorUnlocked || mode !== "author";
+  outlineReviewLink.hidden = !authorUnlocked || mode !== "author";
   resetButton.disabled = false;
   if (mode === "author") {
     sidebar.classList.remove("is-hidden");
@@ -766,6 +726,7 @@ function renderSidePanel(side, sideData) {
         </div>
         <div class="side-row-actions">
           <button class="secondary" type="button" data-action="paint-region" data-side="${side}" ${regions ? "" : "disabled"}>${regions && regions.has(`${activeQuestion.id}|${side}`) ? "Edit outline" : "Paint outline"}</button>
+            <a class="secondary-link" href="./outlines.html?muscle=${encodeURIComponent(activeQuestion.id)}&side=${side}">Outline review</a>
           ${regions && regions.has(`${activeQuestion.id}|${side}`) ? `<button class="ghost" type="button" data-action="clear-paint" data-side="${side}">Clear</button>` : ""}
         </div>
       </div>

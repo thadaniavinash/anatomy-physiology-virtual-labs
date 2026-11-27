@@ -1642,3 +1642,7 @@ body:not([data-mode="author"]) .label-list small {
 
 /* The label box is information only: clicks pass through to the model, so a muscle behind it can still be picked */
 .student-callout { pointer-events: none; }
+
+/* link from a muscle's outline row to the outline review screen */
+.side-row-actions .secondary-link { align-self: center; color: var(--accent-text); font-size: 0.82rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.side-row-actions .secondary-link:hover { text-decoration: underline; }

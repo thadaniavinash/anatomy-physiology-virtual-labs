@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Outline review · 3D Muscle Labelling</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../assets/css/platform.css">
+    <link rel="stylesheet" href="./src/styles.css?v=52" />
+    <link rel="stylesheet" href="./src/outline-review.css?v=1" />
+    <script>
+      try { const t = localStorage.getItem("muscle-app-theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <main id="app" class="or-app">
+      <canvas id="scene"></canvas>
+      <svg id="trace-layer" class="or-trace-layer" aria-hidden="true"><path id="trace-path" d=""></path></svg>
+
+      <section class="topbar" aria-label="Outline review controls">
+        <div class="brand">
+          <a class="pl-logo brand-home" href="./index.html" aria-label="Back to the muscle lab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/></svg></a>
+          <div class="brand-copy">
+            <span class="brand-crumb"><a href="./index.html">3D Muscle Labelling</a>  ›  Instructor</span>
+            <strong>Outline review</strong>
+          </div>
+        </div>
+
+        <div class="or-save-status" id="save-status" role="status">Loading…</div>
+
+        <div class="toolbar-actions">
+          <button id="undo" class="ghost" type="button" title="Undo (Ctrl+Z)" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"></path></svg>
+            <span class="btn-label">Undo</span>
+          </button>
+          <button id="redo" class="ghost" type="button" title="Redo (Ctrl+Shift+Z)" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 14 5-5-5-5"></path><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"></path></svg>
+            <span class="btn-label">Redo</span>
+          </button>
+          <button id="save" class="or-primary" type="button" title="Save all outlines (Ctrl+S)" disabled>Save</button>
+          <a class="library-link" href="./index.html" title="Back to the muscle lab">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+            <span class="btn-label">Back to lab</span>
+          </a>
+          <button id="theme-toggle" class="icon-button" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"></path></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2v2.5"></path><path d="M12 19.5V22"></path><path d="M2 12h2.5"></path><path d="M19.5 12H22"></path><path d="M4.9 4.9l1.8 1.8"></path><path d="M17.3 17.3l1.8 1.8"></path><path d="M19.1 4.9l-1.8 1.8"></path><path d="M6.7 17.3l-1.8 1.8"></path></svg>
+          </button>
+        </div>
+      </section>
+
+      <p id="readonly-note" class="or-readonly" hidden>
+        Changes can't be saved on the website. To save, run the lab on your computer (<code>node server.js</code> in this lab's folder) and open
+        <code>http://127.0.0.1:8010/chapters/chapter-11/lab-01/outlines.html</code>.
+      </p>
+
+      <aside class="or-list" aria-label="Muscles to review">
+        <header>
+          <p class="or-eyebrow">Checklist</p>
+          <strong id="progress-text">–</strong>
+          <div class="or-progress" aria-hidden="true"><span id="progress-bar"></span></div>
+        </header>
+        <div class="or-filter" role="tablist" aria-label="Show">
+          <button type="button" data-filter="all" class="is-active">All</button>
+          <button type="button" data-filter="todo">To review</button>
+          <button type="button" data-filter="ok">Looks right</button>
+          <button type="button" data-filter="none">No outline</button>
+        </div>
+        <div id="muscle-list" class="or-muscles"></div>
+      </aside>
+
+      <aside class="or-panel" id="muscle-panel" aria-label="Selected muscle"></aside>
+
+      <section class="or-tools" aria-label="Outline tools">
+        <p id="tool-hint" class="or-hint"></p>
+        <div class="or-toolrow">
+          <div class="or-toolgroup" role="group" aria-label="Tool">
+            <button type="button" data-tool="trace" title="Trace (T): draw around a part to add it; hold Alt to remove">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 19c-2.5-1-4-3.5-4-6.5C3 7.3 7 4 12 4s9 3.3 9 7.5-4 7-8.5 7c-1.3 0-2.2-.6-2.2-1.6 0-1.4 1.7-1.7 1.7-3.1"></path></svg><span>Trace</span><kbd>T</kbd>
+            </button>
+            <button type="button" data-tool="brush" title="Brush (B): drag to paint">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8 9.2 12Z"></path><path d="M7.5 13.8c-2 0-3.5 1.6-3.5 3.6 0 1.3-.7 2.2-2 2.6 1 .9 2.6 1.5 4.2 1.5 2.4 0 4.3-1.9 4.3-4.3Z"></path></svg><span>Brush</span><kbd>B</kbd>
+            </button>
+            <button type="button" data-tool="erase" title="Eraser (E): drag to remove">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 21-4.3-4.3a1 1 0 0 1 0-1.4l10-10a1 1 0 0 1 1.4 0l5.6 5.6a1 1 0 0 1 0 1.4L11 21"></path><path d="M22 21H7"></path><path d="m5 11 9 9"></path></svg><span>Eraser</span><kbd>E</kbd>
+            </button>
+            <button type="button" data-tool="fill" title="Fill (F): click inside the red muscle; it spreads to the pale tendon lines">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2a2 2 0 0 0 2.8 0L19 11Z"></path><path d="m5 2 5 5"></path><path d="M2 13h15"></path><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"></path></svg><span>Fill</span><kbd>F</kbd>
+            </button>
+            <button type="button" data-tool="rotate" title="Rotate (V, or hold Space): drag to turn the model">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path><path d="M21 3v5h-5"></path></svg><span>Rotate</span><kbd>V</kbd>
+            </button>
+          </div>
+          <label class="or-size" id="size-control" hidden>Size <input id="brush-size" type="range" min="0.008" max="0.08" step="0.002" value="0.025" /></label>
+          <div class="or-toggles">
+            <label title="M: every change is repeated on the other side"><input type="checkbox" id="both-sides" checked /> Both sides</label>
+            <label title="O: show other muscles' outlines in grey"><input type="checkbox" id="show-others" checked /> Other muscles</label>
+            <label title="X: show and reach the parts hidden behind other surfaces"><input type="checkbox" id="xray" /> See through</label>
+            <label title="Let Trace, Brush and Fill take parts that belong to another muscle"><input type="checkbox" id="overwrite" /> Take from other muscles</label>
+          </div>
+        </div>
+      </section>
+
+      <section id="toast" class="toast" role="status" aria-live="polite"></section>
+      <div id="loading" class="or-loading">Loading the model and outlines…</div>
+    </main>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.min.js",
+          "three/addons/": "./vendor/three/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./src/outline-review.js?v=1"></script>
+  </body>
+</html>

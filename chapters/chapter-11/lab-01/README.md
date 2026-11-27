@@ -21,20 +21,27 @@ On the published site the app is read-only: students can study and quiz, and the
 3. Select the lock icon in the top bar, enter the instructor passcode, and choose **Author** to add, edit, position or delete muscle labels. **Save muscle** writes the change to `data/muscle-labels.json`.
 4. Commit and push `data/muscle-labels.json` to `main`. GitHub Pages publishes the new labels to students within a few minutes.
 
-### Muscle outlines (prototype)
+### Muscle outlines
 
-Each side of a muscle can have a painted outline: the triangles of the 3D model that belong to it, stored in `data/muscle-regions.json` (separate from the labels). A student who clicks anywhere on an outlined muscle, from any angle, gets that muscle and side, and the selected muscle is shown tinted with an outline that follows its shape. Muscles without an outline keep the older labelling point and click region.
+Each side of a muscle can have an outline: the parts of the 3D model that belong to it, stored in `data/muscle-regions.json` (separate from the labels). A student who clicks anywhere on an outlined muscle, from any angle, gets that muscle and side, and the selected muscle is shown tinted with an outline that follows its shape. Muscles without an outline keep the older labelling point and click region.
 
-To paint one, open the muscle in Author mode and choose **Paint outline** (or **Edit outline**) for a side:
+**Checking and fixing outlines: the Outline review screen.** With `node server.js` running, open http://127.0.0.1:8010/chapters/chapter-11/lab-01/outlines.html (or, in Author mode, select **Outline review** in the top bar, or the link beside a muscle's outline).
 
-- **Fill**: click inside the muscle. The outline spreads across the red muscle surface until it meets the pale tendon and fascia lines of the model's texture, and never crosses the midline. Click again to add another segment (for example each segment of rectus abdominis).
-- **Brush** / **Erase**: drag over the surface; the slider sets the size. Dragging off the model still rotates it.
-- **Copy to other side**: mirrors the outline across the midline (the figure's left is +x).
-- **Save muscle** saves the label and the outlines together.
+- **Checklist** (left): every muscle with its status: *To review*, *Looks right* or *No outline*. Filter by status; **Next to review** (or `N`) moves to the next muscle not yet marked. Click a muscle (or double-click it on the model) to open it; the camera turns to face it.
+- **Colours**: the side you are editing is amber with a navy outline, the other side of the same muscle is blue, other muscles are grey.
+- **Trace** (`T`): hold the mouse button down and draw a loop around the part to add. Hold **Alt** (Option on a Mac) while drawing to remove the part inside the loop instead. Only what you can see is taken; tick **See through** (`X`) to reach parts hidden behind other surfaces.
+- **Brush** (`B`) / **Eraser** (`E`): for small touch-ups; `[` and `]` change the size. **Fill** (`F`): click inside the red muscle and it spreads to the pale tendon lines.
+- **Turning the model**: right-drag (or hold **Space**, or the **Rotate** tool `V`), scroll to zoom; **Front / Back / Left / Right / Face this muscle** buttons.
+- **Both sides** (on by default, `M`): each change is repeated on the mirror-image side, so you fix one side only. Only the change is copied; the rest of the other side is kept. Untick it for a muscle whose sides differ. **Copy left side to the right side** replaces the whole other side.
+- Parts that already belong to another muscle are left alone (a message names the muscle); tick **Take from other muscles** to include them.
+- **Undo / Redo** (`Ctrl+Z` / `Ctrl+Shift+Z`) for every change; **Revert this muscle to the saved version**.
+- **Mark as looking right** (`K`) when a muscle is correct. **Save** (`Ctrl+S`) writes all outlines and the review marks to `data/muscle-regions.json`; then commit and push that file to `main`. The page warns before closing with unsaved changes. On the published website the page opens in view-only mode.
 
-Code: `src/regions.js` (outline engine) and the hooks in `src/app.js` (search for `regions`). Pectoralis major, deltoid and rectus abdominis have draft outlines that need anatomical review.
+Review marks (`"review"` in the same file) are for the instructor only; students never see them. The muscle's labelling point (arrow) is still set in Author mode.
 
-The server serves the whole site from the repository root so the shared platform stylesheet loads, and it only writes to `data/muscle-labels.json`. The passcode is only a convenience lock: the code is public, and saving is impossible on the published site anyway.
+Code: `src/regions.js` (outline engine), `src/outline-review.js` + `src/outline-pick.js` (review screen, trace selection), hooks in `src/app.js` (search for `regions`). Drafting notes: `OUTLINE_REVIEW.md`.
+
+The server serves the whole site from the repository root so the shared platform stylesheet loads, and it only writes to `data/muscle-labels.json` and `data/muscle-regions.json`. The passcode is only a convenience lock: the code is public, and saving is impossible on the published site anyway.
 
 ## Credits
 
