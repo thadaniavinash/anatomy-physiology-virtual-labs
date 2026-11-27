@@ -9,102 +9,116 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../../assets/css/platform.css">
 <style>
-/* Cardiac Cycle Simulator on the A&P Virtual Labs platform (assets/css/platform.css).
-   The simulator keeps a dark panel because its heart labels and Wiggers diagram are drawn
-   in white; the panel uses the platform navy instead of the original teal. */
-.ccs{--teal:#002f5c;--navy:#0b3a6b;--panel:#124a82;--line:#5A7FB0;--mint:#8CFFD0;--cream:#FFE9A8;--coral:#FF6B6B;--soft:#BFE3DF;--muted:#B8CCE4}
+/* Cardiac Cycle Simulator on the A&P Virtual Labs platform (assets/css/platform.css), laid out like the
+   ECG and 3D muscle labs: phases in the left rail, a white card holding the dark display (heart + Wiggers
+   diagram, whose labels and curves are drawn in light colours) and a light control strip, then white
+   cards for the explanation and the blood-flow summary. */
 *{box-sizing:border-box}
-.ccs{background:var(--teal);color:#FFFFFF;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);overflow:hidden}
-.ccs{font-family:var(--font-body)}
-.ccs a{color:var(--soft)}.ccs a:hover{color:#FFFFFF}
-.wrap{padding:28px 32px 22px}
-.inner{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
-.ccs header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 28px}
-.eyebrow{margin:0;font-size:13px;font-weight:500;letter-spacing:2px;color:var(--soft)}
-.ccs h1{margin:0;font:600 32px/1.1 var(--font-title);letter-spacing:-.01em}
-.sd{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px}
-.sd .w{font-family:var(--font-title);font-size:28px;font-style:normal;font-weight:500;letter-spacing:2px;color:#86C7C0}
-.sd .w.on{color:#FFFFFF}
-.sd .time{font-size:16px;color:var(--soft);font-variant-numeric:tabular-nums}
-.cols{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
-.colL{flex:1 1 460px;min-width:0;display:flex;flex-direction:column;gap:14px}
-.colR{flex:1.3 1 520px;min-width:0;display:flex;flex-direction:column;gap:14px}
+@media (min-width:1001px){ .ccs-body{grid-template-columns:240px minmax(0,1fr)} }
+.ccs-rail{min-width:0}
+/* rail: the seven phases */
+.ccs-rail{gap:2px}
+.ccs-phases{display:flex;flex-direction:column;gap:2px}
+.ccs-phases .phb{min-height:52px}
+.ccs-phases .phb[aria-pressed="true"]{background:var(--surface-selected);color:var(--brand);font-weight:700;box-shadow:inset 3px 0 0 var(--brand)}
+.ccs-phases .phb[aria-pressed="true"] .pl-rail-num{background:var(--brand);border-color:var(--brand);color:#fff}
+.ccs-phases .phb.sys .pl-rail-num{border-color:#f0b8b4}
+.ccs-phname{display:flex;flex-direction:column;line-height:1.25}
+.ccs-phname small{font-size:12px;font-weight:500;color:var(--text-subtle)}
+.ccs-railfoot p{margin:0 0 6px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted)}
+.ccs-key{width:12px;height:12px;border-radius:3px;flex:none}
+.ccs-key--sys{background:#fde2e0;border:1px solid #f0b8b4}.ccs-key--dia{background:var(--surface-selected);border:1px solid #b9d7ee}
+.ccs-main{min-width:0;display:flex;flex-direction:column;gap:20px}
+/* main card */
+.ccs-card{overflow:hidden}
+.ccs-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 24px;padding:18px 22px 14px}
+.ccs-head h2{margin:0;font:700 26px/1.15 var(--font-title);letter-spacing:-.01em;color:var(--brand-deep)}
+.sd{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.sd .w{padding:5px 12px;border-radius:999px;border:1px solid var(--border-subtle);background:var(--surface-muted);font:700 13px/1.2 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
+.sd #wSys.on{background:#fde2e0;border-color:#f0b8b4;color:#9b1c1c}
+.sd #wDia.on{background:var(--surface-selected);border-color:#b9d7ee;color:var(--brand)}
+.sd .time{margin-left:6px;font-size:14px;font-weight:600;color:var(--text-muted);font-variant-numeric:tabular-nums}
+/* dark display: heart + Wiggers diagram */
+.ccs{--navy:#0b3a6b;--panel:#124a82;--line:#5A7FB0;--mint:#8CFFD0;--cream:#FFE9A8;--soft:#BFE3DF;--muted:#B8CCE4}
+.ccs-display{margin:0 14px;padding:18px;border-radius:var(--radius-lg);background:#002f5c;color:#fff;font-family:var(--font-body)}
+.ccs-display a{color:var(--soft)}
+.cols{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.colL{flex:1 1 400px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.colR{flex:1.3 1 480px;min-width:0;display:flex;flex-direction:column;gap:12px}
 .stage{position:relative;width:100%;aspect-ratio:1000/940}
 .stage canvas{position:absolute;left:11%;top:2.128%;width:74%;height:95.745%}
 .stage svg{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-.cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px}
 .cell{background:var(--navy);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
-.cell .k{font-size:12px;letter-spacing:1.4px;color:var(--muted)}
-.cell .v{font-size:18px;font-weight:600}
+.cell .k{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted)}
 .open{color:var(--mint)}.closed{color:#FFB3B3}
-.chartbox{background:var(--navy);border-radius:12px;padding:16px 12px 10px}
+.chartbox{background:var(--navy);border-radius:10px;padding:14px 10px 8px}
 .chartbox svg{display:block;width:100%;height:auto}
 .rib{cursor:pointer;pointer-events:all}
-.reads{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-.reads .k{letter-spacing:1.2px}
-.reads .v{font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
+.reads{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.reads .v{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
 .reads .u{font-size:13px;font-weight:400;color:var(--muted)}
-.ctl{background:var(--navy);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:16px}
-.ctlrow{display:flex;flex-wrap:wrap;gap:18px 32px}
-.explain{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:6px}
-.explain h2{margin:0;font-size:13px;font-weight:600;letter-spacing:2px;color:var(--cream)}
-.explain p{margin:0;font-size:17px;line-height:1.5}
-.controls{flex:1.2 1 420px;min-width:0;display:flex;flex-direction:column;gap:12px}
-.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.legend[hidden]{display:none}
+.legend{background:var(--navy);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.legend h2{margin:0;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cream)}
+.lgcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:4px 14px}
+.lg{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.lg li{display:flex;align-items:center;gap:9px;font-size:14px;line-height:1.2}
+.lg b{flex:none;width:26px;height:26px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--navy);border:2px solid #011A3D}
+.lg.R b{background:#B9DCFF}.lg.L b{background:#FFCDBF}
+/* control strip (light), like the ECG lab's */
+.ccs-ctrl{display:flex;flex-direction:column;gap:8px;padding:14px 22px 16px}
+.ccs-ctrlrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.ccs-tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-subtle)}
+.ccs-icon{width:40px;padding:0}
+.ccs-play{min-width:104px}
+.ccs-play svg,.ccs-icon svg{width:16px;height:16px}
+.pl-seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+.ccs-togs{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px}
+.pl-footer a{color:inherit;text-decoration:underline;text-underline-offset:2px}.pl-footer a:hover{color:var(--brand)}
+.tog{display:flex;align-items:center;gap:6px;min-height:36px;font-size:14px;font-weight:500;color:var(--text-secondary);cursor:pointer}
+.tog input{width:17px;height:17px;accent-color:var(--brand);margin:0}
+.scrub{display:flex;align-items:center;gap:12px}
+.scrub input{flex:1;height:32px;accent-color:var(--brand);margin:0}
 button{font-family:inherit}
-.round{min-width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:var(--panel);color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.play{height:44px;min-width:110px;padding:0 20px;border-radius:22px;border:0;background:var(--coral);color:var(--navy);font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-.speeds{display:flex;gap:4px;padding:0 0 0 8px}
-.spd{height:44px;min-width:48px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:#FFFFFF;font-size:15px;cursor:pointer}
-.spd[aria-pressed="true"],.phb[aria-pressed="true"]{border:0;background:var(--cream);color:var(--navy);font-weight:600}
-.tog{display:flex;align-items:center;gap:6px;min-height:44px;font-size:15px;cursor:pointer}
-.tog input{width:18px;height:18px;accent-color:var(--coral);margin:0}
-.scrub{display:flex;flex-direction:column;gap:4px}
-.scrub label{font-size:12px;letter-spacing:1.4px;color:var(--muted)}
-.scrub input{width:100%;height:44px;accent-color:var(--coral);margin:0}
-.phases{display:flex;flex-wrap:wrap;gap:8px}
-.phb{min-height:44px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:#FFFFFF;font-size:15px;cursor:pointer}
-button:focus-visible,input:focus-visible,.rib:focus-visible{outline:3px solid var(--cream);outline-offset:2px}
-.tog:focus-within{outline:none}
-.tog input:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
-/* blood flow right now */
-.flow{background:var(--navy);border-radius:12px;padding:12px 16px 14px;display:flex;flex-direction:column;gap:8px}
-.fhead{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;min-height:30px}
-.flow h2,.legend h2{margin:0;font-size:13px;font-weight:600;letter-spacing:2px;color:var(--cream)}
-.fnote{margin:0;font-size:16px;line-height:1.3;color:#FFFFFF}
-.fnote.iso{color:var(--navy);background:var(--cream);border-radius:6px;padding:4px 12px;font-weight:600}
-.fcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px 18px}
-.fside h3{margin:0 0 5px;font-size:12px;font-weight:600;letter-spacing:1.3px;color:var(--muted);display:flex;align-items:center;gap:7px}
+button:focus-visible,input:focus-visible,.rib:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+/* cards under the simulator */
+.ccs-cards{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.4fr);gap:20px;align-items:start}
+.ccs-explain{padding:18px 22px}
+.ccs-explain p#explain{margin:6px 0 0;font-size:16px;line-height:1.6;color:var(--text)}
+.ccs-flow{padding:18px 22px;display:flex;flex-direction:column;gap:10px}
+.fhead{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px}
+.fhead h2{margin:0}
+.fnote{margin:0;font-size:14px;line-height:1.45;color:var(--text-secondary)}
+.fnote.iso{padding:6px 12px;border-radius:var(--radius-md);background:var(--warning-bg-subtle);border:1px solid var(--warning-border);color:var(--warning-text);font-weight:600}
+.fcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 18px}
+.fside h3{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-subtle);display:flex;align-items:center;gap:7px}
 .fside .sw{width:12px;height:12px;border-radius:3px;flex:none}
 .fside.R .sw{background:#2F5BE0}.fside.L .sw{background:#D6252B}
-.fside ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
-.frow{display:grid;grid-template-columns:24px minmax(0,1fr) auto;column-gap:8px;align-items:center;min-height:34px;padding:3px 10px;border-radius:7px;border:1.5px solid #3E6FA8;background:var(--panel)}
-.frow .ic{width:24px;height:24px;display:flex}
-.frow .rt{font-size:15.5px;font-weight:600;line-height:1.25}
-.frow .st{font-size:13.5px;line-height:1.25;color:var(--soft);text-align:right}
-.frow .st b{font-weight:600;letter-spacing:.6px}
-.fside.R .frow.on .st b{color:#B9DCFF}.fside.L .frow.on .st b{color:#FFCDBF}
-.frow.off{background:transparent;border:1.5px dashed #5A7AA6}
-.frow.off .rt{color:#C3D0E0;font-weight:500}
-.frow.off .st b{color:#FFB3B3}
-@media (max-width:760px){ .frow{grid-template-columns:24px minmax(0,1fr)} .frow .ic{grid-row:1/3} .frow .st{text-align:left} }
-/* pathway legend */
-.legend[hidden]{display:none}
-.legend{background:var(--navy);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-.lgcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:4px 14px}
-.lg{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
-.lg li{display:flex;align-items:center;gap:9px;font-size:15px;line-height:1.2}
-.lg b{flex:none;width:26px;height:26px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--navy);border:2px solid #011A3D}
-.lg.R b{background:#B9DCFF}.lg.L b{background:#FFCDBF}
-.foot{margin:0;font-size:13px;line-height:1.5;color:var(--soft)}
-@media (max-width:600px){
-  .wrap{padding:20px 16px 18px}
-  .ccs h1{font-size:24px}
-  .sd .w{font-size:24px}
+.fside ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.frow{display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:10px;row-gap:1px;align-items:center;padding:7px 10px;border-radius:var(--radius-md);border:1px solid var(--border-subtle);background:var(--surface)}
+.frow .ic{width:24px;height:24px;display:flex;grid-row:1/3}
+.frow .rt{font-size:14px;font-weight:600;line-height:1.3;color:var(--text)}
+.frow .st{font-size:12.5px;line-height:1.35;color:var(--text-muted)}
+.frow .st b{font-weight:700;letter-spacing:.04em}
+.fside.R .frow.on{border-color:#b9d3f5;background:#f3f8ff}.fside.R .frow.on .st b{color:#1d4ed8}
+.fside.L .frow.on{border-color:#f5c4bd;background:#fff6f4}.fside.L .frow.on .st b{color:#b42318}
+.frow.off{background:var(--surface-muted);border-style:dashed}
+.frow.off .rt{color:var(--text-muted);font-weight:500}
+.frow.off .st b{color:var(--text-secondary)}
+/* smaller screens */
+@media (max-width:1200px){ .ccs-cards{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:1000px){
+  .ccs-phases{flex-direction:row;overflow-x:auto}
+  .ccs-phases .phb{flex:none;min-height:44px;white-space:nowrap}
+  .ccs-phname small{display:none}
+  .ccs-phases .phb[aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--brand)}
+}
+@media (max-width:640px){
+  .ccs-head{padding:14px 14px 10px}.ccs-head h2{font-size:21px}
+  .ccs-display{margin:0 8px;padding:10px}
+  .ccs-ctrl{padding:12px 14px}
   .colL,.colR{flex-basis:100%}
-  .explain,.controls{flex-basis:100%}
-  .chartbox{padding:12px 6px 8px}
-  .speeds{padding:0}
+  .ccs-explain,.ccs-flow{padding:14px}
 }
 </style>
 </head>
@@ -127,22 +141,32 @@ button:focus-visible,input:focus-visible,.rib:focus-visible{outline:3px solid va
     </div>
   </div>
 </div>
-<div class="ccs"><div class="wrap"><div class="inner">
+<div class="pl-lab-body ccs-body">
+  <aside class="pl-rail ccs-rail" aria-label="Phases of the cardiac cycle">
+    <p class="pl-rail-label">Phases of the cycle</p>
+    <div id="phaseBtns" class="ccs-phases" role="group" aria-label="Jump to phase"></div>
+    <div class="pl-rail-foot ccs-railfoot">
+      <p><span class="ccs-key ccs-key--sys"></span>Ventricular systole: phases 2–4</p>
+      <p><span class="ccs-key ccs-key--dia"></span>Ventricular diastole: phases 5–7 and 1</p>
+    </div>
+  </aside>
 
-<header>
-  <div style="display:flex;flex-direction:column;gap:4px">
-    <p class="eyebrow">CURRENT PHASE</p>
-    <h1 id="phaseTitle">Phase 7 &middot; Diastasis</h1>
-  </div>
-  <div class="sd">
-    <span class="w" id="wSys">SYSTOLE</span>
-    <span class="w on" id="wDia">DIASTOLE</span>
-    <span class="time" id="timeRead">t = 0.70 s &middot; 75 bpm</span>
-  </div>
-</header>
-
-<div class="cols">
-  <section class="colL" aria-label="Heart">
+  <div class="ccs-main">
+    <section class="pl-card ccs-card" aria-label="Heart and Wiggers diagram">
+      <header class="ccs-head">
+        <div>
+          <p class="pl-eyebrow">Current phase</p>
+          <h2 id="phaseTitle">Phase 7 &middot; Diastasis</h2>
+        </div>
+        <div class="sd" aria-label="Ventricles">
+          <span class="w" id="wSys">Systole</span>
+          <span class="w on" id="wDia">Diastole</span>
+          <span class="time" id="timeRead">t = 0.70 s &middot; 75 bpm</span>
+        </div>
+      </header>
+      <div class="ccs ccs-display">
+        <div class="cols">
+          <section class="colL" aria-label="Heart">
     <div class="stage">
       <canvas id="heart" width="740" height="900" role="img" aria-label="Heart cross-section"></canvas>
       <svg id="overlay" viewBox="0 0 1000 940" role="img" aria-label="Labels for the vessels, chambers and valves">
@@ -199,7 +223,7 @@ button:focus-visible,input:focus-visible,.rib:focus-visible{outline:3px solid va
       </svg>
     </div>
     <div class="legend" id="pathLegend" hidden>
-      <h2>BLOOD PATHWAY &middot; THE ROUTE ONE DROP OF BLOOD TAKES</h2>
+      <h2>Blood pathway · the route one drop of blood takes</h2>
       <div class="lgcols">
         <ol class="lg R">
           <li><b>1</b>Venae cavae (from body)</li><li><b>2</b>Right atrium</li><li><b>3</b>Tricuspid valve</li>
@@ -211,9 +235,8 @@ button:focus-visible,input:focus-visible,.rib:focus-visible{outline:3px solid va
         </ol>
       </div>
     </div>
-  </section>
-
-  <section class="colR" aria-label="Wiggers diagram">
+          </section>
+          <section class="colR" aria-label="Wiggers diagram">
     <div class="chartbox">
       <svg id="chart" viewBox="0 0 730 566" role="img" aria-label="Wiggers diagram"><rect x="46.0" y="2" width="91.5" height="16" fill="#0B5F8A"/><rect x="137.5" y="2" width="205.9" height="16" fill="#C8443F"/><rect x="343.4" y="2" width="312.6" height="16" fill="#0B5F8A"/>
 <rect x="46" y="64" width="610" height="206" fill="#2C6090"/>
@@ -297,61 +320,59 @@ button:focus-visible,input:focus-visible,.rib:focus-visible{outline:3px solid va
       <div class="cell"><span class="k">ATRIAL PRESSURE</span><span class="v" style="color:#F5C563"><span id="r-la">4</span> <span class="u">mmHg</span></span></div>
       <div class="cell"><span class="k">VENTRICULAR VOLUME</span><span class="v" style="color:#FFFFFF"><span id="r-vol">110</span> <span class="u">mL</span></span></div>
     </div>
-  </section>
-</div>
-
-<section class="flow" id="flowPanel" aria-label="Blood flow right now">
-  <div class="fhead"><h2>BLOOD FLOW RIGHT NOW</h2><p class="fnote" id="flowNote"></p></div>
-  <div class="fcols">
-    <div class="fside R"><h3><span class="sw" aria-hidden="true"></span>RIGHT SIDE &middot; deoxygenated blood</h3><ul id="rowsR"></ul></div>
-    <div class="fside L"><h3><span class="sw" aria-hidden="true"></span>LEFT SIDE &middot; oxygenated blood</h3><ul id="rowsL"></ul></div>
-  </div>
-</section>
-
-<section class="ctl" aria-label="Explanation and controls">
-  <div class="ctlrow">
-    <div class="explain">
-      <h2>WHAT IS HAPPENING</h2>
-      <p id="explain"></p>
-    </div>
-    <div class="controls">
-      <div class="bar">
-        <button type="button" class="round" id="back" aria-label="Step back 0.02 seconds">
+          </section>
+        </div>
+      </div>
+      <div class="ccs-ctrl" aria-label="Controls">
+        <div class="ccs-ctrlrow">
+          <button type="button" class="pl-btn pl-btn--sm ccs-icon" id="back" aria-label="Step back 0.02 seconds">
           <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L6 9 L12 15"/><path d="M4 3 V15"/></svg>
         </button>
-        <button type="button" class="play" id="play" aria-label="Pause">
+          <button type="button" class="pl-btn pl-btn--sm pl-btn--primary ccs-play" id="play" aria-label="Pause">
           <svg id="playIcon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3 V13"/><path d="M11 3 V13"/></svg>
           <span id="playText">Pause</span>
         </button>
-        <button type="button" class="round" id="fwd" aria-label="Step forward 0.02 seconds">
+          <button type="button" class="pl-btn pl-btn--sm ccs-icon" id="fwd" aria-label="Step forward 0.02 seconds">
           <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3 L12 9 L6 15"/><path d="M14 3 V15"/></svg>
         </button>
-        <div class="speeds" role="group" aria-label="Playback speed">
+          <span class="ccs-tag">Speed</span>
+          <div class="pl-seg ccs-speeds" role="group" aria-label="Playback speed">
           <button type="button" class="spd" data-speed="0.05" aria-pressed="false" aria-label="One twentieth speed">1/20&times;</button>
           <button type="button" class="spd" data-speed="0.1" aria-pressed="false" aria-label="One tenth speed">1/10&times;</button>
           <button type="button" class="spd" data-speed="0.25" aria-pressed="true" aria-label="Quarter speed">&frac14;&times;</button>
           <button type="button" class="spd" data-speed="0.5" aria-pressed="false" aria-label="Half speed">&frac12;&times;</button>
           <button type="button" class="spd" data-speed="1" aria-pressed="false" aria-label="Normal speed">1&times;</button>
         </div>
-        <label class="tog"><input type="checkbox" id="tSound"> Heart sounds</label>
+          <div class="ccs-togs"><span class="ccs-tag">Show</span><label class="tog"><input type="checkbox" id="tSound"> Heart sounds</label>
         <label class="tog"><input type="checkbox" id="tLabels" checked> Labels</label>
         <label class="tog"><input type="checkbox" id="tFlow" checked> Blood flow</label>
-        <label class="tog"><input type="checkbox" id="tPath"> Blood pathway</label>
-      </div>
-      <div class="scrub">
-        <label for="scrub">POSITION IN CYCLE</label>
+        <label class="tog"><input type="checkbox" id="tPath"> Blood pathway</label></div>
+        </div>
+        <div class="scrub">
+        <label for="scrub" class="ccs-tag">Position in cycle</label>
         <input id="scrub" type="range" min="0" max="0.8" step="0.01" value="0.70" aria-valuetext="0.70 seconds">
       </div>
+      </div>
+    </section>
+
+    <div class="ccs-cards">
+      <section class="pl-card ccs-explain" aria-label="Explanation">
+        <h2 class="pl-eyebrow">What is happening</h2>
+        <p id="explain"></p>
+      </section>
+      <section class="pl-card ccs-flow" id="flowPanel" aria-label="Blood flow right now">
+  <div class="fhead"><h2 class="pl-eyebrow">Blood flow right now</h2><p class="fnote" id="flowNote"></p></div>
+  <div class="fcols">
+    <div class="fside R"><h3><span class="sw" aria-hidden="true"></span>Right side · deoxygenated blood</h3><ul id="rowsR"></ul></div>
+    <div class="fside L"><h3><span class="sw" aria-hidden="true"></span>Left side · oxygenated blood</h3><ul id="rowsL"></ul></div>
+  </div>
+</section>
     </div>
   </div>
-  <div class="phases" role="group" aria-label="Jump to phase" id="phaseBtns"></div>
-</section>
-
-<p class="foot">Heart illustration rebuilt from <a href="https://library.med.utah.edu/kw/pharm/hyperheart/">HyperHeart</a> (Spencer S. Eccles Health Sciences Library, University of Utah; HTML5 port by Quentin Roper, Massey University), used under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Non-commercial teaching use.</p>
-
-</div></div></div>
+</div>
 </main>
 <footer class="pl-footer">
+  <p>Heart illustration rebuilt from <a href="https://library.med.utah.edu/kw/pharm/hyperheart/">HyperHeart</a> (Spencer S. Eccles Health Sciences Library, University of Utah; HTML5 port by Quentin Roper, Massey University), used under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Non-commercial teaching use.</p>
   <p>Lab design, ideas and content by the course instructor. Simulations programmed by Claude Code, with some assistance from ChatGPT Codex.</p>
   <p>No learner data are stored, saved or sent.</p>
 </footer>
@@ -482,7 +503,7 @@ const ROWS={R:[['Body → right atrium','venous','venae cavae'],['Right atrium �
             L:[['Lungs → left atrium','venous','pulmonary veins'],['Left atrium → left ventricle','fill','mitral'],['Left ventricle → aorta → body','eject','aortic']]};
 const ICON_ON={R:'<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h10V3l9 9-9 9v-5H3z" fill="#B9DCFF" stroke="#011A3D" stroke-width="1.2" stroke-linejoin="round"/></svg>',
                L:'<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h10V3l9 9-9 9v-5H3z" fill="#FFCDBF" stroke="#011A3D" stroke-width="1.2" stroke-linejoin="round"/></svg>'};
-const ICON_OFF='<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#FFB3B3" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M7 12h10" stroke-linecap="round"/></svg>';
+const ICON_OFF='<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#94a3b8" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M7 12h10" stroke-linecap="round"/></svg>';
 let lastFlowKey='';
 function updatePanel(tt,pi,v){
   const dv=sample(D.dv,tt), vol=Math.round(sample(D.vol,tt));
@@ -645,8 +666,8 @@ sc.addEventListener('pointerdown',()=>{dragging=true;});
 window.addEventListener('pointerup',()=>{dragging=false;});
 sc.addEventListener('input',()=>{ setPlaying(false); seek(+sc.value); });
 const pb=$('phaseBtns');
-PH.forEach((p,i)=>{ const b=document.createElement('button'); b.type='button'; b.className='phb'; b.setAttribute('aria-pressed','false');
-  b.innerHTML=(i+1)+' &middot; '+p[0]; b.setAttribute('aria-label','Jump to phase '+(i+1)+', '+p[0]);
+PH.forEach((p,i)=>{ const b=document.createElement('button'); b.type='button'; b.className='phb pl-rail-item'+(i>=1&&i<=3?' sys':''); b.setAttribute('aria-pressed','false');
+  b.innerHTML='<span class="pl-rail-num">'+(i+1)+'</span><span class="ccs-phname">'+p[0]+'<small>'+p[1].toFixed(2)+'–'+p[2].toFixed(2)+' s</small></span>'; b.setAttribute('aria-label','Jump to phase '+(i+1)+', '+p[0]);
   b.addEventListener('click',()=>{ setPlaying(false); seek(p[1]); }); pb.appendChild(b); });
 document.querySelectorAll('#chart .rib').forEach(g=>g.addEventListener('click',()=>{ setPlaying(false); seek(PH[+g.dataset.phase][1]); }));
 document.addEventListener('keydown',e=>{
